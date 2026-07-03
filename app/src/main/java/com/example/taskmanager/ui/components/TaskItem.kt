@@ -9,18 +9,23 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.example.taskmanager.data.Priority
 import com.example.taskmanager.data.Task
+import com.example.taskmanager.data.isOverdue
 import com.example.taskmanager.ui.theme.PriorityHigh
 import com.example.taskmanager.ui.theme.PriorityLow
 import com.example.taskmanager.ui.theme.PriorityMedium
@@ -33,19 +38,28 @@ fun priorityColor(priority: Priority) = when (priority) {
     Priority.LOW -> PriorityLow
 }
 
-private val dateFormatter = SimpleDateFormat("MMM d, yyyy", Locale.getDefault())
+val dueDateFormatter = SimpleDateFormat("M月d日 H:mm", Locale.JAPAN)
 
 @Composable
 fun TaskItem(
     task: Task,
     onToggleCompleted: (Boolean) -> Unit,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    subtaskTotal: Int = 0,
+    subtaskCompleted: Int = 0
 ) {
+    val overdue = task.isOverdue()
+
     Card(
         modifier = modifier
             .fillMaxWidth()
             .clickable { onClick() },
+        colors = if (overdue) {
+            CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
+        } else {
+            CardDefaults.cardColors()
+        },
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Row(
@@ -79,12 +93,37 @@ fun TaskItem(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
-                task.dueDate?.let {
+                if (subtaskTotal > 0) {
                     Text(
-                        text = "Due ${dateFormatter.format(it)}",
+                        text = "サブタスク $subtaskCompleted/$subtaskTotal",
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
+                }
+                task.dueDate?.let {
+                    if (overdue) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                imageVector = Icons.Default.Warning,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.error,
+                                modifier = Modifier.size(14.dp)
+                            )
+                            Text(
+                                text = "期限切れ: ${dueDateFormatter.format(it)}",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.error,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.padding(start = 4.dp)
+                            )
+                        }
+                    } else {
+                        Text(
+                            text = "期限: ${dueDateFormatter.format(it)}",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
                 }
             }
         }
