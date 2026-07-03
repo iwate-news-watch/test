@@ -3,8 +3,10 @@ package com.example.taskmanager.ui.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -12,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Event
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
@@ -41,9 +44,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.taskmanager.calendar.openInCalendar
 import com.example.taskmanager.data.Priority
 import com.example.taskmanager.data.Task
 import com.example.taskmanager.ui.TaskViewModel
@@ -88,6 +93,8 @@ fun AddEditTaskScreen(
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
     var subtaskText by remember { mutableStateOf("") }
+
+    val context = LocalContext.current
 
     val subtasksFlow = remember(taskId) {
         if (taskId != null) viewModel.subtasksFlow(taskId) else flowOf(emptyList())
@@ -207,6 +214,17 @@ fun AddEditTaskScreen(
                         )
                     }
                 }
+
+                OutlinedButton(
+                    onClick = {
+                        openInCalendar(context, title, description, dueDate!!)
+                    },
+                    modifier = Modifier.padding(top = 12.dp)
+                ) {
+                    Icon(Icons.Default.Event, contentDescription = null)
+                    Spacer(Modifier.width(8.dp))
+                    Text("Googleカレンダーに追加")
+                }
             }
 
             if (taskId != null) {
@@ -318,7 +336,7 @@ fun AddEditTaskScreen(
                     cal.set(Calendar.SECOND, 0)
                     dueDate = cal.timeInMillis
                     showTimePicker = false
-                }) { Text("OK") }
+                }) { Text("決定") }
             },
             dismissButton = {
                 TextButton(onClick = { showTimePicker = false }) { Text("キャンセル") }
