@@ -2,18 +2,21 @@ import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { NavBar } from "../components/NavBar";
 import { TaskCard } from "../components/TaskCard";
+import { CalendarView } from "../components/CalendarView";
 import { useTasks } from "../hooks/useTasks";
 import { useToast } from "../components/Toast";
 import { taskApi } from "../api";
 import type { TaskFilter } from "../types";
 import { groupByPriority, priorityLabel, randomEncouragement, sortAllTasks, uniqueTags } from "../util/task";
 
+type ViewMode = "list" | "priority" | "calendar";
+
 export function ListPage() {
   const { tasks, loading, refresh } = useTasks();
   const { show } = useToast();
   const [filter, setFilter] = useState<TaskFilter>("ALL");
   const [tagFilter, setTagFilter] = useState<string | null>(null);
-  const [groupedByPriority, setGroupedByPriority] = useState(false);
+  const [viewMode, setViewMode] = useState<ViewMode>("list");
   const [quickAddText, setQuickAddText] = useState("");
 
   const filtered = tasks.filter((t) => {
@@ -102,25 +105,30 @@ export function ListPage() {
       )}
 
       <div className="chip-row">
-        <button
-          className={`chip ${!groupedByPriority ? "chip--selected" : ""}`}
-          onClick={() => setGroupedByPriority(false)}
-        >
+        <button className={`chip ${viewMode === "list" ? "chip--selected" : ""}`} onClick={() => setViewMode("list")}>
           通常表示
         </button>
         <button
-          className={`chip ${groupedByPriority ? "chip--selected" : ""}`}
-          onClick={() => setGroupedByPriority(true)}
+          className={`chip ${viewMode === "priority" ? "chip--selected" : ""}`}
+          onClick={() => setViewMode("priority")}
         >
           優先度別に表示
+        </button>
+        <button
+          className={`chip ${viewMode === "calendar" ? "chip--selected" : ""}`}
+          onClick={() => setViewMode("calendar")}
+        >
+          カレンダー表示
         </button>
       </div>
 
       {loading ? (
         <p className="empty-state">読み込み中…</p>
+      ) : viewMode === "calendar" ? (
+        <CalendarView tasks={sorted} onToggleCompleted={onToggle} onDelete={onDelete} />
       ) : sorted.length === 0 ? (
         <p className="empty-state">タスクはまだありません。上の欄から追加できます。</p>
-      ) : groupedByPriority ? (
+      ) : viewMode === "priority" ? (
         <div className="priority-groups">
           {groupByPriority(sorted).map((group) => (
             <div key={group.priority}>

@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Logout
@@ -47,9 +49,12 @@ import com.example.taskmanager.data.Priority
 import com.example.taskmanager.data.Task
 import com.example.taskmanager.ui.TaskFilter
 import com.example.taskmanager.ui.TaskViewModel
+import com.example.taskmanager.ui.components.CalendarView
 import com.example.taskmanager.ui.components.TaskItem
 import com.example.taskmanager.ui.groupByPriority
 import kotlinx.coroutines.launch
+
+private enum class ListViewMode { LIST, PRIORITY, CALENDAR }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,7 +69,7 @@ fun TaskListScreen(
     val tagFilter by viewModel.tagFilter.collectAsState()
     val availableTags by viewModel.availableTags.collectAsState()
     var quickAddText by remember { mutableStateOf("") }
-    var groupedByPriority by remember { mutableStateOf(false) }
+    var viewMode by remember { mutableStateOf(ListViewMode.LIST) }
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -164,25 +169,42 @@ fun TaskListScreen(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 FilterChip(
-                    selected = !groupedByPriority,
-                    onClick = { groupedByPriority = false },
+                    selected = viewMode == ListViewMode.LIST,
+                    onClick = { viewMode = ListViewMode.LIST },
                     label = { Text("通常表示") }
                 )
                 FilterChip(
-                    selected = groupedByPriority,
-                    onClick = { groupedByPriority = true },
+                    selected = viewMode == ListViewMode.PRIORITY,
+                    onClick = { viewMode = ListViewMode.PRIORITY },
                     label = { Text("優先度別に表示") }
+                )
+                FilterChip(
+                    selected = viewMode == ListViewMode.CALENDAR,
+                    onClick = { viewMode = ListViewMode.CALENDAR },
+                    label = { Text("カレンダー表示") }
                 )
             }
 
-            if (tasks.isEmpty()) {
+            if (viewMode == ListViewMode.CALENDAR) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    CalendarView(
+                        tasks = tasks,
+                        onToggleCompleted = { task, checked -> viewModel.toggleCompleted(task, checked) },
+                        onClickTask = { task -> onEditTask(task.id) }
+                    )
+                }
+            } else if (tasks.isEmpty()) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Text(
                         text = "タスクはまだありません。上の欄か + から追加できます。",
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
-            } else if (groupedByPriority) {
+            } else if (viewMode == ListViewMode.PRIORITY) {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = PaddingValues(12.dp)
