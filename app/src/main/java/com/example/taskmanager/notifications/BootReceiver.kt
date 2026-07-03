@@ -3,7 +3,7 @@ package com.example.taskmanager.notifications
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.example.taskmanager.data.TaskDatabase
+import com.example.taskmanager.data.TaskRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,9 +15,12 @@ class BootReceiver : BroadcastReceiver() {
         val pendingResult = goAsync()
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                TaskDatabase.getInstance(context).taskDao().getAllTasksOnce()
+                TaskRepository(context).listTasks()
                     .filter { !it.isCompleted && it.dueDate != null && it.reminderOffsetMinutes != null }
                     .forEach { ReminderScheduler.schedule(context, it) }
+            } catch (e: Exception) {
+                // Not logged in yet, or no network right after boot; reminders
+                // will still get rescheduled next time the app is opened.
             } finally {
                 pendingResult.finish()
             }

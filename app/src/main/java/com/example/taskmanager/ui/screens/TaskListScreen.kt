@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -40,8 +41,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.taskmanager.data.Task
 import com.example.taskmanager.ui.TaskFilter
-import com.example.taskmanager.ui.TaskUiModel
 import com.example.taskmanager.ui.TaskViewModel
 import com.example.taskmanager.ui.components.TaskItem
 import kotlinx.coroutines.launch
@@ -51,9 +52,10 @@ import kotlinx.coroutines.launch
 fun TaskListScreen(
     viewModel: TaskViewModel = viewModel(),
     onAddTask: () -> Unit,
-    onEditTask: (Long) -> Unit
+    onEditTask: (String) -> Unit,
+    onLogout: () -> Unit
 ) {
-    val models by viewModel.uiState.collectAsState()
+    val tasks by viewModel.uiState.collectAsState()
     val filter by viewModel.filter.collectAsState()
     var quickAddText by remember { mutableStateOf("") }
 
@@ -65,10 +67,22 @@ fun TaskListScreen(
             scope.launch { snackbarHostState.showSnackbar(message) }
         }
     }
+    LaunchedEffect(Unit) {
+        viewModel.errors.collect { message ->
+            scope.launch { snackbarHostState.showSnackbar(message) }
+        }
+    }
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("すべてのタスク") })
+            TopAppBar(
+                title = { Text("すべてのタスク") },
+                actions = {
+                    IconButton(onClick = onLogout) {
+                        Icon(Icons.Default.Logout, contentDescription = "ログアウト")
+                    }
+                }
+            )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = onAddTask) {
@@ -114,7 +128,7 @@ fun TaskListScreen(
                 }
             }
 
-            if (models.isEmpty()) {
+            if (tasks.isEmpty()) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Text(
                         text = "タスクはまだありません。上の欄か + から追加できます。",
@@ -126,12 +140,12 @@ fun TaskListScreen(
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = PaddingValues(12.dp)
                 ) {
-                    items(models, key = { it.task.id }) { model ->
+                    items(tasks, key = { it.id }) { task ->
                         SwipeableTaskRow(
-                            model = model,
-                            onToggleCompleted = { checked -> viewModel.toggleCompleted(model.task, checked) },
-                            onClick = { onEditTask(model.task.id) },
-                            onDelete = { viewModel.deleteTask(model.task) }
+                            task = task,
+                            onToggleCompleted = { checked -> viewModel.toggleCompleted(task, checked) },
+                            onClick = { onEditTask(task.id) },
+                            onDelete = { viewModel.deleteTask(task) }
                         )
                     }
                 }
@@ -143,7 +157,7 @@ fun TaskListScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SwipeableTaskRow(
-    model: TaskUiModel,
+    task: Task,
     onToggleCompleted: (Boolean) -> Unit,
     onClick: () -> Unit,
     onDelete: () -> Unit
@@ -165,9 +179,7 @@ private fun SwipeableTaskRow(
         modifier = Modifier.padding(vertical = 4.dp)
     ) {
         TaskItem(
-            task = model.task,
-            subtaskTotal = model.subtaskTotal,
-            subtaskCompleted = model.subtaskCompleted,
+            task = task,
             onToggleCompleted = onToggleCompleted,
             onClick = onClick
         )

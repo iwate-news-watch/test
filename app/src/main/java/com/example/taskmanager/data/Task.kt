@@ -1,13 +1,9 @@
 package com.example.taskmanager.data
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-
 enum class Priority { LOW, MEDIUM, HIGH }
 
-@Entity(tableName = "tasks")
 data class Task(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val id: String,
     val title: String,
     val description: String = "",
     val isCompleted: Boolean = false,
@@ -15,8 +11,10 @@ data class Task(
     val dueDate: Long? = null,
     val reminderOffsetMinutes: Int? = null,
     val snoozedUntil: Long? = null,
-    val parentTaskId: Long? = null,
-    val createdAt: Long = System.currentTimeMillis()
+    val parentTaskId: String? = null,
+    val createdAt: Long = 0,
+    val subtaskTotal: Int = 0,
+    val subtaskCompleted: Int = 0
 )
 
 fun Task.isOverdue(now: Long = System.currentTimeMillis()): Boolean =

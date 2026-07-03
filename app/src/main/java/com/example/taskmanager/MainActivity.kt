@@ -28,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -35,22 +36,27 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.taskmanager.auth.AuthViewModel
 import com.example.taskmanager.ui.screens.AddEditTaskScreen
 import com.example.taskmanager.ui.screens.FocusScreen
+import com.example.taskmanager.ui.screens.LoginScreen
+import com.example.taskmanager.ui.screens.RegisterScreen
 import com.example.taskmanager.ui.screens.TaskListScreen
 import com.example.taskmanager.ui.theme.TaskManagerTheme
 
 private object Routes {
+    const val LOGIN = "login"
+    const val REGISTER = "register"
     const val FOCUS = "focus"
     const val LIST = "list"
     const val ADD = "add"
     const val EDIT = "edit/{taskId}"
-    fun edit(taskId: Long) = "edit/$taskId"
+    fun edit(taskId: String) = "edit/$taskId"
 }
 
 class MainActivity : ComponentActivity() {
 
-    private var pendingTaskId by mutableStateOf<Long?>(null)
+    private var pendingTaskId by mutableStateOf<String?>(null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +70,7 @@ class MainActivity : ComponentActivity() {
                         RequestNotificationPermission()
                     }
 
+                    val authViewModel: AuthViewModel = viewModel()
                     val navController = rememberNavController()
                     val backStackEntry by navController.currentBackStackEntryAsState()
                     val currentRoute = backStackEntry?.destination?.route
@@ -72,6 +79,12 @@ class MainActivity : ComponentActivity() {
                         pendingTaskId?.let { id ->
                             navController.navigate(Routes.edit(id))
                             pendingTaskId = null
+                        }
+                    }
+
+                    fun clearBackStackTo(route: String) {
+                        navController.navigate(route) {
+                            popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
                         }
                     }
 
@@ -109,19 +122,41 @@ class MainActivity : ComponentActivity() {
                     ) { padding ->
                         NavHost(
                             navController = navController,
-                            startDestination = Routes.FOCUS,
+                            startDestination = if (authViewModel.isLoggedIn.value) Routes.FOCUS else Routes.LOGIN,
                             modifier = Modifier.padding(padding)
                         ) {
+                            composable(Routes.LOGIN) {
+                                LoginScreen(
+                                    authViewModel = authViewModel,
+                                    onLoggedIn = { clearBackStackTo(Routes.FOCUS) },
+                                    onGoToRegister = { navController.navigate(Routes.REGISTER) }
+                                )
+                            }
+                            composable(Routes.REGISTER) {
+                                RegisterScreen(
+                                    authViewModel = authViewModel,
+                                    onRegistered = { clearBackStackTo(Routes.FOCUS) },
+                                    onGoToLogin = { navController.popBackStack() }
+                                )
+                            }
                             composable(Routes.FOCUS) {
                                 FocusScreen(
                                     onAddTask = { navController.navigate(Routes.ADD) },
-                                    onEditTask = { taskId -> navController.navigate(Routes.edit(taskId)) }
+                                    onEditTask = { taskId -> navController.navigate(Routes.edit(taskId)) },
+                                    onLogout = {
+                                        authViewModel.logout()
+                                        clearBackStackTo(Routes.LOGIN)
+                                    }
                                 )
                             }
                             composable(Routes.LIST) {
                                 TaskListScreen(
                                     onAddTask = { navController.navigate(Routes.ADD) },
-                                    onEditTask = { taskId -> navController.navigate(Routes.edit(taskId)) }
+                                    onEditTask = { taskId -> navController.navigate(Routes.edit(taskId)) },
+                                    onLogout = {
+                                        authViewModel.logout()
+                                        clearBackStackTo(Routes.LOGIN)
+                                    }
                                 )
                             }
                             composable(Routes.ADD) {
@@ -132,9 +167,9 @@ class MainActivity : ComponentActivity() {
                             }
                             composable(
                                 route = Routes.EDIT,
-                                arguments = listOf(navArgument("taskId") { type = NavType.LongType })
+                                arguments = listOf(navArgument("taskId") { type = NavType.StringType })
                             ) { entry ->
-                                val taskId = entry.arguments?.getLong("taskId")
+                                val taskId = entry.arguments?.getString("taskId")
                                 AddEditTaskScreen(
                                     taskId = taskId,
                                     onDone = { navController.popBackStack() }
@@ -153,8 +188,7 @@ class MainActivity : ComponentActivity() {
         pendingTaskId = intent.extractTaskId()
     }
 
-    private fun Intent.extractTaskId(): Long? =
-        getLongExtra(EXTRA_OPEN_TASK_ID, -1L).takeIf { it >= 0 }
+    private fun Intent.extractTaskId(): String? = getStringExtra(EXTRA_OPEN_TASK_ID)
 
     companion object {
         const val EXTRA_OPEN_TASK_ID = "extra_open_task_id"

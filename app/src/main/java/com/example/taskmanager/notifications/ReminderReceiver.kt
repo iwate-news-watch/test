@@ -3,23 +3,25 @@ package com.example.taskmanager.notifications
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.example.taskmanager.data.TaskDatabase
+import com.example.taskmanager.data.TaskRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ReminderReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        val taskId = intent.getLongExtra(ReminderScheduler.EXTRA_TASK_ID, -1L)
-        if (taskId == -1L) return
+        val taskId = intent.getStringExtra(ReminderScheduler.EXTRA_TASK_ID) ?: return
 
         val pendingResult = goAsync()
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val task = TaskDatabase.getInstance(context).taskDao().getTaskById(taskId)
-                if (task != null && !task.isCompleted) {
+                val task = TaskRepository(context).getTask(taskId)
+                if (!task.isCompleted) {
                     NotificationHelper.showReminder(context, task)
                 }
+            } catch (e: Exception) {
+                // Task may have been deleted, or the device may be offline; either
+                // way there's nothing useful to notify about right now.
             } finally {
                 pendingResult.finish()
             }

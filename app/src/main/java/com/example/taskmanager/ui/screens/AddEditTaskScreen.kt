@@ -37,10 +37,10 @@ import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,7 +53,7 @@ import com.example.taskmanager.data.Priority
 import com.example.taskmanager.data.Task
 import com.example.taskmanager.ui.TaskViewModel
 import com.example.taskmanager.ui.components.dueDateFormatter
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.TimeZone
 
@@ -80,7 +80,7 @@ private fun combineDateAndTime(dateMillisUtc: Long, hour: Int, minute: Int): Lon
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditTaskScreen(
-    taskId: Long?,
+    taskId: String?,
     viewModel: TaskViewModel = viewModel(),
     onDone: () -> Unit
 ) {
@@ -93,13 +93,16 @@ fun AddEditTaskScreen(
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
     var subtaskText by remember { mutableStateOf("") }
+    var subtasks by remember { mutableStateOf<List<Task>>(emptyList()) }
+    var saveError by remember { mutableStateOf<String?>(null) }
+    var saving by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
 
-    val subtasksFlow = remember(taskId) {
-        if (taskId != null) viewModel.subtasksFlow(taskId) else flowOf(emptyList())
+    suspend fun refreshSubtasks() {
+        if (taskId != null) subtasks = viewModel.listSubtasks(taskId)
     }
-    val subtasks by subtasksFlow.collectAsState(initial = emptyList())
 
     LaunchedEffect(taskId) {
         if (taskId != null) {
@@ -112,6 +115,7 @@ fun AddEditTaskScreen(
                 dueDate = task.dueDate
                 reminderOffsetMinutes = task.reminderOffsetMinutes
             }
+            refreshSubtasks()
         }
     }
 
@@ -243,14 +247,24 @@ fun AddEditTaskScreen(
                     ) {
                         Checkbox(
                             checked = subtask.isCompleted,
-                            onCheckedChange = { checked -> viewModel.toggleSubtaskCompleted(subtask, checked) }
+                            onCheckedChange = { checked ->
+                                scope.launch {
+                                    viewModel.toggleSubtaskCompleted(subtask, checked)
+                                    refreshSubtasks()
+                                }
+                            }
                         )
                         Text(
                             text = subtask.title,
                             modifier = Modifier.weight(1f),
                             textDecoration = if (subtask.isCompleted) TextDecoration.LineThrough else TextDecoration.None
                         )
-                        IconButton(onClick = { viewModel.deleteSubtask(subtask) }) {
+                        IconButton(onClick = {
+                            scope.launch {
+                                viewModel.deleteSubtask(subtask)
+                                refreshSubtasks()
+                            }
+                        }) {
                             Icon(Icons.Default.Close, contentDescription = "サブタスクを削除")
                         }
                     }
@@ -265,31 +279,51 @@ fun AddEditTaskScreen(
                         singleLine = true
                     )
                     TextButton(onClick = {
-                        viewModel.addSubtask(taskId, subtaskText)
-                        subtaskText = ""
+                        scope.launch {
+                            viewModel.addSubtask(taskId, subtaskText)
+                            subtaskText = ""
+                            refreshSubtasks()
+                        }
                     }) {
                         Text("追加")
                     }
                 }
             }
 
+            if (saveError != null) {
+                Text(
+                    text = saveError!!,
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+
             Button(
                 onClick = {
-                    if (taskId == null) {
-                        viewModel.addTask(title, description, priority, dueDate, reminderOffsetMinutes)
-                    } else {
-                        loadedTask?.let {
-                            viewModel.updateTask(it, title, description, priority, dueDate, reminderOffsetMinutes)
+                    scope.launch {
+                        saving = true
+                        saveError = null
+                        val success = if (taskId == null) {
+                            viewModel.addTask(title, description, priority, dueDate, reminderOffsetMinutes)
+                        } else {
+                            loadedTask?.let {
+                                viewModel.updateTask(it, title, description, priority, dueDate, reminderOffsetMinutes)
+                            } ?: false
+                        }
+                        saving = false
+                        if (success) {
+                            onDone()
+                        } else {
+                            saveError = "保存に失敗しました。通信状況を確認してもう一度お試しください。"
                         }
                     }
-                    onDone()
                 },
-                enabled = title.isNotBlank(),
+                enabled = title.isNotBlank() && !saving,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 24.dp, bottom = 8.dp)
             ) {
-                Text("保存")
+                Text(if (saving) "保存中…" else "保存")
             }
         }
     }

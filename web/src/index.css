@@ -1,0 +1,457 @@
+:root {
+  --text: #2b2b33;
+  --text-muted: #6b6375;
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --border: #e5e4e7;
+  --accent: #1e88e5;
+  --accent-contrast: #ffffff;
+  --danger: #e53935;
+  --danger-bg: #fdecea;
+  --priority-low: #43a047;
+  --priority-medium: #fb8c00;
+  --priority-high: #e53935;
+
+  font: 16px/1.5 system-ui, "Segoe UI", Roboto, sans-serif;
+  color-scheme: light dark;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #eceaf0;
+    --text-muted: #a9a4b0;
+    --bg: #14151a;
+    --surface: #1e1f26;
+    --border: #303240;
+    --danger-bg: #3a1f1f;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+h1 {
+  font-size: 22px;
+  margin: 0;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: var(--accent);
+}
+
+.page {
+  max-width: 640px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding-bottom: 32px;
+}
+
+.page__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  gap: 12px;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.navbar__links {
+  display: flex;
+  gap: 8px;
+}
+
+.navbar__link {
+  padding: 6px 12px;
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.navbar__link--active {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+.navbar__account {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.navbar__logout {
+  border: 1px solid var(--border);
+  background: none;
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.fab {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  padding: 8px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 16px 12px;
+}
+
+.chip {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 999px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.chip--selected {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  border-color: var(--accent);
+}
+
+.quick-add {
+  display: flex;
+  gap: 8px;
+  padding: 0 16px 12px;
+}
+
+.quick-add input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.quick-add button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 40px 16px;
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 16px;
+}
+
+.task-list__row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.task-list__row .task-card {
+  flex: 1;
+}
+
+.task-list__delete {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  color: var(--danger);
+  font-size: 13px;
+}
+
+.task-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.task-card--overdue {
+  background: var(--danger-bg);
+  border-color: var(--danger);
+}
+
+.task-card__checkbox {
+  margin-top: 4px;
+  width: 18px;
+  height: 18px;
+}
+
+.task-card__priority-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-top: 7px;
+  flex-shrink: 0;
+}
+
+.task-card__body {
+  flex: 1;
+  text-decoration: none;
+  color: inherit;
+}
+
+.task-card__title {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.task-card__title--done {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.task-card__desc,
+.task-card__meta {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.task-card__due {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.task-card__due--overdue {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.auth-form {
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.auth-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.auth-form input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.auth-form button[type="submit"] {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.auth-error {
+  color: var(--danger);
+  font-size: 13px;
+  margin: 0;
+}
+
+.auth-switch {
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0 16px;
+}
+
+.task-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.task-form input,
+.task-form textarea {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field-group .chip-row {
+  padding: 0;
+}
+
+.field-group__label {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.field-group input[type="datetime-local"] {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  width: fit-content;
+}
+
+.text-button {
+  align-self: flex-start;
+  border: none;
+  background: none;
+  color: var(--accent);
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.secondary-button {
+  display: inline-block;
+  text-align: center;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  text-decoration: none;
+  color: inherit;
+}
+
+.primary-button {
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.danger-link {
+  border: none;
+  background: none;
+  color: var(--danger);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.subtasks {
+  border-top: 1px solid var(--border);
+  padding: 16px;
+  margin: 0 16px;
+}
+
+.subtask-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.subtask-row__title--done {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.subtask-row span {
+  flex: 1;
+}
+
+.subtask-row button {
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text);
+  color: var(--bg);
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+}

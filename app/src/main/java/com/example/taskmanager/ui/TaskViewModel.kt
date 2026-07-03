@@ -5,11 +5,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.taskmanager.data.Priority
 import com.example.taskmanager.data.Task
-import com.example.taskmanager.data.TaskDatabase
 import com.example.taskmanager.data.TaskRepository
 import com.example.taskmanager.data.isOverdue
 import com.example.taskmanager.notifications.ReminderScheduler
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -17,24 +17,21 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 enum class TaskFilter { ALL, ACTIVE, COMPLETED }
 
-data class TaskUiModel(
-    val task: Task,
-    val subtaskTotal: Int = 0,
-    val subtaskCompleted: Int = 0
-)
+private const val POLL_INTERVAL_MS = 10_000L
 
-fun sortForFocus(models: List<TaskUiModel>, limit: Int): List<TaskUiModel> =
-    models
-        .filter { !it.task.isCompleted }
+fun sortForFocus(tasks: List<Task>, limit: Int): List<Task> =
+    tasks
+        .filter { !it.isCompleted }
         .sortedWith(
-            compareBy<TaskUiModel> { !it.task.isOverdue() }
-                .thenBy { it.task.dueDate == null }
-                .thenBy { it.task.dueDate }
-                .thenByDescending { it.task.priority.ordinal }
+            compareBy<Task> { !it.isOverdue() }
+                .thenBy { it.dueDate == null }
+                .thenBy { it.dueDate }
+                .thenByDescending { it.priority.ordinal }
         )
         .take(limit)
 
@@ -48,142 +45,180 @@ private val encouragements = listOf(
 
 class TaskViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository: TaskRepository = TaskRepository(
-        TaskDatabase.getInstance(application).taskDao()
-    )
+    private val repository = TaskRepository(application)
 
     private val _filter = MutableStateFlow(TaskFilter.ALL)
     val filter: StateFlow<TaskFilter> = _filter
 
+    private val _tasks = MutableStateFlow<List<Task>>(emptyList())
+
     private val _encouragement = Channel<String>(Channel.BUFFERED)
     val encouragement: Flow<String> = _encouragement.receiveAsFlow()
 
-    private val taskModels: Flow<List<TaskUiModel>> = combine(
-        repository.topLevelTasks,
-        repository.subtaskCounts
-    ) { tasks, counts ->
-        val countsByParent = counts.associateBy { it.parentTaskId }
-        tasks.map { task ->
-            val count = countsByParent[task.id]
-            TaskUiModel(task, count?.total ?: 0, count?.completedCount ?: 0)
-        }
-    }
+    private val _errors = Channel<String>(Channel.BUFFERED)
+    val errors: Flow<String> = _errors.receiveAsFlow()
 
-    val uiState: StateFlow<List<TaskUiModel>> = combine(
-        taskModels,
+    val uiState: StateFlow<List<Task>> = combine(
+        _tasks,
         _filter
-    ) { models, filter ->
+    ) { tasks, filter ->
         val filtered = when (filter) {
-            TaskFilter.ALL -> models
-            TaskFilter.ACTIVE -> models.filter { !it.task.isCompleted }
-            TaskFilter.COMPLETED -> models.filter { it.task.isCompleted }
+            TaskFilter.ALL -> tasks
+            TaskFilter.ACTIVE -> tasks.filter { !it.isCompleted }
+            TaskFilter.COMPLETED -> tasks.filter { it.isCompleted }
         }
         filtered.sortedWith(
-            compareBy<TaskUiModel> { it.task.isCompleted }
-                .thenBy { it.task.dueDate == null }
-                .thenBy { it.task.dueDate }
-                .thenByDescending { it.task.priority.ordinal }
+            compareBy<Task> { it.isCompleted }
+                .thenBy { it.dueDate == null }
+                .thenBy { it.dueDate }
+                .thenByDescending { it.priority.ordinal }
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     // Focus mode: only the handful of tasks that matter right now, so opening
     // the app never dumps the whole backlog on you at once.
-    val focusTasks: StateFlow<List<TaskUiModel>> =
-        taskModels.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+    val focusTasks: StateFlow<List<Task>> = _tasks
+
+    init {
+        viewModelScope.launch {
+            while (isActive) {
+                refresh()
+                delay(POLL_INTERVAL_MS)
+            }
+        }
+    }
+
+    suspend fun refresh() {
+        try {
+            _tasks.value = repository.listTasks()
+        } catch (e: Exception) {
+            _errors.send(e.message ?: "タスクを読み込めませんでした")
+        }
+    }
 
     fun setFilter(filter: TaskFilter) {
         _filter.value = filter
     }
 
-    fun subtasksFlow(parentId: Long): Flow<List<Task>> = repository.subtasksOf(parentId)
+    suspend fun listSubtasks(parentId: String): List<Task> = try {
+        repository.listSubtasks(parentId)
+    } catch (e: Exception) {
+        _errors.send(e.message ?: "サブタスクを読み込めませんでした")
+        emptyList()
+    }
 
-    suspend fun getTaskByIdBlocking(id: Long): Task? = repository.getTaskById(id)
+    suspend fun getTaskByIdBlocking(id: String): Task? = try {
+        repository.getTask(id)
+    } catch (e: Exception) {
+        _errors.send(e.message ?: "タスクを読み込めませんでした")
+        null
+    }
 
     fun quickAddTask(title: String) {
         if (title.isBlank()) return
         viewModelScope.launch {
-            repository.upsertTask(Task(title = title.trim()))
+            runCatching { repository.createTask(title = title.trim()) }
+                .onFailure { _errors.send(it.message ?: "追加に失敗しました") }
+            refresh()
         }
     }
 
-    fun addTask(
+    /** Returns true on success. Callers should only navigate away once this completes. */
+    suspend fun addTask(
         title: String,
         description: String,
         priority: Priority,
         dueDate: Long?,
         reminderOffsetMinutes: Int?
-    ) {
-        if (title.isBlank()) return
-        viewModelScope.launch {
-            val id = repository.upsertTask(
-                Task(
-                    title = title.trim(),
-                    description = description.trim(),
-                    priority = priority,
-                    dueDate = dueDate,
-                    reminderOffsetMinutes = reminderOffsetMinutes
-                )
+    ): Boolean {
+        if (title.isBlank()) return false
+        val result = runCatching {
+            val created = repository.createTask(
+                title = title.trim(),
+                description = description.trim(),
+                priority = priority,
+                dueDate = dueDate,
+                reminderOffsetMinutes = reminderOffsetMinutes
             )
-            repository.getTaskById(id)?.let { ReminderScheduler.schedule(getApplication<Application>(), it) }
+            ReminderScheduler.schedule(getApplication<Application>(), created)
         }
+        result.onFailure { _errors.send(it.message ?: "追加に失敗しました") }
+        refresh()
+        return result.isSuccess
     }
 
-    fun updateTask(
+    /** Returns true on success. Callers should only navigate away once this completes. */
+    suspend fun updateTask(
         task: Task,
         title: String,
         description: String,
         priority: Priority,
         dueDate: Long?,
         reminderOffsetMinutes: Int?
-    ) {
-        if (title.isBlank()) return
-        viewModelScope.launch {
-            val updated = task.copy(
+    ): Boolean {
+        if (title.isBlank()) return false
+        val result = runCatching {
+            val updated = repository.updateTask(
+                id = task.id,
                 title = title.trim(),
                 description = description.trim(),
                 priority = priority,
                 dueDate = dueDate,
-                reminderOffsetMinutes = reminderOffsetMinutes,
-                snoozedUntil = null
+                reminderOffsetMinutes = reminderOffsetMinutes
             )
-            repository.updateTask(updated)
             ReminderScheduler.schedule(getApplication<Application>(), updated)
         }
+        result.onFailure { _errors.send(it.message ?: "更新に失敗しました") }
+        refresh()
+        return result.isSuccess
     }
 
-    fun addSubtask(parentId: Long, title: String) {
+    suspend fun addSubtask(parentId: String, title: String) {
         if (title.isBlank()) return
-        viewModelScope.launch {
-            repository.upsertTask(Task(title = title.trim(), parentTaskId = parentId))
+        try {
+            repository.createTask(title = title.trim(), parentTaskId = parentId)
+        } catch (e: Exception) {
+            _errors.send(e.message ?: "追加に失敗しました")
         }
     }
 
-    fun toggleSubtaskCompleted(subtask: Task, completed: Boolean) {
-        viewModelScope.launch {
-            repository.setCompleted(subtask, completed)
+    suspend fun toggleSubtaskCompleted(subtask: Task, completed: Boolean) {
+        try {
+            repository.setCompleted(subtask.id, completed)
+        } catch (e: Exception) {
+            _errors.send(e.message ?: "更新に失敗しました")
         }
     }
 
-    fun deleteSubtask(subtask: Task) {
-        viewModelScope.launch {
-            repository.deleteTask(subtask)
+    suspend fun deleteSubtask(subtask: Task) {
+        try {
+            repository.deleteTask(subtask.id)
+        } catch (e: Exception) {
+            _errors.send(e.message ?: "削除に失敗しました")
         }
     }
 
     fun toggleCompleted(task: Task, completed: Boolean) {
         viewModelScope.launch {
-            repository.setCompleted(task, completed)
-            if (completed) {
-                ReminderScheduler.cancel(getApplication<Application>(), task.id)
-                _encouragement.send(encouragements.random())
-            }
+            runCatching { repository.setCompleted(task.id, completed) }
+                .onSuccess {
+                    if (completed) {
+                        ReminderScheduler.cancel(getApplication<Application>(), task.id)
+                        _encouragement.send(encouragements.random())
+                    }
+                }
+                .onFailure { _errors.send(it.message ?: "更新に失敗しました") }
+            refresh()
         }
     }
 
     fun deleteTask(task: Task) {
         viewModelScope.launch {
-            ReminderScheduler.cancel(getApplication<Application>(), task.id)
-            repository.deleteTask(task)
+            runCatching {
+                ReminderScheduler.cancel(getApplication<Application>(), task.id)
+                repository.deleteTask(task.id)
+            }.onFailure { _errors.send(it.message ?: "削除に失敗しました") }
+            refresh()
         }
     }
 }

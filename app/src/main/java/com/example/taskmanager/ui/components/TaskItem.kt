@@ -45,9 +45,7 @@ fun TaskItem(
     task: Task,
     onToggleCompleted: (Boolean) -> Unit,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    subtaskTotal: Int = 0,
-    subtaskCompleted: Int = 0
+    modifier: Modifier = Modifier
 ) {
     val overdue = task.isOverdue()
 
@@ -93,9 +91,9 @@ fun TaskItem(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
-                if (subtaskTotal > 0) {
+                if (task.subtaskTotal > 0) {
                     Text(
-                        text = "サブタスク $subtaskCompleted/$subtaskTotal",
+                        text = "サブタスク ${task.subtaskCompleted}/${task.subtaskTotal}",
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )

@@ -12,10 +12,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
@@ -45,11 +47,12 @@ import kotlinx.coroutines.launch
 fun FocusScreen(
     viewModel: TaskViewModel = viewModel(),
     onAddTask: () -> Unit,
-    onEditTask: (Long) -> Unit
+    onEditTask: (String) -> Unit,
+    onLogout: () -> Unit
 ) {
-    val models by viewModel.focusTasks.collectAsState()
+    val tasks by viewModel.focusTasks.collectAsState()
     var limit by remember { mutableIntStateOf(3) }
-    val focusList = remember(models, limit) { sortForFocus(models, limit) }
+    val focusList = remember(tasks, limit) { sortForFocus(tasks, limit) }
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -59,9 +62,23 @@ fun FocusScreen(
             scope.launch { snackbarHostState.showSnackbar(message) }
         }
     }
+    LaunchedEffect(Unit) {
+        viewModel.errors.collect { message ->
+            scope.launch { snackbarHostState.showSnackbar(message) }
+        }
+    }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("フォーカス") }) },
+        topBar = {
+            TopAppBar(
+                title = { Text("フォーカス") },
+                actions = {
+                    IconButton(onClick = onLogout) {
+                        Icon(Icons.Default.Logout, contentDescription = "ログアウト")
+                    }
+                }
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(onClick = onAddTask) {
                 Icon(Icons.Default.Add, contentDescription = "タスクを追加")
@@ -105,13 +122,11 @@ fun FocusScreen(
                     contentPadding = PaddingValues(12.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(focusList, key = { it.task.id }) { model ->
+                    items(focusList, key = { it.id }) { task ->
                         TaskItem(
-                            task = model.task,
-                            subtaskTotal = model.subtaskTotal,
-                            subtaskCompleted = model.subtaskCompleted,
-                            onToggleCompleted = { checked -> viewModel.toggleCompleted(model.task, checked) },
-                            onClick = { onEditTask(model.task.id) }
+                            task = task,
+                            onToggleCompleted = { checked -> viewModel.toggleCompleted(task, checked) },
+                            onClick = { onEditTask(task.id) }
                         )
                     }
                 }

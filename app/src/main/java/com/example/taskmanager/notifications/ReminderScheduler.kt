@@ -19,18 +19,18 @@ object ReminderScheduler {
         alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAt, pendingIntent(context, task.id))
     }
 
-    fun cancel(context: Context, taskId: Long) {
+    fun cancel(context: Context, taskId: String) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.cancel(pendingIntent(context, taskId))
     }
 
-    private fun pendingIntent(context: Context, taskId: Long): PendingIntent {
+    private fun pendingIntent(context: Context, taskId: String): PendingIntent {
         val intent = Intent(context, ReminderReceiver::class.java).apply {
             putExtra(EXTRA_TASK_ID, taskId)
         }
         return PendingIntent.getBroadcast(
             context,
-            taskId.toInt(),
+            taskId.hashCode(),
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )

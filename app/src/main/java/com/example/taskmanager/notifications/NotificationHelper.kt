@@ -44,7 +44,7 @@ object NotificationHelper {
         }
         val contentPendingIntent = PendingIntent.getActivity(
             context,
-            task.id.toInt(),
+            task.id.hashCode(),
             contentIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
@@ -64,21 +64,21 @@ object NotificationHelper {
             .addAction(0, "完了にする", completePendingIntent)
             .build()
 
-        NotificationManagerCompat.from(context).notify(task.id.toInt(), notification)
+        NotificationManagerCompat.from(context).notify(task.id.hashCode(), notification)
     }
 
-    fun cancel(context: Context, taskId: Long) {
-        NotificationManagerCompat.from(context).cancel(taskId.toInt())
+    fun cancel(context: Context, taskId: String) {
+        NotificationManagerCompat.from(context).cancel(taskId.hashCode())
     }
 
-    private fun actionPendingIntent(context: Context, taskId: Long, action: String, salt: Int): PendingIntent {
+    private fun actionPendingIntent(context: Context, taskId: String, action: String, salt: Int): PendingIntent {
         val intent = Intent(context, ReminderActionReceiver::class.java).apply {
             this.action = action
             putExtra(ReminderScheduler.EXTRA_TASK_ID, taskId)
         }
         return PendingIntent.getBroadcast(
             context,
-            taskId.toInt() * 10 + salt,
+            taskId.hashCode() * 10 + salt,
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
