@@ -12,6 +12,7 @@ data class CreateTaskRequest(
     val title: String,
     val description: String? = null,
     val priority: Priority? = null,
+    val tag: String? = null,
     val dueDate: Long? = null,
     val reminderOffsetMinutes: Int? = null,
     val parentTaskId: String? = null
@@ -21,6 +22,7 @@ data class UpdateTaskRequest(
     val title: String,
     val description: String,
     val priority: Priority,
+    val tag: String?,
     val dueDate: Long?,
     val reminderOffsetMinutes: Int?
 )

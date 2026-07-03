@@ -32,6 +32,7 @@ export function TaskEditPage() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState<Priority>("MEDIUM");
+  const [tag, setTag] = useState("");
   const [dueDate, setDueDate] = useState<number | null>(null);
   const [reminderOffsetMinutes, setReminderOffsetMinutes] = useState<number | null>(null);
   const [subtasks, setSubtasks] = useState<Task[]>([]);
@@ -51,6 +52,7 @@ export function TaskEditPage() {
         setTitle(task.title);
         setDescription(task.description);
         setPriority(task.priority);
+        setTag(task.tag ?? "");
         setDueDate(task.dueDate);
         setReminderOffsetMinutes(task.reminderOffsetMinutes);
         await loadSubtasks(id);
@@ -70,6 +72,7 @@ export function TaskEditPage() {
       title: title.trim(),
       description: description.trim(),
       priority,
+      tag: tag.trim() || null,
       dueDate,
       reminderOffsetMinutes: dueDate == null ? null : reminderOffsetMinutes
     };
@@ -155,6 +158,21 @@ export function TaskEditPage() {
               </button>
             ))}
           </div>
+        </div>
+
+        <div className="field-group">
+          <span className="field-group__label">タグ</span>
+          <input
+            type="text"
+            list="tag-suggestions"
+            value={tag}
+            onChange={(e) => setTag(e.target.value)}
+            placeholder="仕事、プライベートなど(空欄でもOK)"
+          />
+          <datalist id="tag-suggestions">
+            <option value="仕事" />
+            <option value="プライベート" />
+          </datalist>
         </div>
 
         <div className="field-group">

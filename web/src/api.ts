@@ -56,6 +56,7 @@ export interface TaskInput {
   title: string;
   description?: string;
   priority?: Priority;
+  tag?: string | null;
   dueDate?: number | null;
   reminderOffsetMinutes?: number | null;
   parentTaskId?: string | null;
@@ -66,6 +67,7 @@ export interface TaskUpdateInput {
   description?: string;
   isCompleted?: boolean;
   priority?: Priority;
+  tag?: string | null;
   dueDate?: number | null;
   reminderOffsetMinutes?: number | null;
   snoozedUntil?: number | null;

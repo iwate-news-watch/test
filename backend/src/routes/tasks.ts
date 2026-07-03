@@ -13,6 +13,7 @@ const createTaskSchema = z.object({
   title: z.string().trim().min(1),
   description: z.string().trim().optional(),
   priority: priorityEnum.optional(),
+  tag: z.string().trim().nullable().optional(),
   dueDate: z.number().nullable().optional(),
   reminderOffsetMinutes: z.number().nullable().optional(),
   parentTaskId: z.string().nullable().optional()
@@ -23,6 +24,7 @@ const updateTaskSchema = z.object({
   description: z.string().trim().optional(),
   isCompleted: z.boolean().optional(),
   priority: priorityEnum.optional(),
+  tag: z.string().trim().nullable().optional(),
   dueDate: z.number().nullable().optional(),
   reminderOffsetMinutes: z.number().nullable().optional(),
   snoozedUntil: z.number().nullable().optional()
@@ -95,6 +97,7 @@ tasksRouter.post("/", async (req: AuthedRequest, res) => {
       title: data.title,
       description: data.description ?? "",
       priority: data.priority ?? "MEDIUM",
+      tag: data.tag || null,
       dueDate: data.dueDate != null ? new Date(data.dueDate) : null,
       reminderOffsetMinutes: data.reminderOffsetMinutes ?? null,
       parentTaskId: data.parentTaskId ?? null
@@ -123,6 +126,7 @@ tasksRouter.patch("/:id", async (req: AuthedRequest, res) => {
       ...(data.description !== undefined && { description: data.description }),
       ...(data.isCompleted !== undefined && { isCompleted: data.isCompleted }),
       ...(data.priority !== undefined && { priority: data.priority }),
+      ...(data.tag !== undefined && { tag: data.tag || null }),
       ...(data.dueDate !== undefined && { dueDate: data.dueDate != null ? new Date(data.dueDate) : null }),
       ...(data.reminderOffsetMinutes !== undefined && { reminderOffsetMinutes: data.reminderOffsetMinutes }),
       ...(data.snoozedUntil !== undefined && {

@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.isActive
@@ -35,6 +36,16 @@ fun sortForFocus(tasks: List<Task>, limit: Int): List<Task> =
         )
         .take(limit)
 
+data class PriorityGroup(val priority: Priority, val tasks: List<Task>)
+
+fun groupByPriority(tasks: List<Task>): List<PriorityGroup> =
+    listOf(Priority.HIGH, Priority.MEDIUM, Priority.LOW)
+        .map { PriorityGroup(it, tasks.filter { t -> t.priority == it }) }
+        .filter { it.tasks.isNotEmpty() }
+
+fun uniqueTags(tasks: List<Task>): List<String> =
+    tasks.mapNotNull { it.tag }.distinct().sorted()
+
 private val encouragements = listOf(
     "やった、1つ終わった!",
     "その調子!",
@@ -50,6 +61,9 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
     private val _filter = MutableStateFlow(TaskFilter.ALL)
     val filter: StateFlow<TaskFilter> = _filter
 
+    private val _tagFilter = MutableStateFlow<String?>(null)
+    val tagFilter: StateFlow<String?> = _tagFilter
+
     private val _tasks = MutableStateFlow<List<Task>>(emptyList())
 
     private val _encouragement = Channel<String>(Channel.BUFFERED)
@@ -58,15 +72,20 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
     private val _errors = Channel<String>(Channel.BUFFERED)
     val errors: Flow<String> = _errors.receiveAsFlow()
 
+    val availableTags: StateFlow<List<String>> = _tasks
+        .map { uniqueTags(it) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
     val uiState: StateFlow<List<Task>> = combine(
         _tasks,
-        _filter
-    ) { tasks, filter ->
+        _filter,
+        _tagFilter
+    ) { tasks, filter, tagFilter ->
         val filtered = when (filter) {
             TaskFilter.ALL -> tasks
             TaskFilter.ACTIVE -> tasks.filter { !it.isCompleted }
             TaskFilter.COMPLETED -> tasks.filter { it.isCompleted }
-        }
+        }.let { list -> if (tagFilter != null) list.filter { it.tag == tagFilter } else list }
         filtered.sortedWith(
             compareBy<Task> { it.isCompleted }
                 .thenBy { it.dueDate == null }
@@ -100,6 +119,10 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
         _filter.value = filter
     }
 
+    fun setTagFilter(tag: String?) {
+        _tagFilter.value = tag
+    }
+
     suspend fun listSubtasks(parentId: String): List<Task> = try {
         repository.listSubtasks(parentId)
     } catch (e: Exception) {
@@ -128,6 +151,7 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
         title: String,
         description: String,
         priority: Priority,
+        tag: String?,
         dueDate: Long?,
         reminderOffsetMinutes: Int?
     ): Boolean {
@@ -137,6 +161,7 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
                 title = title.trim(),
                 description = description.trim(),
                 priority = priority,
+                tag = tag,
                 dueDate = dueDate,
                 reminderOffsetMinutes = reminderOffsetMinutes
             )
@@ -153,6 +178,7 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
         title: String,
         description: String,
         priority: Priority,
+        tag: String?,
         dueDate: Long?,
         reminderOffsetMinutes: Int?
     ): Boolean {
@@ -163,6 +189,7 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
                 title = title.trim(),
                 description = description.trim(),
                 priority = priority,
+                tag = tag,
                 dueDate = dueDate,
                 reminderOffsetMinutes = reminderOffsetMinutes
             )

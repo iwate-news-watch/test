@@ -6,6 +6,7 @@ export interface Task {
   description: string;
   isCompleted: boolean;
   priority: Priority;
+  tag: string | null;
   dueDate: number | null;
   reminderOffsetMinutes: number | null;
   snoozedUntil: number | null;

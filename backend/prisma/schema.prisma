@@ -23,6 +23,7 @@ model Task {
   description            String   @default("")
   isCompleted            Boolean  @default(false)
   priority               String   @default("MEDIUM")
+  tag                    String?
   dueDate                DateTime?
   reminderOffsetMinutes  Int?
   snoozedUntil           DateTime?

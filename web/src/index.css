@@ -182,6 +182,19 @@ a {
   padding: 0 16px;
 }
 
+.priority-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.priority-group-heading {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin: 0 16px 8px;
+}
+
 .task-list__row {
   display: flex;
   align-items: center;
@@ -252,6 +265,17 @@ a {
   font-size: 13px;
   color: var(--text-muted);
   margin-top: 2px;
+}
+
+.task-card__tag {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-muted);
 }
 
 .task-card__due {

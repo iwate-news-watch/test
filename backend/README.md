@@ -36,7 +36,7 @@ npm start
 - `GET /api/tasks/:id` — タスク1件
 - `GET /api/tasks/:id/subtasks` — 指定タスクのサブタスク一覧
 - `POST /api/tasks` — タスク作成 (`parentTaskId` を指定するとサブタスクになる)
-- `PATCH /api/tasks/:id` — 部分更新 (`title`, `description`, `isCompleted`, `priority`, `dueDate`, `reminderOffsetMinutes`, `snoozedUntil` を任意の組み合わせで送信可能。`null` を明示的に送るとその項目がクリアされる)
+- `PATCH /api/tasks/:id` — 部分更新 (`title`, `description`, `isCompleted`, `priority`, `tag`, `dueDate`, `reminderOffsetMinutes`, `snoozedUntil` を任意の組み合わせで送信可能。`null` を明示的に送るとその項目がクリアされる)
 - `DELETE /api/tasks/:id` — 削除 (サブタスクも連動して削除される)
 
 ## デプロイについて

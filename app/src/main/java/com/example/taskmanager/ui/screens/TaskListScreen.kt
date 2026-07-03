@@ -1,5 +1,6 @@
 package com.example.taskmanager.ui.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -13,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -41,10 +43,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.taskmanager.data.Priority
 import com.example.taskmanager.data.Task
 import com.example.taskmanager.ui.TaskFilter
 import com.example.taskmanager.ui.TaskViewModel
 import com.example.taskmanager.ui.components.TaskItem
+import com.example.taskmanager.ui.groupByPriority
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,7 +61,10 @@ fun TaskListScreen(
 ) {
     val tasks by viewModel.uiState.collectAsState()
     val filter by viewModel.filter.collectAsState()
+    val tagFilter by viewModel.tagFilter.collectAsState()
+    val availableTags by viewModel.availableTags.collectAsState()
     var quickAddText by remember { mutableStateOf("") }
+    var groupedByPriority by remember { mutableStateOf(false) }
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -128,12 +135,76 @@ fun TaskListScreen(
                 }
             }
 
+            if (availableTags.isNotEmpty()) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    FilterChip(
+                        selected = tagFilter == null,
+                        onClick = { viewModel.setTagFilter(null) },
+                        label = { Text("すべてのタグ") }
+                    )
+                    availableTags.forEach { t ->
+                        FilterChip(
+                            selected = tagFilter == t,
+                            onClick = { viewModel.setTagFilter(t) },
+                            label = { Text(t) }
+                        )
+                    }
+                }
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                FilterChip(
+                    selected = !groupedByPriority,
+                    onClick = { groupedByPriority = false },
+                    label = { Text("通常表示") }
+                )
+                FilterChip(
+                    selected = groupedByPriority,
+                    onClick = { groupedByPriority = true },
+                    label = { Text("優先度別に表示") }
+                )
+            }
+
             if (tasks.isEmpty()) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Text(
                         text = "タスクはまだありません。上の欄か + から追加できます。",
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
+                }
+            } else if (groupedByPriority) {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(12.dp)
+                ) {
+                    groupByPriority(tasks).forEach { group ->
+                        item(key = "header-${group.priority}") {
+                            Text(
+                                text = "優先度: ${priorityGroupLabel(group.priority)} (${group.tasks.size})",
+                                style = MaterialTheme.typography.labelLarge,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
+                            )
+                        }
+                        items(group.tasks, key = { it.id }) { task ->
+                            SwipeableTaskRow(
+                                task = task,
+                                onToggleCompleted = { checked -> viewModel.toggleCompleted(task, checked) },
+                                onClick = { onEditTask(task.id) },
+                                onDelete = { viewModel.deleteTask(task) }
+                            )
+                        }
+                    }
                 }
             } else {
                 LazyColumn(
@@ -190,4 +261,10 @@ private fun TaskFilter.label(): String = when (this) {
     TaskFilter.ALL -> "すべて"
     TaskFilter.ACTIVE -> "未完了"
     TaskFilter.COMPLETED -> "完了済み"
+}
+
+private fun priorityGroupLabel(priority: Priority): String = when (priority) {
+    Priority.LOW -> "低"
+    Priority.MEDIUM -> "中"
+    Priority.HIGH -> "高"
 }

@@ -8,6 +8,7 @@ data class Task(
     val description: String = "",
     val isCompleted: Boolean = false,
     val priority: Priority = Priority.MEDIUM,
+    val tag: String? = null,
     val dueDate: Long? = null,
     val reminderOffsetMinutes: Int? = null,
     val snoozedUntil: Long? = null,

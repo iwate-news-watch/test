@@ -6,20 +6,24 @@ import { useTasks } from "../hooks/useTasks";
 import { useToast } from "../components/Toast";
 import { taskApi } from "../api";
 import type { TaskFilter } from "../types";
-import { randomEncouragement, sortAllTasks } from "../util/task";
+import { groupByPriority, priorityLabel, randomEncouragement, sortAllTasks, uniqueTags } from "../util/task";
 
 export function ListPage() {
   const { tasks, loading, refresh } = useTasks();
   const { show } = useToast();
   const [filter, setFilter] = useState<TaskFilter>("ALL");
+  const [tagFilter, setTagFilter] = useState<string | null>(null);
+  const [groupedByPriority, setGroupedByPriority] = useState(false);
   const [quickAddText, setQuickAddText] = useState("");
 
   const filtered = tasks.filter((t) => {
-    if (filter === "ACTIVE") return !t.isCompleted;
-    if (filter === "COMPLETED") return t.isCompleted;
+    if (filter === "ACTIVE" && t.isCompleted) return false;
+    if (filter === "COMPLETED" && !t.isCompleted) return false;
+    if (tagFilter && t.tag !== tagFilter) return false;
     return true;
   });
   const sorted = sortAllTasks(filtered);
+  const tags = uniqueTags(tasks);
 
   const onToggle = async (id: string, completed: boolean) => {
     await taskApi.update(id, { isCompleted: completed });
@@ -39,6 +43,15 @@ export function ListPage() {
     setQuickAddText("");
     refresh();
   };
+
+  const renderTask = (task: (typeof sorted)[number]) => (
+    <div key={task.id} className="task-list__row">
+      <TaskCard task={task} onToggleCompleted={(c) => onToggle(task.id, c)} />
+      <button className="task-list__delete" onClick={() => onDelete(task.id)} aria-label="削除">
+        削除
+      </button>
+    </div>
+  );
 
   return (
     <div className="page">
@@ -68,21 +81,58 @@ export function ListPage() {
         ))}
       </div>
 
+      {tags.length > 0 && (
+        <div className="chip-row">
+          <button
+            className={`chip ${tagFilter === null ? "chip--selected" : ""}`}
+            onClick={() => setTagFilter(null)}
+          >
+            すべてのタグ
+          </button>
+          {tags.map((t) => (
+            <button
+              key={t}
+              className={`chip ${tagFilter === t ? "chip--selected" : ""}`}
+              onClick={() => setTagFilter(t)}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
+      )}
+
+      <div className="chip-row">
+        <button
+          className={`chip ${!groupedByPriority ? "chip--selected" : ""}`}
+          onClick={() => setGroupedByPriority(false)}
+        >
+          通常表示
+        </button>
+        <button
+          className={`chip ${groupedByPriority ? "chip--selected" : ""}`}
+          onClick={() => setGroupedByPriority(true)}
+        >
+          優先度別に表示
+        </button>
+      </div>
+
       {loading ? (
         <p className="empty-state">読み込み中…</p>
       ) : sorted.length === 0 ? (
         <p className="empty-state">タスクはまだありません。上の欄から追加できます。</p>
-      ) : (
-        <div className="task-list">
-          {sorted.map((task) => (
-            <div key={task.id} className="task-list__row">
-              <TaskCard task={task} onToggleCompleted={(c) => onToggle(task.id, c)} />
-              <button className="task-list__delete" onClick={() => onDelete(task.id)} aria-label="削除">
-                削除
-              </button>
+      ) : groupedByPriority ? (
+        <div className="priority-groups">
+          {groupByPriority(sorted).map((group) => (
+            <div key={group.priority}>
+              <h2 className="priority-group-heading">
+                優先度: {priorityLabel(group.priority)} ({group.tasks.length})
+              </h2>
+              <div className="task-list">{group.tasks.map(renderTask)}</div>
             </div>
           ))}
         </div>
+      ) : (
+        <div className="task-list">{sorted.map(renderTask)}</div>
       )}
     </div>
   );

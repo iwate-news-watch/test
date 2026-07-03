@@ -74,6 +74,23 @@ export function sortForFocus(tasks: Task[], limit: number): Task[] {
     .slice(0, limit);
 }
 
+const PRIORITY_ORDER: Priority[] = ["HIGH", "MEDIUM", "LOW"];
+
+export function groupByPriority(tasks: Task[]): { priority: Priority; tasks: Task[] }[] {
+  return PRIORITY_ORDER.map((priority) => ({
+    priority,
+    tasks: tasks.filter((t) => t.priority === priority)
+  })).filter((group) => group.tasks.length > 0);
+}
+
+export function uniqueTags(tasks: Task[]): string[] {
+  const tags = new Set<string>();
+  for (const task of tasks) {
+    if (task.tag) tags.add(task.tag);
+  }
+  return [...tags].sort((a, b) => a.localeCompare(b, "ja"));
+}
+
 const ENCOURAGEMENTS = [
   "やった、1つ終わった!",
   "その調子!",

@@ -7,6 +7,7 @@ export function serializeTask(task: Task, subtaskTotal = 0, subtaskCompleted = 0
     description: task.description,
     isCompleted: task.isCompleted,
     priority: task.priority,
+    tag: task.tag,
     dueDate: task.dueDate ? task.dueDate.getTime() : null,
     reminderOffsetMinutes: task.reminderOffsetMinutes,
     snoozedUntil: task.snoozedUntil ? task.snoozedUntil.getTime() : null,

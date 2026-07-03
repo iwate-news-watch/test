@@ -88,6 +88,7 @@ fun AddEditTaskScreen(
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     var priority by remember { mutableStateOf(Priority.MEDIUM) }
+    var tag by remember { mutableStateOf("") }
     var dueDate by remember { mutableStateOf<Long?>(null) }
     var reminderOffsetMinutes by remember { mutableStateOf<Int?>(null) }
     var showDatePicker by remember { mutableStateOf(false) }
@@ -112,6 +113,7 @@ fun AddEditTaskScreen(
                 title = task.title
                 description = task.description
                 priority = task.priority
+                tag = task.tag ?: ""
                 dueDate = task.dueDate
                 reminderOffsetMinutes = task.reminderOffsetMinutes
             }
@@ -176,6 +178,31 @@ fun AddEditTaskScreen(
                         selected = priority == p,
                         onClick = { priority = p },
                         label = { Text(priorityLabel(p)) }
+                    )
+                }
+            }
+
+            Text(
+                text = "タグ",
+                style = MaterialTheme.typography.labelLarge,
+                modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+            )
+            OutlinedTextField(
+                value = tag,
+                onValueChange = { tag = it },
+                placeholder = { Text("仕事、プライベートなど(空欄でもOK)") },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.padding(top = 8.dp)
+            ) {
+                listOf("仕事", "プライベート").forEach { suggestion ->
+                    FilterChip(
+                        selected = tag == suggestion,
+                        onClick = { tag = suggestion },
+                        label = { Text(suggestion) }
                     )
                 }
             }
@@ -303,11 +330,12 @@ fun AddEditTaskScreen(
                     scope.launch {
                         saving = true
                         saveError = null
+                        val trimmedTag = tag.trim().ifBlank { null }
                         val success = if (taskId == null) {
-                            viewModel.addTask(title, description, priority, dueDate, reminderOffsetMinutes)
+                            viewModel.addTask(title, description, priority, trimmedTag, dueDate, reminderOffsetMinutes)
                         } else {
                             loadedTask?.let {
-                                viewModel.updateTask(it, title, description, priority, dueDate, reminderOffsetMinutes)
+                                viewModel.updateTask(it, title, description, priority, trimmedTag, dueDate, reminderOffsetMinutes)
                             } ?: false
                         }
                         saving = false
