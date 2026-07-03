@@ -22,7 +22,7 @@ class TaskRepository(context: Context) {
         priority: Priority = Priority.MEDIUM,
         tag: String? = null,
         dueDate: Long? = null,
-        reminderOffsetMinutes: Int? = null,
+        reminderOffsetsMinutes: List<Int> = emptyList(),
         parentTaskId: String? = null
     ): Task = taskApi.createTask(
         CreateTaskRequest(
@@ -31,7 +31,7 @@ class TaskRepository(context: Context) {
             priority = priority,
             tag = tag,
             dueDate = dueDate,
-            reminderOffsetMinutes = reminderOffsetMinutes,
+            reminderOffsetsMinutes = reminderOffsetsMinutes,
             parentTaskId = parentTaskId
         )
     )
@@ -43,8 +43,8 @@ class TaskRepository(context: Context) {
         priority: Priority,
         tag: String?,
         dueDate: Long?,
-        reminderOffsetMinutes: Int?
-    ): Task = taskApi.updateTask(id, UpdateTaskRequest(title, description, priority, tag, dueDate, reminderOffsetMinutes))
+        reminderOffsetsMinutes: List<Int>
+    ): Task = taskApi.updateTask(id, UpdateTaskRequest(title, description, priority, tag, dueDate, reminderOffsetsMinutes))
 
     suspend fun setCompleted(id: String, completed: Boolean): Task =
         taskApi.setCompleted(id, CompletedRequest(completed))

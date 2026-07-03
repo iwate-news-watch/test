@@ -10,7 +10,7 @@ data class Task(
     val priority: Priority = Priority.MEDIUM,
     val tag: String? = null,
     val dueDate: Long? = null,
-    val reminderOffsetMinutes: Int? = null,
+    val reminderOffsetsMinutes: List<Int> = emptyList(),
     val snoozedUntil: Long? = null,
     val parentTaskId: String? = null,
     val createdAt: Long = 0,
@@ -21,9 +21,9 @@ data class Task(
 fun Task.isOverdue(now: Long = System.currentTimeMillis()): Boolean =
     !isCompleted && dueDate != null && dueDate < now
 
-fun Task.reminderTriggerAt(): Long? {
-    snoozedUntil?.let { return it }
-    val due = dueDate ?: return null
-    val offset = reminderOffsetMinutes ?: return null
-    return due - offset * 60_000L
+/** All upcoming reminder trigger times for this task. A snooze overrides the configured offsets. */
+fun Task.reminderTriggerAts(): List<Long> {
+    snoozedUntil?.let { return listOf(it) }
+    val due = dueDate ?: return emptyList()
+    return reminderOffsetsMinutes.map { offset -> due - offset * 60_000L }
 }

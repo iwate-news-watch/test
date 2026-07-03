@@ -5,8 +5,7 @@ import { taskApi } from "../api";
 import type { Priority, Task } from "../types";
 import { googleCalendarUrl } from "../util/googleCalendar";
 
-const REMINDER_OPTIONS: { label: string; minutes: number | null }[] = [
-  { label: "通知なし", minutes: null },
+const REMINDER_OPTIONS: { label: string; minutes: number }[] = [
   { label: "期限ちょうど", minutes: 0 },
   { label: "10分前", minutes: 10 },
   { label: "30分前", minutes: 30 },
@@ -87,7 +86,7 @@ export function TaskEditPage() {
   const [tag, setTag] = useState("");
   const [dueDate, setDueDate] = useState<number | null>(null);
   const [timeOfDay, setTimeOfDay] = useState<TimeOfDay>("MORNING");
-  const [reminderOffsetMinutes, setReminderOffsetMinutes] = useState<number | null>(null);
+  const [reminderOffsetsMinutes, setReminderOffsetsMinutes] = useState<number[]>([]);
   const [subtasks, setSubtasks] = useState<Task[]>([]);
   const [subtaskText, setSubtaskText] = useState("");
   const [loading, setLoading] = useState(!isNew);
@@ -108,7 +107,7 @@ export function TaskEditPage() {
         setTag(task.tag ?? "");
         setDueDate(task.dueDate);
         if (task.dueDate != null) setTimeOfDay(closestTimeOfDay(task.dueDate));
-        setReminderOffsetMinutes(task.reminderOffsetMinutes);
+        setReminderOffsetsMinutes(task.reminderOffsetsMinutes);
         await loadSubtasks(id);
       } catch {
         setError("タスクを読み込めませんでした");
@@ -128,7 +127,7 @@ export function TaskEditPage() {
       priority,
       tag: tag.trim() || null,
       dueDate,
-      reminderOffsetMinutes: dueDate == null ? null : reminderOffsetMinutes
+      reminderOffsetsMinutes: dueDate == null ? [] : reminderOffsetsMinutes
     };
     if (isNew) {
       await taskApi.create(payload);
@@ -177,6 +176,12 @@ export function TaskEditPage() {
     if (dueDate != null) {
       setDueDate(combineDateAndTimeOfDay(dateOnlyStr(dueDate), t));
     }
+  };
+
+  const toggleReminderOffset = (minutes: number) => {
+    setReminderOffsetsMinutes((current) =>
+      current.includes(minutes) ? current.filter((m) => m !== minutes) : [...current, minutes].sort((a, b) => a - b)
+    );
   };
 
   if (loading) {
@@ -291,14 +296,14 @@ export function TaskEditPage() {
         {dueDate != null && (
           <>
             <div className="field-group">
-              <span className="field-group__label">リマインダー通知</span>
+              <span className="field-group__label">リマインダー通知(複数選択可)</span>
               <div className="chip-row">
                 {REMINDER_OPTIONS.map((opt) => (
                   <button
                     type="button"
                     key={opt.label}
-                    className={`chip ${reminderOffsetMinutes === opt.minutes ? "chip--selected" : ""}`}
-                    onClick={() => setReminderOffsetMinutes(opt.minutes)}
+                    className={`chip ${reminderOffsetsMinutes.includes(opt.minutes) ? "chip--selected" : ""}`}
+                    onClick={() => toggleReminderOffset(opt.minutes)}
                   >
                     {opt.label}
                   </button>

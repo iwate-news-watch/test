@@ -4,10 +4,11 @@ export function isOverdue(task: Task, now: number = Date.now()): boolean {
   return !task.isCompleted && task.dueDate != null && task.dueDate < now;
 }
 
-export function reminderTriggerAt(task: Task): number | null {
-  if (task.snoozedUntil != null) return task.snoozedUntil;
-  if (task.dueDate == null || task.reminderOffsetMinutes == null) return null;
-  return task.dueDate - task.reminderOffsetMinutes * 60_000;
+/** All upcoming reminder trigger times for a task. A snooze overrides the configured offsets. */
+export function reminderTriggerAts(task: Task): number[] {
+  if (task.snoozedUntil != null) return [task.snoozedUntil];
+  if (task.dueDate == null) return [];
+  return task.reminderOffsetsMinutes.map((offset) => task.dueDate! - offset * 60_000);
 }
 
 export function priorityLabel(priority: Priority): string {

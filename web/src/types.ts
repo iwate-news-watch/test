@@ -8,7 +8,7 @@ export interface Task {
   priority: Priority;
   tag: string | null;
   dueDate: number | null;
-  reminderOffsetMinutes: number | null;
+  reminderOffsetsMinutes: number[];
   snoozedUntil: number | null;
   parentTaskId: string | null;
   createdAt: number;

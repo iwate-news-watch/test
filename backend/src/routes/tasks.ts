@@ -15,7 +15,7 @@ const createTaskSchema = z.object({
   priority: priorityEnum.optional(),
   tag: z.string().trim().nullable().optional(),
   dueDate: z.number().nullable().optional(),
-  reminderOffsetMinutes: z.number().nullable().optional(),
+  reminderOffsetsMinutes: z.array(z.number()).nullable().optional(),
   parentTaskId: z.string().nullable().optional()
 });
 
@@ -26,9 +26,13 @@ const updateTaskSchema = z.object({
   priority: priorityEnum.optional(),
   tag: z.string().trim().nullable().optional(),
   dueDate: z.number().nullable().optional(),
-  reminderOffsetMinutes: z.number().nullable().optional(),
+  reminderOffsetsMinutes: z.array(z.number()).nullable().optional(),
   snoozedUntil: z.number().nullable().optional()
 });
+
+function encodeReminderOffsets(offsets: number[] | null | undefined): string | null {
+  return offsets && offsets.length > 0 ? JSON.stringify(offsets) : null;
+}
 
 async function withSubtaskCounts(userId: string, tasks: Awaited<ReturnType<typeof prisma.task.findMany>>) {
   const ids = tasks.map((t) => t.id);
@@ -99,7 +103,7 @@ tasksRouter.post("/", async (req: AuthedRequest, res) => {
       priority: data.priority ?? "MEDIUM",
       tag: data.tag || null,
       dueDate: data.dueDate != null ? new Date(data.dueDate) : null,
-      reminderOffsetMinutes: data.reminderOffsetMinutes ?? null,
+      reminderOffsetsMinutes: encodeReminderOffsets(data.reminderOffsetsMinutes),
       parentTaskId: data.parentTaskId ?? null
     }
   });
@@ -128,7 +132,9 @@ tasksRouter.patch("/:id", async (req: AuthedRequest, res) => {
       ...(data.priority !== undefined && { priority: data.priority }),
       ...(data.tag !== undefined && { tag: data.tag || null }),
       ...(data.dueDate !== undefined && { dueDate: data.dueDate != null ? new Date(data.dueDate) : null }),
-      ...(data.reminderOffsetMinutes !== undefined && { reminderOffsetMinutes: data.reminderOffsetMinutes }),
+      ...(data.reminderOffsetsMinutes !== undefined && {
+        reminderOffsetsMinutes: encodeReminderOffsets(data.reminderOffsetsMinutes)
+      }),
       ...(data.snoozedUntil !== undefined && {
         snoozedUntil: data.snoozedUntil != null ? new Date(data.snoozedUntil) : null
       })

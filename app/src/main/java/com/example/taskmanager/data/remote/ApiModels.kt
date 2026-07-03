@@ -14,7 +14,7 @@ data class CreateTaskRequest(
     val priority: Priority? = null,
     val tag: String? = null,
     val dueDate: Long? = null,
-    val reminderOffsetMinutes: Int? = null,
+    val reminderOffsetsMinutes: List<Int>? = null,
     val parentTaskId: String? = null
 )
 
@@ -24,7 +24,7 @@ data class UpdateTaskRequest(
     val priority: Priority,
     val tag: String?,
     val dueDate: Long?,
-    val reminderOffsetMinutes: Int?
+    val reminderOffsetsMinutes: List<Int>?
 )
 
 data class CompletedRequest(val isCompleted: Boolean)

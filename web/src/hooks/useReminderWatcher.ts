@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { taskApi } from "../api";
-import { reminderTriggerAt } from "../util/task";
+import { reminderTriggerAts } from "../util/task";
 
 const CHECK_INTERVAL_MS = 30_000;
 const NOTIFY_WINDOW_MS = 5 * 60_000;
@@ -23,13 +23,15 @@ export function useReminderWatcher(enabled: boolean) {
         const tasks = await taskApi.list();
         const now = Date.now();
         for (const task of tasks) {
-          if (task.isCompleted || notified.current.has(task.id)) continue;
-          const triggerAt = reminderTriggerAt(task);
-          if (triggerAt == null) continue;
-          if (triggerAt <= now && now - triggerAt < NOTIFY_WINDOW_MS) {
-            notified.current.add(task.id);
-            if (typeof Notification !== "undefined" && Notification.permission === "granted") {
-              new Notification(task.title, { body: task.description || "期限が近づいています" });
+          if (task.isCompleted) continue;
+          for (const triggerAt of reminderTriggerAts(task)) {
+            const key = `${task.id}:${triggerAt}`;
+            if (notified.current.has(key)) continue;
+            if (triggerAt <= now && now - triggerAt < NOTIFY_WINDOW_MS) {
+              notified.current.add(key);
+              if (typeof Notification !== "undefined" && Notification.permission === "granted") {
+                new Notification(task.title, { body: task.description || "期限が近づいています" });
+              }
             }
           }
         }

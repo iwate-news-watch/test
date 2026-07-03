@@ -58,7 +58,7 @@ export interface TaskInput {
   priority?: Priority;
   tag?: string | null;
   dueDate?: number | null;
-  reminderOffsetMinutes?: number | null;
+  reminderOffsetsMinutes?: number[] | null;
   parentTaskId?: string | null;
 }
 
@@ -69,7 +69,7 @@ export interface TaskUpdateInput {
   priority?: Priority;
   tag?: string | null;
   dueDate?: number | null;
-  reminderOffsetMinutes?: number | null;
+  reminderOffsetsMinutes?: number[] | null;
   snoozedUntil?: number | null;
 }
 

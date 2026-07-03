@@ -23,10 +23,10 @@ class ReminderActionReceiver : BroadcastReceiver() {
                     }
                     ACTION_COMPLETE -> {
                         repository.setCompleted(taskId, true)
-                        ReminderScheduler.cancel(context, taskId)
+                        ReminderScheduler.cancelAll(context, taskId)
                     }
                 }
-                NotificationHelper.cancel(context, taskId)
+                NotificationHelper.cancelAll(context, taskId)
             } catch (e: Exception) {
                 // Offline or the task is gone; nothing more we can do here.
             } finally {

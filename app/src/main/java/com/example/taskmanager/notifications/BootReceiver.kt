@@ -16,7 +16,7 @@ class BootReceiver : BroadcastReceiver() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 TaskRepository(context).listTasks()
-                    .filter { !it.isCompleted && it.dueDate != null && it.reminderOffsetMinutes != null }
+                    .filter { !it.isCompleted && it.dueDate != null && it.reminderOffsetsMinutes.isNotEmpty() }
                     .forEach { ReminderScheduler.schedule(context, it) }
             } catch (e: Exception) {
                 // Not logged in yet, or no network right after boot; reminders

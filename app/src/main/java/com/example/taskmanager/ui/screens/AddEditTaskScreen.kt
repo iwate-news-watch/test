@@ -57,10 +57,9 @@ import java.time.ZoneOffset
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-private data class ReminderOption(val label: String, val minutes: Int?)
+private data class ReminderOption(val label: String, val minutes: Int)
 
 private val reminderOptions = listOf(
-    ReminderOption("通知なし", null),
     ReminderOption("期限ちょうど", 0),
     ReminderOption("10分前", 10),
     ReminderOption("30分前", 30),
@@ -116,7 +115,7 @@ fun AddEditTaskScreen(
     var tag by remember { mutableStateOf("") }
     var dueDate by remember { mutableStateOf<Long?>(null) }
     var timeOfDay by remember { mutableStateOf(TimeOfDay.MORNING) }
-    var reminderOffsetMinutes by remember { mutableStateOf<Int?>(null) }
+    var reminderOffsetsMinutes by remember { mutableStateOf<List<Int>>(emptyList()) }
     var showDatePicker by remember { mutableStateOf(false) }
     var subtaskText by remember { mutableStateOf("") }
     var subtasks by remember { mutableStateOf<List<Task>>(emptyList()) }
@@ -150,7 +149,7 @@ fun AddEditTaskScreen(
                 tag = task.tag ?: ""
                 dueDate = task.dueDate
                 task.dueDate?.let { timeOfDay = closestTimeOfDay(it) }
-                reminderOffsetMinutes = task.reminderOffsetMinutes
+                reminderOffsetsMinutes = task.reminderOffsetsMinutes
             }
             refreshSubtasks()
         }
@@ -267,7 +266,7 @@ fun AddEditTaskScreen(
                 if (dueDate != null) {
                     TextButton(onClick = {
                         dueDate = null
-                        reminderOffsetMinutes = null
+                        reminderOffsetsMinutes = emptyList()
                     }) {
                         Text("クリア")
                     }
@@ -291,7 +290,7 @@ fun AddEditTaskScreen(
 
             if (dueDate != null) {
                 Text(
-                    text = "リマインダー通知",
+                    text = "リマインダー通知(複数選択可)",
                     style = MaterialTheme.typography.labelLarge,
                     modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
                 )
@@ -302,8 +301,14 @@ fun AddEditTaskScreen(
                 ) {
                     reminderOptions.forEach { option ->
                         FilterChip(
-                            selected = reminderOffsetMinutes == option.minutes,
-                            onClick = { reminderOffsetMinutes = option.minutes },
+                            selected = reminderOffsetsMinutes.contains(option.minutes),
+                            onClick = {
+                                reminderOffsetsMinutes = if (reminderOffsetsMinutes.contains(option.minutes)) {
+                                    reminderOffsetsMinutes - option.minutes
+                                } else {
+                                    (reminderOffsetsMinutes + option.minutes).sorted()
+                                }
+                            },
                             label = { Text(option.label) }
                         )
                     }
@@ -395,10 +400,10 @@ fun AddEditTaskScreen(
                         saveError = null
                         val trimmedTag = tag.trim().ifBlank { null }
                         val success = if (taskId == null) {
-                            viewModel.addTask(title, description, priority, trimmedTag, dueDate, reminderOffsetMinutes)
+                            viewModel.addTask(title, description, priority, trimmedTag, dueDate, reminderOffsetsMinutes)
                         } else {
                             loadedTask?.let {
-                                viewModel.updateTask(it, title, description, priority, trimmedTag, dueDate, reminderOffsetMinutes)
+                                viewModel.updateTask(it, title, description, priority, trimmedTag, dueDate, reminderOffsetsMinutes)
                             } ?: false
                         }
                         saving = false

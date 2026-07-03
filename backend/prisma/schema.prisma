@@ -25,7 +25,7 @@ model Task {
   priority               String   @default("MEDIUM")
   tag                    String?
   dueDate                DateTime?
-  reminderOffsetMinutes  Int?
+  reminderOffsetsMinutes String? // JSON-encoded number[], e.g. "[10,60,1440]"
   snoozedUntil           DateTime?
   parentTaskId           String?
   parentTask             Task?    @relation("Subtasks", fields: [parentTaskId], references: [id], onDelete: Cascade)

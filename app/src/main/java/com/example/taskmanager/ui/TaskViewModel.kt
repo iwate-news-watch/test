@@ -153,7 +153,7 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
         priority: Priority,
         tag: String?,
         dueDate: Long?,
-        reminderOffsetMinutes: Int?
+        reminderOffsetsMinutes: List<Int>
     ): Boolean {
         if (title.isBlank()) return false
         val result = runCatching {
@@ -163,7 +163,7 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
                 priority = priority,
                 tag = tag,
                 dueDate = dueDate,
-                reminderOffsetMinutes = reminderOffsetMinutes
+                reminderOffsetsMinutes = reminderOffsetsMinutes
             )
             ReminderScheduler.schedule(getApplication<Application>(), created)
         }
@@ -180,7 +180,7 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
         priority: Priority,
         tag: String?,
         dueDate: Long?,
-        reminderOffsetMinutes: Int?
+        reminderOffsetsMinutes: List<Int>
     ): Boolean {
         if (title.isBlank()) return false
         val result = runCatching {
@@ -191,7 +191,7 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
                 priority = priority,
                 tag = tag,
                 dueDate = dueDate,
-                reminderOffsetMinutes = reminderOffsetMinutes
+                reminderOffsetsMinutes = reminderOffsetsMinutes
             )
             ReminderScheduler.schedule(getApplication<Application>(), updated)
         }
@@ -230,7 +230,7 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
             runCatching { repository.setCompleted(task.id, completed) }
                 .onSuccess {
                     if (completed) {
-                        ReminderScheduler.cancel(getApplication<Application>(), task.id)
+                        ReminderScheduler.cancelAll(getApplication<Application>(), task.id)
                         _encouragement.send(encouragements.random())
                     }
                 }
@@ -242,7 +242,7 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
     fun deleteTask(task: Task) {
         viewModelScope.launch {
             runCatching {
-                ReminderScheduler.cancel(getApplication<Application>(), task.id)
+                ReminderScheduler.cancelAll(getApplication<Application>(), task.id)
                 repository.deleteTask(task.id)
             }.onFailure { _errors.send(it.message ?: "削除に失敗しました") }
             refresh()
