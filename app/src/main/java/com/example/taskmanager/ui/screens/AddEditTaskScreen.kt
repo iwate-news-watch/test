@@ -15,7 +15,6 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Event
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DatePicker
@@ -31,10 +30,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TimePicker
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDatePickerState
-import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -52,10 +49,13 @@ import com.example.taskmanager.calendar.openInCalendar
 import com.example.taskmanager.data.Priority
 import com.example.taskmanager.data.Task
 import com.example.taskmanager.ui.TaskViewModel
-import com.example.taskmanager.ui.components.dueDateFormatter
 import kotlinx.coroutines.launch
-import java.util.Calendar
-import java.util.TimeZone
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 private data class ReminderOption(val label: String, val minutes: Int?)
 
@@ -68,14 +68,39 @@ private val reminderOptions = listOf(
     ReminderOption("前日", 1440)
 )
 
-private fun combineDateAndTime(dateMillisUtc: Long, hour: Int, minute: Int): Long {
-    val utcCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-    utcCal.timeInMillis = dateMillisUtc
-    val localCal = Calendar.getInstance()
-    localCal.clear()
-    localCal.set(utcCal.get(Calendar.YEAR), utcCal.get(Calendar.MONTH), utcCal.get(Calendar.DAY_OF_MONTH), hour, minute, 0)
-    return localCal.timeInMillis
+private enum class TimeOfDay(val hour: Int, val label: String) {
+    MORNING(9, "朝"),
+    NOON(12, "昼"),
+    EVENING(18, "夕方"),
+    NIGHT(21, "夜")
 }
+
+private data class DatePreset(val label: String, val resolve: () -> LocalDate)
+
+private val datePresets = listOf(
+    DatePreset("今日") { LocalDate.now() },
+    DatePreset("明日") { LocalDate.now().plusDays(1) },
+    DatePreset("今週末") { nextSaturday(LocalDate.now()) },
+    DatePreset("来週") { LocalDate.now().plusDays(7) }
+)
+
+private fun nextSaturday(base: LocalDate): LocalDate {
+    val diff = (6 - base.dayOfWeek.value + 7) % 7
+    return base.plusDays(diff.toLong())
+}
+
+private fun localDateToMillis(date: LocalDate, hour: Int): Long =
+    date.atTime(hour, 0).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+
+private fun millisToLocalDate(millis: Long): LocalDate =
+    Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault()).toLocalDate()
+
+private fun closestTimeOfDay(millis: Long): TimeOfDay {
+    val hour = Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault()).hour
+    return TimeOfDay.values().minByOrNull { kotlin.math.abs(it.hour - hour) } ?: TimeOfDay.MORNING
+}
+
+private val dateOnlyFormatter = SimpleDateFormat("M月d日", Locale.JAPAN)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -90,9 +115,9 @@ fun AddEditTaskScreen(
     var priority by remember { mutableStateOf(Priority.MEDIUM) }
     var tag by remember { mutableStateOf("") }
     var dueDate by remember { mutableStateOf<Long?>(null) }
+    var timeOfDay by remember { mutableStateOf(TimeOfDay.MORNING) }
     var reminderOffsetMinutes by remember { mutableStateOf<Int?>(null) }
     var showDatePicker by remember { mutableStateOf(false) }
-    var showTimePicker by remember { mutableStateOf(false) }
     var subtaskText by remember { mutableStateOf("") }
     var subtasks by remember { mutableStateOf<List<Task>>(emptyList()) }
     var saveError by remember { mutableStateOf<String?>(null) }
@@ -100,6 +125,15 @@ fun AddEditTaskScreen(
 
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+
+    fun applyDate(date: LocalDate) {
+        dueDate = localDateToMillis(date, timeOfDay.hour)
+    }
+
+    fun applyTimeOfDay(t: TimeOfDay) {
+        timeOfDay = t
+        dueDate?.let { dueDate = localDateToMillis(millisToLocalDate(it), t.hour) }
+    }
 
     suspend fun refreshSubtasks() {
         if (taskId != null) subtasks = viewModel.listSubtasks(taskId)
@@ -115,6 +149,7 @@ fun AddEditTaskScreen(
                 priority = task.priority
                 tag = task.tag ?: ""
                 dueDate = task.dueDate
+                task.dueDate?.let { timeOfDay = closestTimeOfDay(it) }
                 reminderOffsetMinutes = task.reminderOffsetMinutes
             }
             refreshSubtasks()
@@ -208,13 +243,26 @@ fun AddEditTaskScreen(
             }
 
             Text(
-                text = "期限日時",
+                text = "期限日",
                 style = MaterialTheme.typography.labelLarge,
                 modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
             )
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                datePresets.forEach { preset ->
+                    val presetDate = preset.resolve()
+                    FilterChip(
+                        selected = dueDate?.let { millisToLocalDate(it) == presetDate } ?: false,
+                        onClick = { applyDate(presetDate) },
+                        label = { Text(preset.label) }
+                    )
+                }
+            }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(top = 8.dp)
+            ) {
                 OutlinedButton(onClick = { showDatePicker = true }) {
-                    Text(dueDate?.let { dueDateFormatter.format(it) } ?: "日時を設定")
+                    Text(dueDate?.let { dateOnlyFormatter.format(it) } ?: "日付を選ぶ")
                 }
                 if (dueDate != null) {
                     TextButton(onClick = {
@@ -223,6 +271,21 @@ fun AddEditTaskScreen(
                     }) {
                         Text("クリア")
                     }
+                }
+            }
+
+            Text(
+                text = "時間帯",
+                style = MaterialTheme.typography.labelLarge,
+                modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+            )
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                TimeOfDay.values().forEach { t ->
+                    FilterChip(
+                        selected = timeOfDay == t,
+                        onClick = { applyTimeOfDay(t) },
+                        label = { Text(t.label) }
+                    )
                 }
             }
 
@@ -357,20 +420,21 @@ fun AddEditTaskScreen(
     }
 
     if (showDatePicker) {
-        val state = rememberDatePickerState(initialSelectedDateMillis = dueDate)
+        val initialUtcMillis = dueDate?.let {
+            millisToLocalDate(it).atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli()
+        }
+        val state = rememberDatePickerState(initialSelectedDateMillis = initialUtcMillis)
         DatePickerDialog(
             onDismissRequest = { showDatePicker = false },
             confirmButton = {
                 TextButton(onClick = {
                     val selected = state.selectedDateMillis
                     if (selected != null) {
-                        dueDate = combineDateAndTime(selected, 9, 0)
-                        showDatePicker = false
-                        showTimePicker = true
-                    } else {
-                        showDatePicker = false
+                        val pickedDate = Instant.ofEpochMilli(selected).atZone(ZoneOffset.UTC).toLocalDate()
+                        applyDate(pickedDate)
                     }
-                }) { Text("次へ(時刻)") }
+                    showDatePicker = false
+                }) { Text("決定") }
             },
             dismissButton = {
                 TextButton(onClick = { showDatePicker = false }) { Text("キャンセル") }
@@ -378,35 +442,6 @@ fun AddEditTaskScreen(
         ) {
             DatePicker(state = state)
         }
-    }
-
-    if (showTimePicker) {
-        val initialCal = Calendar.getInstance().apply { dueDate?.let { timeInMillis = it } }
-        val timeState = rememberTimePickerState(
-            initialHour = initialCal.get(Calendar.HOUR_OF_DAY),
-            initialMinute = initialCal.get(Calendar.MINUTE),
-            is24Hour = true
-        )
-        AlertDialog(
-            onDismissRequest = { showTimePicker = false },
-            confirmButton = {
-                TextButton(onClick = {
-                    val current = dueDate ?: System.currentTimeMillis()
-                    val cal = Calendar.getInstance().apply { timeInMillis = current }
-                    cal.set(Calendar.HOUR_OF_DAY, timeState.hour)
-                    cal.set(Calendar.MINUTE, timeState.minute)
-                    cal.set(Calendar.SECOND, 0)
-                    dueDate = cal.timeInMillis
-                    showTimePicker = false
-                }) { Text("決定") }
-            },
-            dismissButton = {
-                TextButton(onClick = { showTimePicker = false }) { Text("キャンセル") }
-            },
-            text = {
-                TimePicker(state = timeState)
-            }
-        )
     }
 }
 

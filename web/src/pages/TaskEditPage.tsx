@@ -14,15 +14,67 @@ const REMINDER_OPTIONS: { label: string; minutes: number | null }[] = [
   { label: "前日", minutes: 1440 }
 ];
 
-function toDatetimeLocalValue(millis: number): string {
-  const d = new Date(millis);
-  const pad = (n: number) => String(n).padStart(2, "0");
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+type TimeOfDay = "MORNING" | "NOON" | "EVENING" | "NIGHT";
+
+const TIME_OF_DAY_HOURS: Record<TimeOfDay, number> = {
+  MORNING: 9,
+  NOON: 12,
+  EVENING: 18,
+  NIGHT: 21
+};
+
+const TIME_OF_DAY_OPTIONS: { value: TimeOfDay; label: string }[] = [
+  { value: "MORNING", label: "朝" },
+  { value: "NOON", label: "昼" },
+  { value: "EVENING", label: "夕方" },
+  { value: "NIGHT", label: "夜" }
+];
+
+function pad(n: number): string {
+  return String(n).padStart(2, "0");
 }
 
-function fromDatetimeLocalValue(value: string): number {
-  return new Date(value).getTime();
+function toDateOnlyStr(d: Date): string {
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 }
+
+function dateOnlyStr(millis: number): string {
+  return toDateOnlyStr(new Date(millis));
+}
+
+function combineDateAndTimeOfDay(dateStr: string, timeOfDay: TimeOfDay): number {
+  const [y, m, d] = dateStr.split("-").map(Number);
+  return new Date(y, m - 1, d, TIME_OF_DAY_HOURS[timeOfDay], 0, 0, 0).getTime();
+}
+
+function closestTimeOfDay(millis: number): TimeOfDay {
+  const hour = new Date(millis).getHours();
+  return TIME_OF_DAY_OPTIONS.reduce((closest, opt) =>
+    Math.abs(TIME_OF_DAY_HOURS[opt.value] - hour) < Math.abs(TIME_OF_DAY_HOURS[closest] - hour)
+      ? opt.value
+      : closest,
+    "MORNING" as TimeOfDay
+  );
+}
+
+function addDays(base: Date, days: number): Date {
+  const d = new Date(base);
+  d.setDate(d.getDate() + days);
+  return d;
+}
+
+function nextSaturday(base: Date): Date {
+  const d = new Date(base);
+  d.setDate(d.getDate() + ((6 - d.getDay() + 7) % 7));
+  return d;
+}
+
+const DATE_PRESETS: { label: string; resolve: () => Date }[] = [
+  { label: "今日", resolve: () => new Date() },
+  { label: "明日", resolve: () => addDays(new Date(), 1) },
+  { label: "今週末", resolve: () => nextSaturday(new Date()) },
+  { label: "来週", resolve: () => addDays(new Date(), 7) }
+];
 
 export function TaskEditPage() {
   const { id } = useParams();
@@ -34,6 +86,7 @@ export function TaskEditPage() {
   const [priority, setPriority] = useState<Priority>("MEDIUM");
   const [tag, setTag] = useState("");
   const [dueDate, setDueDate] = useState<number | null>(null);
+  const [timeOfDay, setTimeOfDay] = useState<TimeOfDay>("MORNING");
   const [reminderOffsetMinutes, setReminderOffsetMinutes] = useState<number | null>(null);
   const [subtasks, setSubtasks] = useState<Task[]>([]);
   const [subtaskText, setSubtaskText] = useState("");
@@ -54,6 +107,7 @@ export function TaskEditPage() {
         setPriority(task.priority);
         setTag(task.tag ?? "");
         setDueDate(task.dueDate);
+        if (task.dueDate != null) setTimeOfDay(closestTimeOfDay(task.dueDate));
         setReminderOffsetMinutes(task.reminderOffsetMinutes);
         await loadSubtasks(id);
       } catch {
@@ -108,6 +162,21 @@ export function TaskEditPage() {
     if (!id) return;
     await taskApi.remove(subtaskId);
     await loadSubtasks(id);
+  };
+
+  const applyDatePreset = (date: Date) => {
+    setDueDate(combineDateAndTimeOfDay(toDateOnlyStr(date), timeOfDay));
+  };
+
+  const onCustomDateChange = (value: string) => {
+    setDueDate(value ? combineDateAndTimeOfDay(value, timeOfDay) : null);
+  };
+
+  const onTimeOfDayChange = (t: TimeOfDay) => {
+    setTimeOfDay(t);
+    if (dueDate != null) {
+      setDueDate(combineDateAndTimeOfDay(dateOnlyStr(dueDate), t));
+    }
   };
 
   if (loading) {
@@ -176,19 +245,47 @@ export function TaskEditPage() {
         </div>
 
         <div className="field-group">
-          <span className="field-group__label">期限日時</span>
+          <span className="field-group__label">期限日</span>
+          <div className="chip-row">
+            {DATE_PRESETS.map((preset) => (
+              <button
+                type="button"
+                key={preset.label}
+                className={`chip ${
+                  dueDate != null && dateOnlyStr(dueDate) === toDateOnlyStr(preset.resolve()) ? "chip--selected" : ""
+                }`}
+                onClick={() => applyDatePreset(preset.resolve())}
+              >
+                {preset.label}
+              </button>
+            ))}
+          </div>
           <input
-            type="datetime-local"
-            value={dueDate != null ? toDatetimeLocalValue(dueDate) : ""}
-            onChange={(e) =>
-              setDueDate(e.target.value ? fromDatetimeLocalValue(e.target.value) : null)
-            }
+            type="date"
+            value={dueDate != null ? dateOnlyStr(dueDate) : ""}
+            onChange={(e) => onCustomDateChange(e.target.value)}
           />
           {dueDate != null && (
             <button type="button" className="text-button" onClick={() => setDueDate(null)}>
               クリア
             </button>
           )}
+        </div>
+
+        <div className="field-group">
+          <span className="field-group__label">時間帯</span>
+          <div className="chip-row">
+            {TIME_OF_DAY_OPTIONS.map((opt) => (
+              <button
+                type="button"
+                key={opt.value}
+                className={`chip ${timeOfDay === opt.value ? "chip--selected" : ""}`}
+                onClick={() => onTimeOfDayChange(opt.value)}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         {dueDate != null && (
