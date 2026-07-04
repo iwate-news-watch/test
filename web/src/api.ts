@@ -59,6 +59,7 @@ export interface TaskInput {
   tag?: string | null;
   dueDate?: number | null;
   reminderOffsetsMinutes?: number[] | null;
+  isRecurring?: boolean;
   parentTaskId?: string | null;
 }
 
@@ -71,6 +72,7 @@ export interface TaskUpdateInput {
   dueDate?: number | null;
   reminderOffsetsMinutes?: number[] | null;
   snoozedUntil?: number | null;
+  isRecurring?: boolean;
 }
 
 export const taskApi = {

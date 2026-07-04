@@ -105,6 +105,18 @@ fun TaskItem(
                             .padding(horizontal = 8.dp, vertical = 2.dp)
                     )
                 }
+                if (task.isRecurring) {
+                    Text(
+                        text = "🔁 毎日",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier
+                            .padding(top = 2.dp)
+                            .clip(RoundedCornerShape(999.dp))
+                            .background(MaterialTheme.colorScheme.surfaceVariant)
+                            .padding(horizontal = 8.dp, vertical = 2.dp)
+                    )
+                }
                 if (task.subtaskTotal > 0) {
                     Text(
                         text = "サブタスク ${task.subtaskCompleted}/${task.subtaskTotal}",

@@ -35,6 +35,7 @@ export function TaskCard({ task, onToggleCompleted }: Props) {
         </div>
         {task.description && <div className="task-card__desc">{task.description}</div>}
         {task.tag && <span className="task-card__tag">{task.tag}</span>}
+        {task.isRecurring && <span className="task-card__tag">🔁 毎日</span>}
         {task.subtaskTotal > 0 && (
           <div className="task-card__meta">
             サブタスク {task.subtaskCompleted}/{task.subtaskTotal}

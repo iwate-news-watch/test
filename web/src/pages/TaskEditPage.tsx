@@ -4,6 +4,7 @@ import { NavBar } from "../components/NavBar";
 import { taskApi } from "../api";
 import type { Priority, Task } from "../types";
 import { googleCalendarUrl } from "../util/googleCalendar";
+import { formatDueDate } from "../util/task";
 
 const REMINDER_OPTIONS: { label: string; minutes: number }[] = [
   { label: "期限ちょうど", minutes: 0 },
@@ -87,8 +88,10 @@ export function TaskEditPage() {
   const [dueDate, setDueDate] = useState<number | null>(null);
   const [timeOfDay, setTimeOfDay] = useState<TimeOfDay>("MORNING");
   const [reminderOffsetsMinutes, setReminderOffsetsMinutes] = useState<number[]>([]);
+  const [isRecurring, setIsRecurring] = useState(false);
   const [subtasks, setSubtasks] = useState<Task[]>([]);
   const [subtaskText, setSubtaskText] = useState("");
+  const [subtaskDueDate, setSubtaskDueDate] = useState<number | null>(null);
   const [loading, setLoading] = useState(!isNew);
   const [error, setError] = useState<string | null>(null);
 
@@ -108,6 +111,7 @@ export function TaskEditPage() {
         setDueDate(task.dueDate);
         if (task.dueDate != null) setTimeOfDay(closestTimeOfDay(task.dueDate));
         setReminderOffsetsMinutes(task.reminderOffsetsMinutes);
+        setIsRecurring(task.isRecurring);
         await loadSubtasks(id);
       } catch {
         setError("タスクを読み込めませんでした");
@@ -127,7 +131,8 @@ export function TaskEditPage() {
       priority,
       tag: tag.trim() || null,
       dueDate,
-      reminderOffsetsMinutes: dueDate == null ? [] : reminderOffsetsMinutes
+      reminderOffsetsMinutes: dueDate == null ? [] : reminderOffsetsMinutes,
+      isRecurring: dueDate == null ? false : isRecurring
     };
     if (isNew) {
       await taskApi.create(payload);
@@ -146,8 +151,9 @@ export function TaskEditPage() {
   const onAddSubtask = async (e: FormEvent) => {
     e.preventDefault();
     if (!id || !subtaskText.trim()) return;
-    await taskApi.create({ title: subtaskText.trim(), parentTaskId: id });
+    await taskApi.create({ title: subtaskText.trim(), parentTaskId: id, dueDate: subtaskDueDate });
     setSubtaskText("");
+    setSubtaskDueDate(null);
     await loadSubtasks(id);
   };
 
@@ -176,6 +182,16 @@ export function TaskEditPage() {
     if (dueDate != null) {
       setDueDate(combineDateAndTimeOfDay(dateOnlyStr(dueDate), t));
     }
+  };
+
+  const onToggleRecurring = () => {
+    setIsRecurring((current) => {
+      const next = !current;
+      if (next && dueDate == null) {
+        setDueDate(combineDateAndTimeOfDay(toDateOnlyStr(new Date()), timeOfDay));
+      }
+      return next;
+    });
   };
 
   const toggleReminderOffset = (minutes: number) => {
@@ -293,6 +309,22 @@ export function TaskEditPage() {
           </div>
         </div>
 
+        <div className="field-group">
+          <span className="field-group__label">繰り返し</span>
+          <div className="chip-row">
+            <button
+              type="button"
+              className={`chip ${isRecurring ? "chip--selected" : ""}`}
+              onClick={onToggleRecurring}
+            >
+              🔁 毎日繰り返す
+            </button>
+          </div>
+          {isRecurring && (
+            <p className="hint">完了すると、翌日の分が自動で新しいタスクとして作られます。</p>
+          )}
+        </div>
+
         {dueDate != null && (
           <>
             <div className="field-group">
@@ -341,6 +373,7 @@ export function TaskEditPage() {
                 onChange={(e) => onToggleSubtask(s.id, e.target.checked)}
               />
               <span className={s.isCompleted ? "subtask-row__title--done" : ""}>{s.title}</span>
+              {s.dueDate != null && <span className="subtask-row__due">期限: {formatDueDate(s.dueDate)}</span>}
               <button type="button" onClick={() => onDeleteSubtask(s.id)} aria-label="削除">
                 ×
               </button>
@@ -355,6 +388,27 @@ export function TaskEditPage() {
             />
             <button type="submit">追加</button>
           </form>
+          <div className="chip-row">
+            {DATE_PRESETS.slice(0, 2).map((preset) => (
+              <button
+                type="button"
+                key={preset.label}
+                className={`chip ${
+                  subtaskDueDate != null && dateOnlyStr(subtaskDueDate) === toDateOnlyStr(preset.resolve())
+                    ? "chip--selected"
+                    : ""
+                }`}
+                onClick={() => setSubtaskDueDate(combineDateAndTimeOfDay(toDateOnlyStr(preset.resolve()), "MORNING"))}
+              >
+                {preset.label}
+              </button>
+            ))}
+            {subtaskDueDate != null && (
+              <button type="button" className="text-button" onClick={() => setSubtaskDueDate(null)}>
+                クリア
+              </button>
+            )}
+          </div>
         </div>
       )}
 

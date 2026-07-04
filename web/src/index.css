@@ -555,6 +555,12 @@ a {
   font-size: 16px;
 }
 
+.subtask-row span.subtask-row__due {
+  flex: 0 0 auto;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
 .toast {
   position: fixed;
   bottom: 24px;

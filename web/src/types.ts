@@ -10,6 +10,7 @@ export interface Task {
   dueDate: number | null;
   reminderOffsetsMinutes: number[];
   snoozedUntil: number | null;
+  isRecurring: boolean;
   parentTaskId: string | null;
   createdAt: number;
   subtaskTotal: number;

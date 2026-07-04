@@ -153,7 +153,8 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
         priority: Priority,
         tag: String?,
         dueDate: Long?,
-        reminderOffsetsMinutes: List<Int>
+        reminderOffsetsMinutes: List<Int>,
+        isRecurring: Boolean
     ): Boolean {
         if (title.isBlank()) return false
         val result = runCatching {
@@ -163,7 +164,8 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
                 priority = priority,
                 tag = tag,
                 dueDate = dueDate,
-                reminderOffsetsMinutes = reminderOffsetsMinutes
+                reminderOffsetsMinutes = reminderOffsetsMinutes,
+                isRecurring = isRecurring
             )
             ReminderScheduler.schedule(getApplication<Application>(), created)
         }
@@ -180,7 +182,8 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
         priority: Priority,
         tag: String?,
         dueDate: Long?,
-        reminderOffsetsMinutes: List<Int>
+        reminderOffsetsMinutes: List<Int>,
+        isRecurring: Boolean
     ): Boolean {
         if (title.isBlank()) return false
         val result = runCatching {
@@ -191,7 +194,8 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
                 priority = priority,
                 tag = tag,
                 dueDate = dueDate,
-                reminderOffsetsMinutes = reminderOffsetsMinutes
+                reminderOffsetsMinutes = reminderOffsetsMinutes,
+                isRecurring = isRecurring
             )
             ReminderScheduler.schedule(getApplication<Application>(), updated)
         }
@@ -200,10 +204,10 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
         return result.isSuccess
     }
 
-    suspend fun addSubtask(parentId: String, title: String) {
+    suspend fun addSubtask(parentId: String, title: String, dueDate: Long? = null) {
         if (title.isBlank()) return
         try {
-            repository.createTask(title = title.trim(), parentTaskId = parentId)
+            repository.createTask(title = title.trim(), dueDate = dueDate, parentTaskId = parentId)
         } catch (e: Exception) {
             _errors.send(e.message ?: "追加に失敗しました")
         }

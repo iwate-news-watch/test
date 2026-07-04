@@ -27,6 +27,7 @@ model Task {
   dueDate                DateTime?
   reminderOffsetsMinutes String? // JSON-encoded number[], e.g. "[10,60,1440]"
   snoozedUntil           DateTime?
+  isRecurring            Boolean  @default(false)
   parentTaskId           String?
   parentTask             Task?    @relation("Subtasks", fields: [parentTaskId], references: [id], onDelete: Cascade)
   subtasks               Task[]   @relation("Subtasks")

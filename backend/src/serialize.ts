@@ -21,6 +21,7 @@ export function serializeTask(task: Task, subtaskTotal = 0, subtaskCompleted = 0
     dueDate: task.dueDate ? task.dueDate.getTime() : null,
     reminderOffsetsMinutes: parseReminderOffsets(task.reminderOffsetsMinutes),
     snoozedUntil: task.snoozedUntil ? task.snoozedUntil.getTime() : null,
+    isRecurring: task.isRecurring,
     parentTaskId: task.parentTaskId,
     createdAt: task.createdAt.getTime(),
     subtaskTotal,

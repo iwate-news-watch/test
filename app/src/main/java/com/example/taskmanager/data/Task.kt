@@ -12,6 +12,7 @@ data class Task(
     val dueDate: Long? = null,
     val reminderOffsetsMinutes: List<Int> = emptyList(),
     val snoozedUntil: Long? = null,
+    val isRecurring: Boolean = false,
     val parentTaskId: String? = null,
     val createdAt: Long = 0,
     val subtaskTotal: Int = 0,

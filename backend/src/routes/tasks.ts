@@ -16,6 +16,7 @@ const createTaskSchema = z.object({
   tag: z.string().trim().nullable().optional(),
   dueDate: z.number().nullable().optional(),
   reminderOffsetsMinutes: z.array(z.number()).nullable().optional(),
+  isRecurring: z.boolean().optional(),
   parentTaskId: z.string().nullable().optional()
 });
 
@@ -27,7 +28,8 @@ const updateTaskSchema = z.object({
   tag: z.string().trim().nullable().optional(),
   dueDate: z.number().nullable().optional(),
   reminderOffsetsMinutes: z.array(z.number()).nullable().optional(),
-  snoozedUntil: z.number().nullable().optional()
+  snoozedUntil: z.number().nullable().optional(),
+  isRecurring: z.boolean().optional()
 });
 
 function encodeReminderOffsets(offsets: number[] | null | undefined): string | null {
@@ -104,6 +106,7 @@ tasksRouter.post("/", async (req: AuthedRequest, res) => {
       tag: data.tag || null,
       dueDate: data.dueDate != null ? new Date(data.dueDate) : null,
       reminderOffsetsMinutes: encodeReminderOffsets(data.reminderOffsetsMinutes),
+      isRecurring: data.isRecurring ?? false,
       parentTaskId: data.parentTaskId ?? null
     }
   });
@@ -137,9 +140,28 @@ tasksRouter.patch("/:id", async (req: AuthedRequest, res) => {
       }),
       ...(data.snoozedUntil !== undefined && {
         snoozedUntil: data.snoozedUntil != null ? new Date(data.snoozedUntil) : null
-      })
+      }),
+      ...(data.isRecurring !== undefined && { isRecurring: data.isRecurring })
     }
   });
+
+  // Completing a recurring task spawns tomorrow's occurrence rather than
+  // resetting this one in place, so past completions stay in the history.
+  if (data.isCompleted === true && !existing.isCompleted && task.isRecurring && task.parentTaskId == null && task.dueDate != null) {
+    await prisma.task.create({
+      data: {
+        userId: req.userId!,
+        title: task.title,
+        description: task.description,
+        priority: task.priority,
+        tag: task.tag,
+        dueDate: new Date(task.dueDate.getTime() + 24 * 60 * 60 * 1000),
+        reminderOffsetsMinutes: task.reminderOffsetsMinutes,
+        isRecurring: true
+      }
+    });
+  }
+
   res.json(serializeTask(task));
 });
 

@@ -116,8 +116,10 @@ fun AddEditTaskScreen(
     var dueDate by remember { mutableStateOf<Long?>(null) }
     var timeOfDay by remember { mutableStateOf(TimeOfDay.MORNING) }
     var reminderOffsetsMinutes by remember { mutableStateOf<List<Int>>(emptyList()) }
+    var isRecurring by remember { mutableStateOf(false) }
     var showDatePicker by remember { mutableStateOf(false) }
     var subtaskText by remember { mutableStateOf("") }
+    var subtaskDueDate by remember { mutableStateOf<Long?>(null) }
     var subtasks by remember { mutableStateOf<List<Task>>(emptyList()) }
     var saveError by remember { mutableStateOf<String?>(null) }
     var saving by remember { mutableStateOf(false) }
@@ -132,6 +134,13 @@ fun AddEditTaskScreen(
     fun applyTimeOfDay(t: TimeOfDay) {
         timeOfDay = t
         dueDate?.let { dueDate = localDateToMillis(millisToLocalDate(it), t.hour) }
+    }
+
+    fun toggleRecurring() {
+        isRecurring = !isRecurring
+        if (isRecurring && dueDate == null) {
+            applyDate(LocalDate.now())
+        }
     }
 
     suspend fun refreshSubtasks() {
@@ -150,6 +159,7 @@ fun AddEditTaskScreen(
                 dueDate = task.dueDate
                 task.dueDate?.let { timeOfDay = closestTimeOfDay(it) }
                 reminderOffsetsMinutes = task.reminderOffsetsMinutes
+                isRecurring = task.isRecurring
             }
             refreshSubtasks()
         }
@@ -267,6 +277,7 @@ fun AddEditTaskScreen(
                     TextButton(onClick = {
                         dueDate = null
                         reminderOffsetsMinutes = emptyList()
+                        isRecurring = false
                     }) {
                         Text("クリア")
                     }
@@ -286,6 +297,27 @@ fun AddEditTaskScreen(
                         label = { Text(t.label) }
                     )
                 }
+            }
+
+            Text(
+                text = "繰り返し",
+                style = MaterialTheme.typography.labelLarge,
+                modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+            )
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FilterChip(
+                    selected = isRecurring,
+                    onClick = { toggleRecurring() },
+                    label = { Text("🔁 毎日繰り返す") }
+                )
+            }
+            if (isRecurring) {
+                Text(
+                    text = "完了すると、翌日の分が自動で新しいタスクとして作られます。",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(top = 4.dp)
+                )
             }
 
             if (dueDate != null) {
@@ -354,6 +386,14 @@ fun AddEditTaskScreen(
                             modifier = Modifier.weight(1f),
                             textDecoration = if (subtask.isCompleted) TextDecoration.LineThrough else TextDecoration.None
                         )
+                        subtask.dueDate?.let {
+                            Text(
+                                text = "期限: ${dateOnlyFormatter.format(it)}",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.padding(end = 4.dp)
+                            )
+                        }
                         IconButton(onClick = {
                             scope.launch {
                                 viewModel.deleteSubtask(subtask)
@@ -375,12 +415,28 @@ fun AddEditTaskScreen(
                     )
                     TextButton(onClick = {
                         scope.launch {
-                            viewModel.addSubtask(taskId, subtaskText)
+                            viewModel.addSubtask(taskId, subtaskText, subtaskDueDate)
                             subtaskText = ""
+                            subtaskDueDate = null
                             refreshSubtasks()
                         }
                     }) {
                         Text("追加")
+                    }
+                }
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    datePresets.take(2).forEach { preset ->
+                        val presetDate = preset.resolve()
+                        FilterChip(
+                            selected = subtaskDueDate?.let { millisToLocalDate(it) == presetDate } ?: false,
+                            onClick = { subtaskDueDate = localDateToMillis(presetDate, TimeOfDay.MORNING.hour) },
+                            label = { Text(preset.label) }
+                        )
+                    }
+                    if (subtaskDueDate != null) {
+                        TextButton(onClick = { subtaskDueDate = null }) {
+                            Text("クリア")
+                        }
                     }
                 }
             }
@@ -400,10 +456,10 @@ fun AddEditTaskScreen(
                         saveError = null
                         val trimmedTag = tag.trim().ifBlank { null }
                         val success = if (taskId == null) {
-                            viewModel.addTask(title, description, priority, trimmedTag, dueDate, reminderOffsetsMinutes)
+                            viewModel.addTask(title, description, priority, trimmedTag, dueDate, reminderOffsetsMinutes, isRecurring)
                         } else {
                             loadedTask?.let {
-                                viewModel.updateTask(it, title, description, priority, trimmedTag, dueDate, reminderOffsetsMinutes)
+                                viewModel.updateTask(it, title, description, priority, trimmedTag, dueDate, reminderOffsetsMinutes, isRecurring)
                             } ?: false
                         }
                         saving = false
