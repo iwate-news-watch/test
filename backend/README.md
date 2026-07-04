@@ -1,12 +1,12 @@
 # Task Manager (Backend)
 
-Android アプリと Web アプリが共有するタスクデータの REST API サーバーです。Node.js + Express + Prisma (SQLite) + JWT 認証で構成されています。
+Android アプリと Web アプリが共有するタスクデータの REST API サーバーです。Node.js + Express + Prisma (PostgreSQL) + JWT 認証で構成されています。
 
 ## セットアップ
 
 ```bash
 npm install
-cp .env.example .env      # JWT_SECRET を必ず長いランダム文字列に変更してください
+cp .env.example .env      # DATABASE_URL をPostgreSQLの接続文字列に、JWT_SECRETを長いランダム文字列に変更してください
 npx prisma migrate deploy # スキーマを適用 (初回は `npx prisma migrate dev` でも可)
 npm run dev                # http://localhost:3000 で起動
 ```
@@ -15,7 +15,7 @@ npm run dev                # http://localhost:3000 で起動
 
 | 変数 | 説明 |
 | --- | --- |
-| `DATABASE_URL` | SQLite ファイルのパス。既定値は `file:./dev.db` |
+| `DATABASE_URL` | PostgreSQLの接続文字列(例: `postgresql://user:password@host:5432/dbname`)。Neon・Supabase・Render Postgresなどのマネージドサービスを想定 |
 | `JWT_SECRET` | JWT 署名用のシークレット。本番では必ず推測不可能な長い値に変更する |
 | `PORT` | リッスンするポート。既定値は `3000` |
 
@@ -41,9 +41,17 @@ npm start
 
 ## デプロイについて
 
-**Vercel には向いていません。** Vercel の実行環境はリクエストのたびに使い捨てられ、ファイルシステムが永続化されないため、SQLiteのデータファイルが保存されません。このサーバーは「常時起動できて、ディスクが永続化される」場所にデプロイしてください。
+**Vercel には向いていません。** Vercel の実行環境はリクエストのたびに使い捨てられるため、常時起動できるサーバー(Renderなど)にデプロイしてください。データベース自体はマネージドPostgres(Neon・Supabase・Render Postgresなど)を使うため、Web側のホスティングとDBのホスティングは別サービスでも構いません。
 
-### Render での手順(お試し向け、シンプル)
+### 1. マネージドPostgresを用意する(例: Neon)
+
+1. https://neon.tech でアカウント作成(無料枠あり、GitHubログイン可)
+2. New Project → リージョンなど既定値のままで作成
+3. 発行される接続文字列(`postgresql://user:password@xxxxx.neon.tech/dbname?sslmode=require` のような形式)をコピー。これが `DATABASE_URL` になります
+
+Supabase や Render Postgres など、他のマネージドPostgresでも同様に接続文字列を発行できます。
+
+### 2. Render での手順(バックエンドのWebサービス)
 
 1. https://render.com でGitHubアカウントでログイン
 2. Dashboard → New → **Web Service**
@@ -54,16 +62,8 @@ npm start
    - **Build Command**: `npm install && npm run build && npx prisma migrate deploy`
    - **Start Command**: `npm start`
 5. Environment Variables に追加:
-   - `DATABASE_URL` = `file:./dev.db`
+   - `DATABASE_URL` = (手順1で取得したPostgresの接続文字列)
    - `JWT_SECRET` = (長いランダム文字列。ローカルで `python3 -c "import secrets; print(secrets.token_hex(32))"` などで生成)
 6. Create Web Service → デプロイ完了後に発行される `https://xxxxx.onrender.com` が backend の URL です。Web版の `VITE_API_URL` にはこれに `/api` を付けたものを設定します。
 
-**注意**: Renderの無料プランはディスクが永続化されないため、サービスの再起動やスリープ復帰のたびにSQLiteのデータが消えます。お試し確認にはこれで十分ですが、実際にデータを残したい場合は有料プランで [Render Disks](https://render.com/docs/disks) を追加し、`DATABASE_URL` をそのマウントパス配下 (`file:/var/data/dev.db` など) に変更してください。
-
-### Fly.io での手順(データを永続化したい場合)
-
-Fly.io は無料枠内でも永続ボリューム(`fly volumes`)を使えるため、SQLiteを実運用する場合に向いています。`flyctl` CLI での `fly launch` → `fly volumes create` → `fly deploy` という流れになりますが、Dockerfile相当の設定が必要なため、詳細は [Fly.ioのNode.jsガイド](https://fly.io/docs/languages-and-frameworks/node/) を参照してください。
-
-### 本格運用する場合
-
-より本格的な運用では `DATABASE_URL` を PostgreSQL 等に差し替えることもできます(Render・Railway・Neon などはマネージドPostgresを提供しています)。その場合は `prisma/schema.prisma` の `datasource` の `provider` も `postgresql` に変更し、`npx prisma migrate dev` でマイグレーションを作り直してください。
+マネージドPostgresを使うことで、Renderのサービスを再デプロイ・再起動してもデータは消えません(以前のSQLiteファイル方式では、Renderの無料プランはディスクが永続化されないため再デプロイのたびに全データが消えていました。JWTトークン自体は署名だけで検証されるため、ログイン画面には気づかれずタスクだけが空になる、という不具合の原因になっていました)。

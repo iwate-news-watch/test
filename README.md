@@ -5,7 +5,7 @@
 ```
 .
 ├── app/       # Android アプリ (Kotlin + Jetpack Compose)
-├── backend/   # 共有 API サーバー (Node.js + Express + Prisma/SQLite + JWT認証)
+├── backend/   # 共有 API サーバー (Node.js + Express + Prisma/PostgreSQL + JWT認証)
 └── web/       # Web アプリ (React + Vite + TypeScript)
 ```
 
@@ -30,7 +30,7 @@ Android・Web共通のUX方針です。
 # 1. バックエンドを起動
 cd backend
 npm install
-cp .env.example .env   # JWT_SECRET を変更しておくこと
+cp .env.example .env   # DATABASE_URL にPostgreSQLの接続文字列、JWT_SECRETを変更しておくこと
 npx prisma migrate deploy
 npm run dev            # http://localhost:3000
 
