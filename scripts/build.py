@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import html
 import json
+import os
 import re
 import sys
 import time
@@ -43,7 +44,8 @@ RETRY_WAIT = 3
 SITE_INTERVAL = 1
 SEEN_RETENTION_DAYS = 90
 ARCHIVE_DAYS = 30
-UPDATE_LABEL = "16:00"
+# 定時実行の cron 式 → 見出しの時刻（daily.yml の schedule と合わせる）
+SCHEDULE_LABELS = {"0 2 * * *": "11:00", "0 7 * * *": "16:00"}
 
 
 # ---------------------------------------------------------------------------
@@ -235,6 +237,11 @@ def prune_seen(seen: dict, today: date) -> None:
 # 実行
 # ---------------------------------------------------------------------------
 
+def run_label(now: datetime) -> str:
+    """定時実行なら「11:00」「16:00」、手動実行なら実際の時刻を返す。"""
+    return SCHEDULE_LABELS.get(os.environ.get("RUN_SCHEDULE", "").strip(), now.strftime("%H:%M"))
+
+
 def run(now: datetime) -> dict:
     config = yaml.safe_load(SOURCES_FILE.read_text(encoding="utf-8"))
     seen = load_seen()
@@ -290,25 +297,40 @@ def run(now: datetime) -> dict:
 
     prune_seen(seen, now.date())
     save_json(SEEN_FILE, seen)
-    return {"date": today, "updated_at": now.strftime("%H:%M"), "first_run": first_run,
-            "municipalities": results}
+    return {"label": run_label(now), "updated_at": now.strftime("%H:%M"),
+            "first_run": first_run, "municipalities": results}
 
 
-def merge_daily(old: dict | None, new: dict) -> dict:
-    """同じ日に再実行した場合、先に見つけた新着を残したまま結果を更新する。"""
-    if not old:
-        return new
-    old_by_name = {m["name"]: m for m in old.get("municipalities", [])}
-    for muni in new["municipalities"]:
-        prev = old_by_name.get(muni["name"])
-        if not prev:
-            continue
-        urls = {i["url"] for i in muni["new"]}
-        muni["new"] = muni["new"] + [i for i in prev.get("new", []) if i["url"] not in urls]
-        muni["new"].sort(key=lambda i: i["date"], reverse=True)
-        muni["record_only"] = muni["record_only"] or prev.get("record_only", False)
-    new["first_run"] = new["first_run"] or old.get("first_run", False)
-    return new
+def load_daily(path: Path, day: str) -> dict:
+    data = load_json(path, None) or {"date": day, "runs": []}
+    if "runs" not in data:  # 1日1回だった頃の形式
+        legacy = {k: data[k] for k in ("updated_at", "first_run", "municipalities") if k in data}
+        legacy["label"] = legacy.get("updated_at", "")
+        data = {"date": data["date"], "runs": [legacy]}
+    return data
+
+
+def add_run(daily: dict, new: dict) -> dict:
+    """その日の実行結果に今回の回を加える。
+
+    同じ見出しの回（定時実行の再実行など）がすでにあれば、先に見つけた新着を残したまま更新する。
+    """
+    old = next((r for r in daily["runs"] if r.get("label") == new["label"]), None)
+    if old is not None:
+        old_by_name = {m["name"]: m for m in old.get("municipalities", [])}
+        for muni in new["municipalities"]:
+            prev = old_by_name.get(muni["name"])
+            if not prev:
+                continue
+            urls = {i["url"] for i in muni["new"]}
+            muni["new"] = muni["new"] + [i for i in prev.get("new", []) if i["url"] not in urls]
+            muni["new"].sort(key=lambda i: i["date"], reverse=True)
+            muni["record_only"] = muni["record_only"] or prev.get("record_only", False)
+        new["first_run"] = new["first_run"] or old.get("first_run", False)
+        daily["runs"].remove(old)
+    daily["runs"].append(new)
+    daily["runs"].sort(key=lambda r: r.get("updated_at", ""), reverse=True)
+    return daily
 
 
 # ---------------------------------------------------------------------------
@@ -328,13 +350,19 @@ font:16px/1.65 -apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",s
 main{max-width:760px;margin:0 auto;padding:20px 16px 48px}
 h1{font-size:1.35rem;line-height:1.4;margin:0 0 4px}
 .sub{color:var(--muted);font-size:.85rem;margin:0 0 20px}
-h2{font-size:1.05rem;margin:0 0 8px;display:flex;align-items:center;gap:8px}
+h1{font-size:1.25rem}
+.runs{display:flex;flex-wrap:wrap;gap:6px;list-style:none;padding:0;margin:0 0 8px}
+.runs a{display:inline-block;padding:4px 12px;border-radius:999px;background:var(--chip);font-size:.85rem}
+section.run{margin:28px 0 0;padding-top:20px;border-top:2px solid var(--line)}
+section.run:first-of-type{border-top:0;padding-top:0}
+h2.runhead{font-size:1.15rem;line-height:1.4;margin:0 0 4px}
+.card h3{font-size:1.05rem;margin:0 0 8px;display:flex;align-items:center;gap:8px;color:inherit}
 .count{font-size:.75rem;font-weight:600;background:var(--chip);color:var(--accent);
 padding:1px 8px;border-radius:999px}
 section.card{background:var(--card);border:1px solid var(--line);border-radius:12px;
 padding:14px 16px;margin:0 0 12px}
 section.err{background:var(--err-bg);border-color:var(--err-line)}
-section.err h2,.err .msg{color:var(--err-fg)}
+section.err h3,.err .msg{color:var(--err-fg)}
 ul.items{list-style:none;margin:0;padding:0}
 ul.items li{padding:8px 0;border-top:1px solid var(--line)}
 ul.items li:first-child{border-top:0;padding-top:0}
@@ -344,7 +372,8 @@ a:hover{text-decoration:underline}
 .msg{margin:0;font-size:.9rem;color:var(--muted)}
 .errlist{margin:6px 0 0;padding-left:18px;font-size:.78rem;word-break:break-all}
 .notice{background:var(--chip);border-radius:12px;padding:12px 16px;margin:0 0 16px}
-h3{font-size:.95rem;margin:28px 0 8px;color:var(--muted)}
+h4{font-size:.95rem;margin:20px 0 6px;color:var(--muted)}
+h3.foot{font-size:.95rem;margin:36px 0 8px;color:var(--muted)}
 .names{margin:0;font-size:.9rem;color:var(--muted)}
 .archive{display:flex;flex-wrap:wrap;gap:6px;list-style:none;padding:0;margin:0}
 .archive a{display:inline-block;padding:4px 10px;border:1px solid var(--line);
@@ -371,27 +400,25 @@ def render_items(items: list[dict]) -> str:
     return '<ul class="items">' + "".join(rows) + "</ul>"
 
 
-def render_page(day: dict, archive_dates: list[str], prefix: str, is_index: bool) -> str:
-    munis = day["municipalities"]
+def render_run(day: str, run: dict) -> str:
+    munis = run["municipalities"]
     errors = [m for m in munis if m["status"] == "error"]
-    with_new = [m for m in munis if m["new"]]
+    with_new = [m for m in munis if m["new"] and m["status"] != "error"]
     record_only = [m for m in munis if m["record_only"] and not m["new"] and m["status"] != "error"]
     no_update = [m for m in munis if m["status"] == "ok" and not m["new"] and not m["record_only"]]
     unconfigured = [m for m in munis if m["status"] == "unconfigured"]
     total = sum(len(m["new"]) for m in munis)
 
-    body = []
-    title = f"{jp_date(day['date'])} {UPDATE_LABEL} 更新分"
-    body.append(f"<h1>{esc(title)}</h1>")
-    body.append(f'<p class="sub">岩手県内市町村の新着行政情報 ・ 新着 {total} 件 ・ '
-                f'取得 {esc(day["updated_at"])}（日本時間）</p>')
+    body = [f'<section class="run" id="{run_anchor(run)}">']
+    body.append(f'<h2 class="runhead">{esc(jp_date(day))} {esc(run["label"])} 更新分</h2>')
+    body.append(f'<p class="sub">新着 {total} 件 ・ 取得 {esc(run.get("updated_at", ""))}（日本時間）</p>')
 
-    if day.get("first_run"):
+    if run.get("first_run"):
         body.append('<p class="notice">初回のため記録のみ行いました。次回の更新から新着を表示します。</p>')
 
     # 取得エラーは目立つように先頭へ
     for m in errors:
-        parts = [f'<section class="card err"><h2>⚠ {esc(m["name"])} — 取得エラー</h2>']
+        parts = [f'<section class="card err"><h3>⚠ {esc(m["name"])} — 取得エラー</h3>']
         parts.append('<p class="msg">一部または全部の取得元から取得できませんでした。</p>')
         parts.append('<ul class="errlist">' + "".join(f"<li>{esc(e)}</li>" for e in m["errors"]) + "</ul>")
         if m["new"]:
@@ -400,23 +427,35 @@ def render_page(day: dict, archive_dates: list[str], prefix: str, is_index: bool
         body.append("".join(parts))
 
     for m in with_new:
-        if m["status"] == "error":
-            continue
-        body.append(f'<section class="card"><h2>{esc(m["name"])}'
-                    f'<span class="count">{len(m["new"])}件</span></h2>'
+        body.append(f'<section class="card"><h3>{esc(m["name"])}'
+                    f'<span class="count">{len(m["new"])}件</span></h3>'
                     f'{render_items(m["new"])}</section>')
 
-    if record_only:
-        body.append("<h3>初回のため記録のみ</h3>")
-        body.append(f'<p class="names">{esc("、".join(m["name"] for m in record_only))}</p>')
-    if no_update:
-        body.append("<h3>更新なし</h3>")
-        body.append(f'<p class="names">{esc("、".join(m["name"] for m in no_update))}</p>')
-    if unconfigured:
-        body.append("<h3>取得元未設定</h3>")
-        body.append(f'<p class="names">{esc("、".join(m["name"] for m in unconfigured))}</p>')
+    for label, group in (("初回のため記録のみ", record_only), ("更新なし", no_update),
+                         ("取得元未設定", unconfigured)):
+        if group:
+            body.append(f"<h4>{label}</h4>")
+            body.append(f'<p class="names">{esc("、".join(m["name"] for m in group))}</p>')
+    body.append("</section>")
+    return "\n".join(body)
 
-    body.append("<h3>過去30日のアーカイブ</h3>")
+
+def run_anchor(run: dict) -> str:
+    return "run-" + re.sub(r"\D", "", run.get("label", ""))
+
+
+def render_page(day: dict, archive_dates: list[str], prefix: str, is_index: bool) -> str:
+    runs = day["runs"]
+    total = sum(len(m["new"]) for r in runs for m in r["municipalities"])
+
+    body = ["<h1>岩手県 市町村新着情報</h1>"]
+    body.append(f'<p class="sub">{esc(jp_date(day["date"]))}の新着 {total} 件（{len(runs)} 回分・新しい順）</p>')
+    if len(runs) > 1:
+        chips = "".join(f'<li><a href="#{run_anchor(r)}">{esc(r["label"])} 更新分</a></li>' for r in runs)
+        body.append(f'<ul class="runs">{chips}</ul>')
+    body.extend(render_run(day["date"], r) for r in runs)
+
+    body.append('<h3 class="foot">過去30日のアーカイブ</h3>')
     if not is_index:
         body.append(f'<p><a href="{prefix}index.html">← 最新の更新分へ</a></p>')
     links = "".join(
@@ -425,6 +464,7 @@ def render_page(day: dict, archive_dates: list[str], prefix: str, is_index: bool
     body.append(f'<ul class="archive">{links}</ul>')
     body.append("<footer>各記事の内容は各自治体の公式サイトでご確認ください。</footer>")
 
+    title = f"{jp_date(day['date'])}の新着"
     return (
         "<!doctype html>\n<html lang=\"ja\"><head><meta charset=\"utf-8\">"
         "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
@@ -450,10 +490,10 @@ def write_pages(today: date) -> None:
 
     days = sorted((p.stem for p in DAILY_DIR.glob("*.json")), reverse=True)
     for d in days:
-        data = load_json(DAILY_DIR / f"{d}.json", None)
+        data = load_daily(DAILY_DIR / f"{d}.json", d)
         (ARCHIVE_DIR / f"{d}.html").write_text(
             render_page(data, days, "../", is_index=False), encoding="utf-8")
-    latest = load_json(DAILY_DIR / f"{days[0]}.json", None)
+    latest = load_daily(DAILY_DIR / f"{days[0]}.json", days[0])
     (DOCS_DIR / "index.html").write_text(render_page(latest, days, "", is_index=True), encoding="utf-8")
     (DOCS_DIR / ".nojekyll").touch()
 
@@ -461,11 +501,12 @@ def write_pages(today: date) -> None:
 def main() -> None:
     now = datetime.now(JST)
     result = run(now)
-    daily_path = DAILY_DIR / f"{result['date']}.json"
-    save_json(daily_path, merge_daily(load_json(daily_path, None), result))
+    today = now.date().isoformat()
+    daily_path = DAILY_DIR / f"{today}.json"
+    save_json(daily_path, add_run(load_daily(daily_path, today), result))
     write_pages(now.date())
     total = sum(len(m["new"]) for m in result["municipalities"])
-    print(f"完了: 新着 {total} 件", file=sys.stderr)
+    print(f"完了: {result['label']} 更新分 新着 {total} 件", file=sys.stderr)
 
 
 if __name__ == "__main__":

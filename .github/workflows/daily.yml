@@ -1,7 +1,8 @@
-name: Daily Iwate municipal news
+name: Iwate municipal news
 
 on:
   schedule:
+    - cron: '0 2 * * *'  # UTC 2:00 = 日本時間 11:00
     - cron: '0 7 * * *'  # UTC 7:00 = 日本時間 16:00
   workflow_dispatch:
 
@@ -30,6 +31,8 @@ jobs:
       - name: Build pages
         env:
           TZ: Asia/Tokyo
+          # 定時実行ならどの cron で起動したか（見出しの「11:00」「16:00」に使う）。手動実行では空
+          RUN_SCHEDULE: ${{ github.event.schedule }}
         run: python scripts/build.py
 
       - name: Commit and push
@@ -41,5 +44,5 @@ jobs:
             echo "変更なし"
             exit 0
           fi
-          git commit -m "Update news: $(TZ=Asia/Tokyo date +%Y-%m-%d)"
+          git commit -m "Update news: $(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M')"
           git push
