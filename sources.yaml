@@ -94,43 +94,69 @@ municipalities:
   - name: 紫波町
     sources:
       - type: scrape
-        url: https://www.town.shiwa.iwate.jp/  # TODO: 新着一覧ページのURLを確認
+        url: https://www.town.shiwa.iwate.jp/news/
         date_format: dotted
   - name: 矢巾町
     sources:
       - type: scrape
-        url: https://www.town.yahaba.iwate.jp/  # TODO: 新着一覧ページのURLを確認
+        url: https://www.town.yahaba.iwate.jp/news/
         date_format: dotted
   - name: 西和賀町
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.town.nishiwaga.lg.jp/cgi-bin/feed.php?siteNew=1
   - name: 金ケ崎町
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.town.kanegasaki.iwate.jp/articles/index.rss
   - name: 平泉町
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.town.hiraizumi.iwate.jp/feed/
   - name: 住田町
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.town.sumita.iwate.jp/shinchaku/index.rss
   - name: 大槌町
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.town.otsuchi.iwate.jp/news/rss.xml
   - name: 山田町
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.town.yamada.iwate.jp/oshirase/rss.xml
   - name: 岩泉町
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.town.iwaizumi.lg.jp/docs/index.rss
   - name: 軽米町
     sources:
       - type: scrape
-        url: https://www.town.karumai.iwate.jp/  # TODO: 新着一覧ページのURLを確認
+        url: https://www.town.karumai.iwate.jp/article/whatsnew/
         date_format: reiwa
   - name: 洋野町
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.town.hirono.iwate.jp/category/kubun/news/index.rss
   - name: 一戸町
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.town.ichinohe.iwate.jp/cgi-bin/feed.php?siteNew=1
 
   # ---- 村 ----
   - name: 田野畑村
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.vill.tanohata.iwate.jp/docs/index.rss
   - name: 普代村
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.vill.fudai.iwate.jp/oshirase/rss.xml
   - name: 九戸村
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.vill.kunohe.iwate.jp/oshirase/rss.xml
   - name: 野田村
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.vill.noda.iwate.jp/cgi-bin/feed.php?siteNew=1
