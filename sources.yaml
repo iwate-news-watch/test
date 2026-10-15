@@ -1,0 +1,96 @@
+# 岩手県内33市町村の取得元一覧
+#
+# 各自治体の sources に取得元を並べます（複数可。記事URLで重複を除きます）。
+#   type: rss     … RSS / Atom フィード
+#   type: scrape  … RSSのないサイト。ページ内の日付の直後にある最初のリンクを記事とみなす
+#     date_format: dotted  … 「2026.10.15」形式
+#     date_format: reiwa   … 「令和8年 10月15日」形式
+#     selector: (任意) 記事一覧部分のCSSセレクタ。指定するとその範囲だけを走査
+#
+# sources が空の自治体はページに「取得元未設定」と表示されます。
+
+municipalities:
+  # ---- 市 ----
+  - name: 盛岡市
+    sources:
+      - type: rss
+        url: https://www.city.morioka.iwate.jp/news.rss
+  - name: 宮古市
+    sources:
+      - type: rss
+        url: https://www.city.miyako.iwate.jp/cgi-bin/feed.php?siteNew=1
+  - name: 大船渡市
+    sources: []  # TODO: フィードURLを記入
+  - name: 花巻市
+    sources: []
+  - name: 北上市
+    sources: []
+  - name: 久慈市
+    sources: []
+  - name: 遠野市
+    sources: []
+  - name: 一関市
+    sources: []
+  - name: 陸前高田市
+    sources: []
+  - name: 釜石市
+    sources: []
+  - name: 二戸市
+    sources: []
+  - name: 八幡平市
+    sources: []
+  - name: 奥州市
+    sources: []
+  - name: 滝沢市
+    sources: []
+
+  # ---- 町 ----
+  - name: 雫石町
+    sources: []
+  - name: 葛巻町
+    sources: []
+  - name: 岩手町
+    sources: []
+  - name: 紫波町
+    sources:
+      - type: scrape
+        url: https://www.town.shiwa.iwate.jp/  # TODO: 新着一覧ページのURLを確認
+        date_format: dotted
+  - name: 矢巾町
+    sources:
+      - type: scrape
+        url: https://www.town.yahaba.iwate.jp/  # TODO: 新着一覧ページのURLを確認
+        date_format: dotted
+  - name: 西和賀町
+    sources: []
+  - name: 金ケ崎町
+    sources: []
+  - name: 平泉町
+    sources: []
+  - name: 住田町
+    sources: []
+  - name: 大槌町
+    sources: []
+  - name: 山田町
+    sources: []
+  - name: 岩泉町
+    sources: []
+  - name: 軽米町
+    sources:
+      - type: scrape
+        url: https://www.town.karumai.iwate.jp/  # TODO: 新着一覧ページのURLを確認
+        date_format: reiwa
+  - name: 洋野町
+    sources: []
+  - name: 一戸町
+    sources: []
+
+  # ---- 村 ----
+  - name: 田野畑村
+    sources: []
+  - name: 普代村
+    sources: []
+  - name: 九戸村
+    sources: []
+  - name: 野田村
+    sources: []
