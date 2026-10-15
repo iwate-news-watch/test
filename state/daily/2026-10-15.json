@@ -1,0 +1,238 @@
+{
+ "date": "2026-10-15",
+ "first_run": true,
+ "municipalities": [
+  {
+   "errors": [],
+   "name": "盛岡市",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "宮古市",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "大船渡市",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "花巻市",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "北上市",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "久慈市",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "遠野市",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "一関市",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "陸前高田市",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "釜石市",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "二戸市",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "八幡平市",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "奥州市",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "滝沢市",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "雫石町",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "葛巻町",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "岩手町",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "紫波町",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "矢巾町",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "西和賀町",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "金ケ崎町",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "平泉町",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "住田町",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "大槌町",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "山田町",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "岩泉町",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "軽米町",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "洋野町",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "一戸町",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "田野畑村",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "普代村",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "九戸村",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "野田村",
+   "new": [],
+   "record_only": true,
+   "status": "ok"
+  }
+ ],
+ "updated_at": "12:22"
+}
