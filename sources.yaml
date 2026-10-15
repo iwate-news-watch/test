@@ -20,37 +20,77 @@ municipalities:
       - type: rss
         url: https://www.city.miyako.iwate.jp/cgi-bin/feed.php?siteNew=1
   - name: 大船渡市
-    sources: []  # TODO: フィードURLを記入
+    sources:
+      - type: rss
+        url: https://www.city.ofunato.iwate.jp/feed/latest.xml
   - name: 花巻市
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.city.hanamaki.iwate.jp/news.rss
   - name: 北上市
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.city.kitakami.iwate.jp/cgi-bin/feed.php?siteNew=1
   - name: 久慈市
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.city.kuji.lg.jp/cgi-bin/feed.php?siteNew=1
   - name: 遠野市
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.city.tono.iwate.jp/rss.xml
   - name: 一関市
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.city.ichinoseki.iwate.jp/feed/news.xml
   - name: 陸前高田市
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.city.rikuzentakata.iwate.jp/cgi-bin/feed.php?siteNew=1
   - name: 釜石市
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.city.kamaishi.iwate.jp/category/kubun/news/index.rss
+      - type: rss
+        url: https://www.city.kamaishi.iwate.jp/category/kubun/event/index.atom
+      - type: rss
+        url: https://www.city.kamaishi.iwate.jp/category/kubun/recruitment/index.atom
+      - type: rss
+        url: https://www.city.kamaishi.iwate.jp/category/bunya/nyusatsu/index.rss
   - name: 二戸市
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.city.ninohe.lg.jp/RSSFeed/whatsnew
   - name: 八幡平市
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.city.hachimantai.lg.jp/rss/10/list1.xml
+      - type: rss
+        url: https://www.city.hachimantai.lg.jp/rss/10/list5.xml
+      - type: rss
+        url: https://www.city.hachimantai.lg.jp/rss/10/list7.xml
   - name: 奥州市
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.city.oshu.iwate.jp/cgi-bin/feed.php?siteNew=1
   - name: 滝沢市
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.city.takizawa.iwate.jp/feed/latest.xml
 
   # ---- 町 ----
   - name: 雫石町
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.town.shizukuishi.iwate.jp/docs/index.rss
   - name: 葛巻町
-    sources: []
+    sources:
+      - type: rss
+        url: https://www.town.kuzumaki.lg.jp/docs/index.rss
   - name: 岩手町
-    sources: []
+    sources:
+      - type: rss
+        url: https://town.iwate.iwate.jp/feed/
   - name: 紫波町
     sources:
       - type: scrape
