@@ -319,12 +319,13 @@ def add_fetch(daily: dict, fetch_result: dict) -> dict:
     """今回の取得で増えた記事を、その日の一覧に自治体ごとに追加する。
 
     新しく取得したものほど上に並ぶ。取得エラー・初回記録のみの表示は今回の取得結果に合わせる。
+    各記事には見つけた取得の時刻（fetched_at）を付け、最新の取得分を区別できるようにする。
     """
     prev_by_name = {m["name"]: m for m in daily["municipalities"]}
     merged = []
     for muni in fetch_result["municipalities"]:
         prev = prev_by_name.pop(muni["name"], None)
-        items = list(muni["new"])
+        items = [{**i, "fetched_at": fetch_result["fetched_at"]} for i in muni["new"]]
         if prev:
             urls = {i["url"] for i in items}
             items += [i for i in prev["new"] if i["url"] not in urls]
@@ -374,6 +375,12 @@ a{color:var(--accent);text-decoration:none;word-break:break-word}
 a:hover{text-decoration:underline}
 .msg{margin:0;font-size:.9rem;color:var(--muted)}
 .errlist{margin:6px 0 0;padding-left:18px;font-size:.78rem;word-break:break-all}
+.latest{border:2px solid var(--accent);border-radius:14px;padding:12px 12px 2px;margin:0 0 24px}
+.latest .card{margin-bottom:10px}
+.latest .msg{margin:0 4px 12px}
+h2{font-size:1.05rem;margin:0 0 10px}
+h2 .meta{margin-left:8px;font-size:.8rem;font-weight:400;color:var(--muted)}
+.latest h2{margin:0 4px 10px}
 .notice{background:var(--chip);border-radius:12px;padding:12px 16px;margin:0 0 16px}
 h4{font-size:.95rem;margin:20px 0 6px;color:var(--muted)}
 h3.foot{font-size:.95rem;margin:36px 0 8px;color:var(--muted)}
@@ -413,7 +420,33 @@ def render_items(items: list[dict]) -> str:
     return '<ul class="items">' + "".join(rows) + "</ul>"
 
 
-def render_day(day: dict) -> str:
+def is_latest(item: dict, day: dict) -> bool:
+    return bool(day.get("last_fetched")) and item.get("fetched_at") == day["last_fetched"]
+
+
+def render_muni_cards(munis: list[dict]) -> list[str]:
+    return [f'<section class="card"><h3>{esc(m["name"])}'
+            f'<span class="count">{len(m["new"])}件</span></h3>'
+            f'{render_items(m["new"])}</section>' for m in munis if m["new"]]
+
+
+def render_latest(day: dict) -> str:
+    """直近1回の取得で新しく見つかった記事を自治体ごとにまとめた枠。"""
+    munis = [{**m, "new": [i for i in m["new"] if is_latest(i, day)]} for m in day["municipalities"]]
+    count = sum(len(m["new"]) for m in munis)
+    parts = ['<div class="latest">',
+             f'<h2>最新の取得で増えた記事<span class="meta">{esc(day.get("last_fetched", ""))} 取得 ・ '
+             f'{count}件</span></h2>']
+    if count:
+        parts += render_muni_cards(munis)
+    else:
+        parts.append('<p class="msg">前回から新しい記事はありません</p>')
+    parts.append("</div>")
+    return "\n".join(parts)
+
+
+def render_day(day: dict, split_latest: bool = False) -> str:
+    """その日の一覧。split_latest なら最新の取得分を先頭の枠に分け、残りを下に並べる。"""
     munis = day["municipalities"]
     errors = [m for m in munis if m["status"] == "error"]
     with_new = [m for m in munis if m["new"] and m["status"] != "error"]
@@ -424,21 +457,26 @@ def render_day(day: dict) -> str:
     body = []
     if day.get("first_run") and not any(m["new"] for m in munis):
         body.append('<p class="notice">初回の取得は記録のみ行いました。次回の取得から増えた記事を表示します。</p>')
+    elif split_latest:
+        body.append(render_latest(day))
+
+    def rest(m: dict) -> list[dict]:
+        return [i for i in m["new"] if not is_latest(i, day)] if split_latest else m["new"]
 
     # 取得エラーは目立つように先頭へ
     for m in errors:
         parts = [f'<section class="card err"><h3>⚠ {esc(m["name"])} — 取得エラー</h3>']
         parts.append('<p class="msg">最新の取得で、一部または全部の取得元から取得できませんでした。</p>')
         parts.append('<ul class="errlist">' + "".join(f"<li>{esc(e)}</li>" for e in m["errors"]) + "</ul>")
-        if m["new"]:
-            parts.append(render_items(m["new"]))
+        if rest(m):
+            parts.append(render_items(rest(m)))
         parts.append("</section>")
         body.append("".join(parts))
 
-    for m in with_new:
-        body.append(f'<section class="card"><h3>{esc(m["name"])}'
-                    f'<span class="count">{len(m["new"])}件</span></h3>'
-                    f'{render_items(m["new"])}</section>')
+    others = render_muni_cards([{**m, "new": rest(m)} for m in with_new])
+    if split_latest and others:
+        body.append("<h2>今日のそのほかの記事</h2>")
+    body += others
 
     for label, group in (("初回のため記録のみ", record_only), ("更新なし", no_update),
                          ("取得元未設定", unconfigured)):
@@ -559,7 +597,7 @@ def render_page(day: dict, archive_dates: list[str], prefix: str, is_index: bool
     body.append(render_daynav(day["date"], archive_dates, prefix))
     if is_index:
         body.append(render_bar())
-    body.append(render_day(day))
+    body.append(render_day(day, split_latest=is_index))
 
     body.append('<h3 class="foot">過去30日のアーカイブ</h3>')
     if not is_index:
