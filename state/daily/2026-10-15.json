@@ -1,7 +1,7 @@
 {
  "date": "2026-10-15",
  "first_run": true,
- "last_fetched": "16:12",
+ "last_fetched": "17:24",
  "municipalities": [
   {
    "errors": [],
@@ -28,6 +28,11 @@
    "errors": [],
    "name": "花巻市",
    "new": [
+    {
+     "date": "2026-10-15",
+     "title": "（令和8年度）市有地の一般競争入札による売却を実施します",
+     "url": "https://www.city.hanamaki.iwate.jp/business/nyusatsu_keiyaku/1019914/1000174/1026107.html"
+    },
     {
      "date": "2026-10-15",
      "title": "大迫小学校",
@@ -75,7 +80,18 @@
   {
    "errors": [],
    "name": "北上市",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-10-15",
+     "title": "北上市が利用する防災情報配信システム事業者への不正アクセスによる影響",
+     "url": "https://www.city.kitakami.iwate.jp/life/soshikikarasagasu/kikikanri/kikikanri/30208.html"
+    },
+    {
+     "date": "2026-10-15",
+     "title": "「情報メディアとの上手な付き合い方（情報モラル）」「早寝・早起き・朝ごはん」の取組推進における出前講座の活用",
+     "url": "https://www.city.kitakami.iwate.jp/life/soshikikarasagasu/shogaigakushubunkaka/shogaigakushugakari/oshirase/27056.html"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -164,7 +180,13 @@
   {
    "errors": [],
    "name": "二戸市",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-10-15",
+     "title": "【賃上げ補助金】令和８年度二戸市賃上げ支援事業費補助金",
+     "url": "http://www.city.ninohe.lg.jp/info/4074"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -244,7 +266,13 @@
   {
    "errors": [],
    "name": "西和賀町",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-06-18",
+     "title": "全国18自治体による「やわらかな定住を核とした関係人口創出・二地域居住推進事業」に参画しました",
+     "url": "https://www.town.nishiwaga.lg.jp/soshikikarasagasu/kosodate/1/4245.html"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -252,6 +280,11 @@
    "errors": [],
    "name": "金ケ崎町",
    "new": [
+    {
+     "date": "2026-10-15",
+     "title": "令和８年度地区生涯教育センターだより",
+     "url": "https://www.town.kanegasaki.iwate.jp/articles/2026041500031/"
+    },
     {
      "date": "2026-10-15",
      "title": "農業資材価格高騰緊急対策事業（県事業）",
@@ -347,7 +380,13 @@
   {
    "errors": [],
    "name": "田野畑村",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-10-15",
+     "title": "森林環境譲与税の使途の公表について",
+     "url": "http://www.vill.tanohata.iwate.jp/docs/2021033000018/"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
