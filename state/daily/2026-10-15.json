@@ -1,12 +1,19 @@
 {
  "date": "2026-10-15",
  "first_run": true,
- "last_fetched": "17:24",
+ "last_fetched": "19:41",
  "municipalities": [
   {
    "errors": [],
    "name": "盛岡市",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-10-15",
+     "fetched_at": "19:41",
+     "title": "第28回盛岡市8020歯科保健大会",
+     "url": "https://www.city.morioka.iwate.jp/kenko_fukushi/kenko_iryo/kenko_zukuri/1058490/1059415.html"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -125,6 +132,12 @@
    "name": "一関市",
    "new": [
     {
+     "date": "2026-10-14",
+     "fetched_at": "19:41",
+     "title": "一関市博物館 入館無料日",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261014175727"
+    },
+    {
      "date": "2026-10-15",
      "fetched_at": "16:12",
      "title": "令和８年度いちのせきまちの保健室＠Aコープふじさわ",
@@ -221,7 +234,14 @@
   {
    "errors": [],
    "name": "奥州市",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-10-15",
+     "fetched_at": "19:41",
+     "title": "市民記者リポート「多彩な経験を糧に 人を支える仕事へ」（第10回）",
+     "url": "https://www.city.oshu.iwate.jp/johokan/reporter/19364.html"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -263,7 +283,14 @@
   {
    "errors": [],
    "name": "紫波町",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-10-15",
+     "fetched_at": "19:41",
+     "title": "NEW! 令和9年紫波町二十歳のつどいのお知らせ",
+     "url": "https://www.town.shiwa.iwate.jp/soshiki/5_1/2_1/179187040315596/"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -351,6 +378,12 @@
    "errors": [],
    "name": "大槌町",
    "new": [
+    {
+     "date": "2026-10-13",
+     "fetched_at": "19:41",
+     "title": "大槌町会計年度任用職員の募集について（令和９年３月１日採用予定）",
+     "url": "https://www.town.otsuchi.iwate.jp/gyosei/docs/463762.html"
+    },
     {
      "date": "2026-10-15",
      "fetched_at": "16:12",
