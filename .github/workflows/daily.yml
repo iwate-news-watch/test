@@ -1,9 +1,7 @@
 name: Iwate municipal news
 
+# 定期実行はせず、手動実行（Actions 画面・公開ページの更新ボタン）のときだけ動く
 on:
-  schedule:
-    - cron: '0 2 * * *'  # UTC 2:00 = 日本時間 11:00
-    - cron: '0 7 * * *'  # UTC 7:00 = 日本時間 16:00
   workflow_dispatch:
 
 permissions:
@@ -35,8 +33,6 @@ jobs:
       - name: Build pages
         env:
           TZ: Asia/Tokyo
-          # 定時実行ならどの cron で起動したか（見出しの「11:00」「16:00」に使う）。手動実行では空
-          RUN_SCHEDULE: ${{ github.event.schedule }}
         run: python scripts/build.py
 
       - name: Commit and push

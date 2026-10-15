@@ -12,7 +12,6 @@ from __future__ import annotations
 
 import html
 import json
-import os
 import re
 import sys
 import time
@@ -44,8 +43,6 @@ RETRY_WAIT = 3
 SITE_INTERVAL = 1
 SEEN_RETENTION_DAYS = 90
 ARCHIVE_DAYS = 30
-# 定時実行の cron 式 → 見出しの時刻（daily.yml の schedule と合わせる）
-SCHEDULE_LABELS = {"0 2 * * *": "11:00", "0 7 * * *": "16:00"}
 
 
 # ---------------------------------------------------------------------------
@@ -237,11 +234,6 @@ def prune_seen(seen: dict, today: date) -> None:
 # 実行
 # ---------------------------------------------------------------------------
 
-def run_label(now: datetime) -> str:
-    """定時実行なら「11:00」「16:00」、手動実行なら実際の時刻を返す。"""
-    return SCHEDULE_LABELS.get(os.environ.get("RUN_SCHEDULE", "").strip(), now.strftime("%H:%M"))
-
-
 def run(now: datetime) -> dict:
     config = yaml.safe_load(SOURCES_FILE.read_text(encoding="utf-8"))
     seen = load_seen()
@@ -297,39 +289,51 @@ def run(now: datetime) -> dict:
 
     prune_seen(seen, now.date())
     save_json(SEEN_FILE, seen)
-    return {"label": run_label(now), "updated_at": now.strftime("%H:%M"),
-            "first_run": first_run, "municipalities": results}
+    return {"fetched_at": now.strftime("%H:%M"), "first_run": first_run, "municipalities": results}
+
+
+def empty_day(day: str) -> dict:
+    return {"date": day, "last_fetched": "", "first_run": False, "municipalities": []}
 
 
 def load_daily(path: Path, day: str) -> dict:
-    data = load_json(path, None) or {"date": day, "runs": []}
-    if "runs" not in data:  # 1日1回だった頃の形式
-        legacy = {k: data[k] for k in ("updated_at", "first_run", "municipalities") if k in data}
-        legacy["label"] = legacy.get("updated_at", "")
-        data = {"date": data["date"], "runs": [legacy]}
+    """その日の一覧を読む。以前の形式（実行ごとに分かれたもの）は1つの一覧にまとめ直す。"""
+    data = load_json(path, None)
+    if not data:
+        return empty_day(day)
+    if "runs" in data:  # 実行ごとに区切っていた形式
+        merged = empty_day(data["date"])
+        for r in sorted(data["runs"], key=lambda r: r.get("updated_at", "")):
+            add_fetch(merged, {"fetched_at": r.get("updated_at", ""), "first_run": r.get("first_run", False),
+                               "municipalities": r["municipalities"]})
+        return merged
+    if "last_fetched" not in data:  # 1日1回だった頃の形式
+        merged = empty_day(data["date"])
+        add_fetch(merged, {"fetched_at": data.get("updated_at", ""), "first_run": data.get("first_run", False),
+                           "municipalities": data["municipalities"]})
+        return merged
     return data
 
 
-def add_run(daily: dict, new: dict) -> dict:
-    """その日の実行結果に今回の回を加える。
+def add_fetch(daily: dict, fetch_result: dict) -> dict:
+    """今回の取得で増えた記事を、その日の一覧に自治体ごとに追加する。
 
-    同じ見出しの回（定時実行の再実行など）がすでにあれば、先に見つけた新着を残したまま更新する。
+    新しく取得したものほど上に並ぶ。取得エラー・初回記録のみの表示は今回の取得結果に合わせる。
     """
-    old = next((r for r in daily["runs"] if r.get("label") == new["label"]), None)
-    if old is not None:
-        old_by_name = {m["name"]: m for m in old.get("municipalities", [])}
-        for muni in new["municipalities"]:
-            prev = old_by_name.get(muni["name"])
-            if not prev:
-                continue
-            urls = {i["url"] for i in muni["new"]}
-            muni["new"] = muni["new"] + [i for i in prev.get("new", []) if i["url"] not in urls]
-            muni["new"].sort(key=lambda i: i["date"], reverse=True)
-            muni["record_only"] = muni["record_only"] or prev.get("record_only", False)
-        new["first_run"] = new["first_run"] or old.get("first_run", False)
-        daily["runs"].remove(old)
-    daily["runs"].append(new)
-    daily["runs"].sort(key=lambda r: r.get("updated_at", ""), reverse=True)
+    prev_by_name = {m["name"]: m for m in daily["municipalities"]}
+    merged = []
+    for muni in fetch_result["municipalities"]:
+        prev = prev_by_name.pop(muni["name"], None)
+        items = list(muni["new"])
+        if prev:
+            urls = {i["url"] for i in items}
+            items += [i for i in prev["new"] if i["url"] not in urls]
+        merged.append({**muni, "new": items})
+    # sources.yaml から外れた自治体も、その日にすでに載せた記事は残す
+    merged += [m for m in prev_by_name.values() if m["new"]]
+    daily["municipalities"] = merged
+    daily["last_fetched"] = fetch_result["fetched_at"]
+    daily["first_run"] = daily.get("first_run", False) or fetch_result["first_run"]
     return daily
 
 
@@ -351,11 +355,10 @@ main{max-width:760px;margin:0 auto;padding:20px 16px 48px}
 h1{font-size:1.35rem;line-height:1.4;margin:0 0 4px}
 .sub{color:var(--muted);font-size:.85rem;margin:0 0 20px}
 h1{font-size:1.25rem}
-.runs{display:flex;flex-wrap:wrap;gap:6px;list-style:none;padding:0;margin:0 0 8px}
-.runs a{display:inline-block;padding:4px 12px;border-radius:999px;background:var(--chip);font-size:.85rem}
-section.run{margin:28px 0 0;padding-top:20px;border-top:2px solid var(--line)}
-section.run:first-of-type{border-top:0;padding-top:0}
-h2.runhead{font-size:1.15rem;line-height:1.4;margin:0 0 4px}
+.site{font-size:.85rem;color:var(--muted);margin:0 0 6px}
+.daynav{display:flex;justify-content:space-between;gap:8px;margin:0 0 16px;font-size:.88rem}
+.daynav a{display:inline-block;padding:4px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
+.daynav .next{margin-left:auto}
 .card h3{font-size:1.05rem;margin:0 0 8px;display:flex;align-items:center;gap:8px;color:inherit}
 .count{font-size:.75rem;font-weight:600;background:var(--chip);color:var(--accent);
 padding:1px 8px;border-radius:999px}
@@ -410,26 +413,22 @@ def render_items(items: list[dict]) -> str:
     return '<ul class="items">' + "".join(rows) + "</ul>"
 
 
-def render_run(day: str, run: dict) -> str:
-    munis = run["municipalities"]
+def render_day(day: dict) -> str:
+    munis = day["municipalities"]
     errors = [m for m in munis if m["status"] == "error"]
     with_new = [m for m in munis if m["new"] and m["status"] != "error"]
     record_only = [m for m in munis if m["record_only"] and not m["new"] and m["status"] != "error"]
     no_update = [m for m in munis if m["status"] == "ok" and not m["new"] and not m["record_only"]]
     unconfigured = [m for m in munis if m["status"] == "unconfigured"]
-    total = sum(len(m["new"]) for m in munis)
 
-    body = [f'<section class="run" id="{run_anchor(run)}">']
-    body.append(f'<h2 class="runhead">{esc(jp_date(day))} {esc(run["label"])} 更新分</h2>')
-    body.append(f'<p class="sub">新着 {total} 件 ・ 取得 {esc(run.get("updated_at", ""))}（日本時間）</p>')
-
-    if run.get("first_run"):
-        body.append('<p class="notice">初回のため記録のみ行いました。次回の更新から新着を表示します。</p>')
+    body = []
+    if day.get("first_run") and not any(m["new"] for m in munis):
+        body.append('<p class="notice">初回の取得は記録のみ行いました。次回の取得から増えた記事を表示します。</p>')
 
     # 取得エラーは目立つように先頭へ
     for m in errors:
         parts = [f'<section class="card err"><h3>⚠ {esc(m["name"])} — 取得エラー</h3>']
-        parts.append('<p class="msg">一部または全部の取得元から取得できませんでした。</p>')
+        parts.append('<p class="msg">最新の取得で、一部または全部の取得元から取得できませんでした。</p>')
         parts.append('<ul class="errlist">' + "".join(f"<li>{esc(e)}</li>" for e in m["errors"]) + "</ul>")
         if m["new"]:
             parts.append(render_items(m["new"]))
@@ -446,12 +445,7 @@ def render_run(day: str, run: dict) -> str:
         if group:
             body.append(f"<h4>{label}</h4>")
             body.append(f'<p class="names">{esc("、".join(m["name"] for m in group))}</p>')
-    body.append("</section>")
     return "\n".join(body)
-
-
-def run_anchor(run: dict) -> str:
-    return "run-" + re.sub(r"\D", "", run.get("label", ""))
 
 
 # 更新ボタン。docs/config.json の trigger_url（中継サーバーのURL）が空ならボタンも状態も出さない
@@ -527,13 +521,9 @@ REFRESH_JS = """
 """
 
 
-def render_bar(day: dict) -> str:
-    latest = day["runs"][0] if day["runs"] else {}
-    d = date.fromisoformat(day["date"])
-    stamp = f'{d.month}月{d.day}日 {latest.get("updated_at", "")}'
+def render_bar() -> str:
     return (
         '<div class="bar">'
-        f'<p>最終更新: <b>{esc(stamp)}</b>（日本時間）</p>'
         '<p class="state" id="run-state"></p>'
         '<button type="button" id="refresh" hidden>今すぐ更新</button>'
         '<p class="rmsg" id="refresh-msg" role="status" aria-live="polite"></p>'
@@ -541,29 +531,46 @@ def render_bar(day: dict) -> str:
     )
 
 
-def render_page(day: dict, archive_dates: list[str], prefix: str, is_index: bool) -> str:
-    runs = day["runs"]
-    total = sum(len(m["new"]) for r in runs for m in r["municipalities"])
+def render_daynav(d: str, days: list[str], prefix: str) -> str:
+    """前の日・次の日へのリンク（データのある日どうしをつなぐ）。days は新しい順。"""
+    i = days.index(d)
+    links = []
+    if i + 1 < len(days):
+        p = days[i + 1]
+        links.append(f'<a class="prev" href="{prefix}archive/{p}.html">← 前の日（{esc(md(p))}）</a>')
+    if i > 0:
+        n = days[i - 1]
+        href = f"{prefix}index.html" if i - 1 == 0 else f"{prefix}archive/{n}.html"
+        links.append(f'<a class="next" href="{href}">次の日（{esc(md(n))}） →</a>')
+    return f'<nav class="daynav">{"".join(links)}</nav>' if links else ""
 
-    body = ["<h1>岩手県 市町村新着情報</h1>"]
-    body.append(f'<p class="sub">{esc(jp_date(day["date"]))}の新着 {total} 件（{len(runs)} 回分・新しい順）</p>')
+
+def md(iso: str) -> str:
+    d = date.fromisoformat(iso)
+    return f"{d.month}月{d.day}日"
+
+
+def render_page(day: dict, archive_dates: list[str], prefix: str, is_index: bool) -> str:
+    total = sum(len(m["new"]) for m in day["municipalities"])
+
+    body = ['<p class="site">岩手県 市町村新着情報</p>']
+    body.append(f"<h1>{esc(jp_date(day['date']))}の更新</h1>")
+    body.append(f'<p class="sub">最終取得 {esc(day.get("last_fetched", ""))}（日本時間） ・ 新着 {total} 件</p>')
+    body.append(render_daynav(day["date"], archive_dates, prefix))
     if is_index:
-        body.append(render_bar(day))
-    if len(runs) > 1:
-        chips = "".join(f'<li><a href="#{run_anchor(r)}">{esc(r["label"])} 更新分</a></li>' for r in runs)
-        body.append(f'<ul class="runs">{chips}</ul>')
-    body.extend(render_run(day["date"], r) for r in runs)
+        body.append(render_bar())
+    body.append(render_day(day))
 
     body.append('<h3 class="foot">過去30日のアーカイブ</h3>')
     if not is_index:
-        body.append(f'<p><a href="{prefix}index.html">← 最新の更新分へ</a></p>')
+        body.append(f'<p><a href="{prefix}index.html">← 最新の一覧へ</a></p>')
     links = "".join(
         f'<li><a href="{prefix}archive/{d}.html">{esc(jp_date(d))}</a></li>' for d in archive_dates
     )
     body.append(f'<ul class="archive">{links}</ul>')
     body.append("<footer>各記事の内容は各自治体の公式サイトでご確認ください。</footer>")
 
-    title = f"{jp_date(day['date'])}の新着"
+    title = f"{jp_date(day['date'])}の更新"
     return (
         "<!doctype html>\n<html lang=\"ja\"><head><meta charset=\"utf-8\">"
         "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
@@ -604,10 +611,10 @@ def main() -> None:
     result = run(now)
     today = now.date().isoformat()
     daily_path = DAILY_DIR / f"{today}.json"
-    save_json(daily_path, add_run(load_daily(daily_path, today), result))
+    save_json(daily_path, add_fetch(load_daily(daily_path, today), result))
     write_pages(now.date())
     total = sum(len(m["new"]) for m in result["municipalities"])
-    print(f"完了: {result['label']} 更新分 新着 {total} 件", file=sys.stderr)
+    print(f"完了: {result['fetched_at']} 取得 新着 {total} 件", file=sys.stderr)
 
 
 if __name__ == "__main__":
