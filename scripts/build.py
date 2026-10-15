@@ -379,6 +379,16 @@ h3.foot{font-size:.95rem;margin:36px 0 8px;color:var(--muted)}
 .archive a{display:inline-block;padding:4px 10px;border:1px solid var(--line);
 border-radius:8px;background:var(--card);font-size:.85rem}
 footer{margin-top:32px;font-size:.78rem;color:var(--muted)}
+.bar{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:0 0 20px}
+.bar p{margin:0;font-size:.9rem}
+.bar .state{color:var(--muted);font-size:.85rem}
+.bar .state.busy{color:var(--accent)}
+.bar .state.fail{color:var(--err-fg)}
+.bar button{margin-top:10px;font:inherit;font-weight:600;padding:8px 18px;border-radius:999px;
+border:0;background:var(--accent);color:var(--bg);cursor:pointer}
+.bar button:disabled{opacity:.5;cursor:default}
+.bar .rmsg{margin-top:8px;font-size:.88rem}
+.bar .rmsg:empty{display:none}
 """
 
 
@@ -444,12 +454,101 @@ def run_anchor(run: dict) -> str:
     return "run-" + re.sub(r"\D", "", run.get("label", ""))
 
 
+# 更新ボタン。docs/config.json の trigger_url（中継サーバーのURL）が空ならボタンも状態も出さない
+REFRESH_JS = """
+(function () {
+  var stateEl = document.getElementById("run-state");
+  var btn = document.getElementById("refresh");
+  var msg = document.getElementById("refresh-msg");
+  var base = "", wasBusy = false, timer = null;
+
+  function hm(iso) {
+    var p = {};
+    new Intl.DateTimeFormat("ja-JP", {timeZone: "Asia/Tokyo", hour: "numeric", minute: "numeric", hour12: false})
+      .formatToParts(new Date(iso)).forEach(function (x) { p[x.type] = x.value; });
+    return Number(p.hour) + "時" + Number(p.minute) + "分";
+  }
+  function clock(iso) {
+    return new Intl.DateTimeFormat("ja-JP", {timeZone: "Asia/Tokyo", month: "numeric", day: "numeric",
+      hour: "2-digit", minute: "2-digit"}).format(new Date(iso));
+  }
+  function describe(run) {
+    if (!run) return ["", ""];
+    var s = run.status, c = run.conclusion;
+    if (s === "in_progress") return ["実行中（" + clock(run.startedAt) + " 開始）", "busy"];
+    if (s !== "completed") return ["実行待ち（" + clock(run.createdAt) + " 受付）", "busy"];
+    if (c === "success") return ["前回の実行: 成功（" + clock(run.updatedAt) + "）", ""];
+    if (c === "cancelled") return ["前回の実行: 中止（" + clock(run.updatedAt) + "）", ""];
+    return ["前回の実行: 失敗（" + clock(run.updatedAt) + "）", "fail"];
+  }
+  function show(st) {
+    var d = describe(st.latest);
+    stateEl.textContent = d[0];
+    stateEl.className = "state " + d[1];
+    if (wasBusy && !st.busy && st.latest && st.latest.conclusion === "success") {
+      msg.innerHTML = "更新が完了しました。1〜2分後に<a href=\\"\\" onclick=\\"location.reload();return false\\">再読み込み</a>すると反映されます。";
+    }
+    wasBusy = st.busy;
+    clearTimeout(timer);
+    if (st.busy) timer = setTimeout(refreshStatus, 20000);
+  }
+  function refreshStatus() {
+    return fetch(base + "/status", {cache: "no-store"})
+      .then(function (r) { return r.json(); }).then(show).catch(function () {});
+  }
+
+  fetch("config.json", {cache: "no-store"}).then(function (r) { return r.json(); }).then(function (cfg) {
+    base = String(cfg.trigger_url || "").trim().replace(/\\/+$/, "");
+    if (!base) return;
+    btn.hidden = false;
+    refreshStatus();
+    btn.addEventListener("click", function () {
+      btn.disabled = true;
+      msg.textContent = "送信中…";
+      fetch(base + "/trigger", {method: "POST"}).then(function (r) {
+        return r.json().then(function (body) { return {status: r.status, body: body}; });
+      }).then(function (res) {
+        if (res.status === 202) {
+          msg.textContent = "受け付けました。5分ほどで反映されます";
+          wasBusy = true;
+          setTimeout(refreshStatus, 5000);
+        } else if (res.status === 429 && res.body.nextAvailableAt) {
+          msg.textContent = (res.body.reason === "busy" ? "ただいま更新中です。" : "") +
+            "次に更新できるのは" + hm(res.body.nextAvailableAt) + "です";
+        } else {
+          msg.textContent = "受け付けられませんでした。時間をおいてもう一度お試しください";
+        }
+      }).catch(function () {
+        msg.textContent = "通信に失敗しました。時間をおいてもう一度お試しください";
+      }).then(function () { btn.disabled = false; });
+    });
+  }).catch(function () {});
+})();
+"""
+
+
+def render_bar(day: dict) -> str:
+    latest = day["runs"][0] if day["runs"] else {}
+    d = date.fromisoformat(day["date"])
+    stamp = f'{d.month}月{d.day}日 {latest.get("updated_at", "")}'
+    return (
+        '<div class="bar">'
+        f'<p>最終更新: <b>{esc(stamp)}</b>（日本時間）</p>'
+        '<p class="state" id="run-state"></p>'
+        '<button type="button" id="refresh" hidden>今すぐ更新</button>'
+        '<p class="rmsg" id="refresh-msg" role="status" aria-live="polite"></p>'
+        '</div>'
+    )
+
+
 def render_page(day: dict, archive_dates: list[str], prefix: str, is_index: bool) -> str:
     runs = day["runs"]
     total = sum(len(m["new"]) for r in runs for m in r["municipalities"])
 
     body = ["<h1>岩手県 市町村新着情報</h1>"]
     body.append(f'<p class="sub">{esc(jp_date(day["date"]))}の新着 {total} 件（{len(runs)} 回分・新しい順）</p>')
+    if is_index:
+        body.append(render_bar(day))
     if len(runs) > 1:
         chips = "".join(f'<li><a href="#{run_anchor(r)}">{esc(r["label"])} 更新分</a></li>' for r in runs)
         body.append(f'<ul class="runs">{chips}</ul>')
@@ -472,7 +571,9 @@ def render_page(day: dict, archive_dates: list[str], prefix: str, is_index: bool
         f"<title>{esc(title)} | 岩手 市町村新着情報</title>"
         f"<style>{CSS}</style></head><body><main>\n"
         + "\n".join(body)
-        + "\n</main></body></html>\n"
+        + "\n</main>"
+        + (f"<script>{REFRESH_JS}</script>" if is_index else "")
+        + "</body></html>\n"
     )
 
 

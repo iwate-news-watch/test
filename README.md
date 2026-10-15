@@ -16,7 +16,9 @@
 │   └── daily/YYYY-MM-DD.json  # 日ごとの結果（その日の全実行分・直近30日分）
 ├── docs/
 │   ├── index.html             # 公開ページ（最新の更新分）
+│   ├── config.json            # 更新ボタンの設定（中継サーバーのURL）
 │   └── archive/YYYY-MM-DD.html  # 日別アーカイブ（直近30日分）
+├── worker/worker.js           # 更新ボタン用の中継サーバー（Cloudflare Workers）
 └── .github/workflows/daily.yml  # 毎日 UTC 2:00 / 7:00（日本時間11:00 / 16:00）に実行
 ```
 
@@ -108,3 +110,76 @@ python scripts/build.py
 4. 数分で完了し、`state/` と `docs/` の更新が自動でコミットされます。その後1〜2分で公開ページに反映されます。
 
 失敗した場合は、実行結果の「Build pages」ステップのログに、取得元ごとの `[OK]` / `[ERROR]` が出力されています。
+
+## 同時に実行されたときの扱い
+
+- ワークフローは `concurrency`（グループ `daily-news`）で、同時に1つだけ動きます。実行中に次の実行が来た場合はキャンセルせず、前の実行が終わるまで待ちます。
+- 待っていた実行も、その時点の最新の main から始めます（前の実行の結果を取り込んだ状態で新着を判定します）。
+- push の前に `git pull --rebase` で最新の main を取り込みます。失敗した場合は間隔をあけて最大5回までやり直します。
+- 注意: GitHub の仕様で、待機できるのは1件だけです。待機中の実行がある状態でさらに別の実行が来ると、古いほうの待機中の実行は GitHub によってキャンセルされます（新しいほうが実行されるので、取得自体は行われます）。更新ボタンは実行中・待機中には受け付けないため、通常はこの状況になりません。
+
+## 公開ページの「今すぐ更新」ボタン
+
+公開ページの上部に、誰でもログインなしで押せる更新ボタンを付けられます。ボタンを押すと、中継サーバー（Cloudflare Workers）が GitHub Actions のワークフローを実行します。GitHub のトークンは中継サーバーだけが持ち、公開ページには含まれません。
+
+- 前回の実行開始から15分以内、または実行中・待機中は受け付けず、「次に更新できるのは◯時◯分です」と表示します。
+- 受け付けると「受け付けました。5分ほどで反映されます」と表示します。完了すると再読み込みを促す表示が出ます。
+- ページ上部に最終更新時刻と、ワークフローの実行状態（実行待ち・実行中・成功・失敗）を表示します。
+- 中継サーバーのURLを設定しないうちは、ボタンと実行状態は表示されません（最終更新時刻だけ表示します）。
+
+設定は次の3ステップです。すべてスマホのブラウザでできます。
+
+### 1. GitHub のトークンを作る
+
+1. GitHub にログインし、右上のアイコン → **Settings** を開きます。
+2. 左メニュー（スマホでは下のほう）の **Developer settings** → **Personal access tokens** → **Fine-grained tokens** を開き、**Generate new token** を押します。
+3. 次のように入力します。
+   - **Token name**: 分かりやすい名前（例: `iwate-news-button`）
+   - **Expiration**: 有効期限（期限が切れたら作り直して、手順2の `GITHUB_TOKEN` を入れ替えます）
+   - **Resource owner**: 自分のアカウント
+   - **Repository access**: **Only select repositories** を選び、このリポジトリだけを選択
+   - **Permissions** → **Repository permissions** → **Actions** を **Read and write** に変更（Metadata の Read-only は自動で付きます。ほかは変更不要）
+4. **Generate token** を押し、表示された `github_pat_...` で始まる文字列をコピーします。**この画面を閉じると二度と表示されない**ので、次の手順まで控えておいてください。
+
+> トークンはこのリポジトリのワークフローの実行・状態確認だけができる権限です。コードの書き換えはできません。リポジトリのファイルやチャットなどには絶対に貼り付けないでください。
+
+### 2. Cloudflare Workers に中継サーバーを作る
+
+1. スマホのブラウザで https://dash.cloudflare.com/ を開き、Cloudflare アカウントでログインします（無料プランで使えます）。
+2. メニューから **Workers & Pages**（「Compute (Workers)」と表示される場合もあります）を開き、**Create**（作成）→ **Worker** の **Start with Hello World!** を選びます。
+3. Worker の名前を入力（例: `iwate-news`）して **Deploy** を押します。
+4. 作成後の画面で **Edit code**（コードを編集）を押します。
+5. 別のタブでこのリポジトリの [`worker/worker.js`](worker/worker.js) を開き、**Raw** 表示にして全文をコピーします。
+6. Worker のエディタに最初から入っているコードをすべて消して、コピーした内容を貼り付け、**Deploy** を押します。
+7. Worker の画面に戻り、**Settings**（設定）→ **Variables and Secrets**（変数とシークレット）→ **Add**（追加）で、次の5つを登録します。
+
+   | 名前 | 種類 | 値の例 |
+   |---|---|---|
+   | `GITHUB_OWNER` | Text（テキスト） | `nowakinowaki` |
+   | `GITHUB_REPO` | Text | `test` |
+   | `WORKFLOW_FILE` | Text | `daily.yml` |
+   | `ALLOWED_ORIGIN` | Text | `https://nowakinowaki.github.io` |
+   | `GITHUB_TOKEN` | **Secret（シークレット）** | 手順1でコピーしたトークン |
+
+   - `ALLOWED_ORIGIN` は公開ページのURLの「`https://〜.github.io`」の部分だけです（末尾の `/` やリポジトリ名は付けません）。ここに書いたページからしかボタンが使えません。
+   - `GITHUB_TOKEN` は必ず **Secret** を選んでください（保存後は値が見えなくなります）。
+8. 保存（**Deploy**）します。
+9. Worker のURL（`https://iwate-news.<あなたのサブドメイン>.workers.dev` のような形）をコピーします。
+10. 動作確認として、ブラウザでそのURLの末尾に `/status` を付けて開きます（例: `https://iwate-news.xxxx.workers.dev/status`）。`"latest"` に前回の実行の情報が出ていれば成功です。`upstream_error` と出る場合はトークンや変数の値を見直してください。
+
+> 管理画面の項目名は Cloudflare 側の変更で多少変わることがあります。見つからない場合は「Workers」「変数」などで画面内を探してください。
+
+### 3. 中継サーバーのURLを設定ファイルに書く
+
+1. GitHub でこのリポジトリの [`docs/config.json`](docs/config.json) を開き、鉛筆アイコン（Edit）を押します。
+2. `trigger_url` に手順2でコピーした Worker のURLを書きます（末尾の `/status` は付けません）。
+
+   ```json
+   {
+     "trigger_url": "https://iwate-news.xxxx.workers.dev"
+   }
+   ```
+
+3. **Commit changes** で main ブランチにコミットします。1〜2分で公開ページにボタンが表示されます。
+
+ボタンを外したいときは `trigger_url` を `""`（空）に戻します。完全に止めるときは、Cloudflare で Worker を削除し、GitHub でトークンを削除（Developer settings → Fine-grained tokens → 対象のトークン → Delete）してください。
