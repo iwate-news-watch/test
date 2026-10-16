@@ -17,9 +17,10 @@ import re
 import sys
 import time
 import unicodedata
+from functools import cache
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
-from urllib.parse import urljoin, urldefrag
+from urllib.parse import urljoin, urldefrag, urlsplit
 
 import feedparser
 import requests
@@ -425,6 +426,12 @@ border:1px solid var(--line);background:var(--bg);color:var(--fg);cursor:pointer
 .pregion legend{color:var(--fg)}
 .pbtns{display:flex;gap:6px;margin:0 0 4px}
 .fmsg{margin:0 4px 12px}
+.card h3 a.mlink{color:inherit}
+.card h3 a.mlink::after{content:"↗";margin-left:3px;font-size:.75em;font-weight:400;color:var(--muted)}
+.card h3 a.mlink:hover{color:var(--accent)}
+.pbtns button{white-space:nowrap}
+.pall{margin:0 0 12px;padding:0 0 10px;border-bottom:1px dashed var(--line)}
+.pall button{font-weight:600}
 .psearch{margin:0 0 12px;padding:0 0 10px;border-bottom:1px solid var(--line)}
 .qbox{position:relative}
 .qbox input{width:100%;font:inherit;font-size:1rem;padding:7px 34px 7px 10px;border:1px solid var(--line);
@@ -488,6 +495,36 @@ def muni_info(name: str) -> tuple[str, int, str]:
     return MUNI_INFO.get(name, (OTHER_REGION, len(MUNI_INFO), name))
 
 
+@cache
+def homepages() -> dict[str, str]:
+    """自治体名 → 公式ホームページのURL。
+
+    sources.yaml の homepage を優先し、なければ最初の取得元URLのドメインのトップ（https://ドメイン/）。
+    """
+    config = yaml.safe_load(SOURCES_FILE.read_text(encoding="utf-8"))
+    out = {}
+    for muni in config["municipalities"]:
+        url = str(muni.get("homepage") or "").strip()
+        if not url:
+            for source in muni.get("sources") or []:
+                host = urlsplit(source.get("url", "")).netloc
+                if host:
+                    url = f"https://{host}/"
+                    break
+        if url.startswith(("https://", "http://")):
+            out[muni["name"]] = url
+    return out
+
+
+def muni_link(name: str) -> str:
+    """自治体名。ホームページがわかればそこへのリンク（別タブ）にする。"""
+    url = homepages().get(name)
+    if not url:
+        return esc(name)
+    return (f'<a class="mlink" href="{esc(url)}" target="_blank" rel="noopener" '
+            f'title="{esc(name)}の公式ホームページ（別タブで開きます）">{esc(name)}</a>')
+
+
 def esc(s: str) -> str:
     return html.escape(s, quote=True)
 
@@ -531,7 +568,7 @@ def by_region(munis: list[dict]) -> list[dict]:
 
 
 def render_muni_cards(munis: list[dict]) -> list[str]:
-    return [f'<section class="card" {card_attrs(m["name"], len(m["new"]))}><h3>{esc(m["name"])}'
+    return [f'<section class="card" {card_attrs(m["name"], len(m["new"]))}><h3>{muni_link(m["name"])}'
             f'<span class="count">{len(m["new"])}件</span></h3>'
             f'{render_items(m["new"])}</section>' for m in by_region(munis) if m["new"]]
 
@@ -572,7 +609,7 @@ def render_day(day: dict, split_latest: bool = False) -> str:
     # 取得エラーは目立つように先頭へ
     err_cards = []
     for m in by_region(errors):
-        parts = [f'<section class="card err" {card_attrs(m["name"], len(rest(m)))}><h3>⚠ {esc(m["name"])} — 取得エラー</h3>']
+        parts = [f'<section class="card err" {card_attrs(m["name"], len(rest(m)))}><h3>⚠ {muni_link(m["name"])} — 取得エラー</h3>']
         parts.append('<p class="msg">最新の取得で、一部または全部の取得元から取得できませんでした。</p>')
         parts.append('<ul class="errlist">' + "".join(f"<li>{esc(e)}</li>" for e in m["errors"]) + "</ul>")
         if rest(m):
@@ -590,7 +627,7 @@ def render_day(day: dict, split_latest: bool = False) -> str:
                          ("取得元未設定", unconfigured)):
         if group:
             body.append(f"<h4>{label}</h4>")
-            body.append(f'<p class="names">{esc("、".join(m["name"] for m in group))}</p>')
+            body.append(f'<p class="names">{"、".join(muni_link(m["name"]) for m in group)}</p>')
     return "\n".join(body)
 
 
@@ -614,7 +651,10 @@ def render_panel(day: dict, prefix: str) -> str:
              '<fieldset class="psort"><legend>並び替え</legend>']
     parts += [f'<label><input type="radio" name="sort" value="{v}"{" checked" if v == "region" else ""}> {t}</label>'
               for v, t in sorts]
-    parts.append('</fieldset><div class="pfilter"><p class="plabel">絞り込み</p>')
+    parts.append('</fieldset><div class="pfilter"><p class="plabel">絞り込み</p>'
+                 '<div class="pbtns pall" role="group" aria-label="全自治体">'
+                 '<button type="button" data-act="on">すべて選択</button>'
+                 '<button type="button" data-act="off">すべて解除</button></div>')
     for region, names in groups:
         parts.append(f'<fieldset class="pregion" data-region="{esc(region)}"><legend>{esc(region)}</legend>'
                      '<div class="pbtns"><button type="button" data-act="on">すべて選択</button>'
@@ -885,14 +925,14 @@ PANEL_JS = """
       save(); apply();
     });
   });
-  each(panel.querySelectorAll(".pregion"), function (fs) {
-    each(fs.querySelectorAll("button"), function (btn) {
-      btn.addEventListener("click", function () {
-        var names = Array.prototype.map.call(fs.querySelectorAll('input[name="muni"]'), function (b) { return b.value; });
-        state.off = state.off.filter(function (x) { return names.indexOf(x) < 0; });
-        if (btn.dataset.act === "off") state.off = state.off.concat(names);
-        save(); apply();
-      });
+  // 「すべて選択／解除」。地域のボタンはその地域、絞り込み欄の先頭のボタンは全自治体が対象
+  each(panel.querySelectorAll("button[data-act]"), function (btn) {
+    btn.addEventListener("click", function () {
+      var scope = btn.closest(".pregion") || panel;
+      var names = Array.prototype.map.call(scope.querySelectorAll('input[name="muni"]'), function (b) { return b.value; });
+      state.off = state.off.filter(function (x) { return names.indexOf(x) < 0; });
+      if (btn.dataset.act === "off") state.off = state.off.concat(names);
+      save(); apply();
     });
   });
   toggle.addEventListener("click", function () { setOpen(!document.body.classList.contains("panel-open")); });
