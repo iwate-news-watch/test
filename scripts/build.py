@@ -45,6 +45,8 @@ RETRY_WAIT = 3
 SITE_INTERVAL = 1
 SEEN_RETENTION_DAYS = 90
 ARCHIVE_DAYS = 30
+SITE_NAME = "NAMBU 岩手県市町村新着情報"
+LOGO_FILE = "nambu-logo.svg"  # docs/ に置くロゴ
 
 
 # ---------------------------------------------------------------------------
@@ -440,6 +442,17 @@ mark{background:#ffe58a;color:inherit;border-radius:2px;padding:0 1px}
 ul.items li.first{border-top:0;padding-top:0}
 .sresults{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0 0 16px}
 .sresults .date a{color:inherit}
+.masthead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 4px}
+.masthead .mtext{min-width:0}
+.masthead h1{margin:0}
+.logo-sm{flex:none;display:block;width:auto;height:auto;max-height:44px;max-width:96px}
+.logo-side{display:none}
+@media (min-width:1400px){
+.logo-sm{display:none}
+.logo-side{--gutter:calc((100vw - 1060px) / 2);--w:min(180px,calc(var(--gutter) - 48px));
+display:block;position:fixed;top:24px;right:calc((var(--gutter) - var(--w)) / 2);
+width:var(--w);height:auto;max-height:calc(100vh - 48px);object-fit:contain}
+}
 @media (min-width:1000px){
 .has-panel .layout{max-width:1060px;display:grid;grid-template-columns:240px minmax(0,1fr);gap:8px;align-items:start}
 .has-panel .panel{position:sticky;top:0;bottom:auto;width:auto;max-height:100vh;transform:none;visibility:visible;
@@ -1006,8 +1019,13 @@ def md(iso: str) -> str:
 def render_page(day: dict, archive_dates: list[str], prefix: str, is_index: bool) -> str:
     total = sum(len(m["new"]) for m in day["municipalities"])
 
-    body = ['<p class="site">岩手県 市町村新着情報</p>']
-    body.append(f"<h1>{esc(jp_date(day['date']))}の更新</h1>")
+    # ロゴは幅の広い画面では右の余白に固定表示、狭い画面では見出しの横に小さく出す。
+    # ファイルが読めないときは枠ごと隠す
+    logo = f'{prefix}{LOGO_FILE}'
+    body = ['<header class="masthead"><div class="mtext">'
+            f'<p class="site">{esc(SITE_NAME)}</p>'
+            f"<h1>{esc(jp_date(day['date']))}の更新</h1></div>"
+            f'<img class="logo-sm" src="{esc(logo)}" alt="NAMBU" onerror="this.hidden=true"></header>']
     body.append(f'<p class="sub">最終取得 {esc(day.get("last_fetched", ""))}（日本時間） ・ 新着 {total} 件</p>')
     body.append(render_daynav(day["date"], archive_dates, prefix))
     if is_index:
@@ -1031,12 +1049,13 @@ def render_page(day: dict, archive_dates: list[str], prefix: str, is_index: bool
         "<!doctype html>\n<html lang=\"ja\"><head><meta charset=\"utf-8\">"
         "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
         "<meta name=\"color-scheme\" content=\"light dark\">"
-        f"<title>{esc(title)} | 岩手 市町村新着情報</title>"
+        f"<title>{esc(title)} | {esc(SITE_NAME)}</title>"
         f"<style>{CSS}</style></head><body><div class=\"layout\">"
         + render_panel(day, prefix)
         + "<main>\n"
         + "\n".join(body)
         + "\n</main></div>"
+        + f'<img class="logo-side" src="{esc(logo)}" alt="" aria-hidden="true" onerror="this.hidden=true">'
         + f"<script>{PANEL_JS}</script>"
         + (f"<script>{REFRESH_JS}</script>" if is_index else "")
         + "</body></html>\n"
