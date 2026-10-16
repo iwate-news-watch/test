@@ -399,7 +399,61 @@ border:0;background:var(--accent);color:var(--bg);cursor:pointer}
 .bar button:disabled{opacity:.5;cursor:default}
 .bar .rmsg{margin-top:8px;font-size:.88rem}
 .bar .rmsg:empty{display:none}
+[hidden]{display:none!important}
+.layout{max-width:760px;margin:0 auto}
+.ptoggle{font:inherit;font-size:.9rem;font-weight:600;padding:7px 16px;margin:0 0 16px;border-radius:999px;
+border:1px solid var(--line);background:var(--card);color:var(--accent);cursor:pointer}
+.panel{position:fixed;top:0;left:0;bottom:0;z-index:20;width:min(320px,86vw);overflow-y:auto;
+background:var(--card);border-right:1px solid var(--line);padding:16px 16px 32px;
+transform:translateX(-105%);transition:transform .2s;visibility:hidden}
+.panel-open .panel{transform:none;visibility:visible}
+.panel:focus{outline:none}
+.backdrop{position:fixed;inset:0;z-index:15;background:rgba(0,0,0,.4)}
+.phead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 8px}
+.phead h2{margin:0;font-size:1rem}
+.pclose,.pbtns button{font:inherit;font-size:.78rem;padding:3px 10px;border-radius:8px;
+border:1px solid var(--line);background:var(--bg);color:var(--fg);cursor:pointer}
+.panel fieldset{border:0;margin:0 0 12px;padding:0}
+.panel legend,.plabel{font-size:.82rem;font-weight:600;color:var(--muted);padding:0;margin:0 0 4px}
+.psort{border-bottom:1px solid var(--line)!important;padding-bottom:10px!important}
+.panel label{display:flex;align-items:center;gap:6px;font-size:.9rem;padding:3px 0;cursor:pointer}
+.panel input{margin:0;accent-color:var(--accent);width:1.05em;height:1.05em}
+.pregion legend{color:var(--fg)}
+.pbtns{display:flex;gap:6px;margin:0 0 4px}
+.fmsg{margin:0 4px 12px}
+@media (min-width:1000px){
+.has-panel .layout{max-width:1060px;display:grid;grid-template-columns:240px minmax(0,1fr);gap:8px;align-items:start}
+.has-panel .panel{position:sticky;top:0;bottom:auto;width:auto;max-height:100vh;transform:none;visibility:visible;
+z-index:auto;border:0;border-right:1px solid var(--line);background:transparent;padding:20px 16px 24px}
+.ptoggle,.pclose,.backdrop{display:none!important}
+}
 """
+
+
+# 並び替え・絞り込みパネル用の地域区分（並び順＝地域順）と読み（五十音順用）
+REGIONS = [
+    ("県央", [("盛岡市", "もりおかし"), ("八幡平市", "はちまんたいし"), ("滝沢市", "たきざわし"),
+             ("雫石町", "しずくいしちょう"), ("葛巻町", "くずまきまち"), ("岩手町", "いわてまち"),
+             ("紫波町", "しわちょう"), ("矢巾町", "やはばちょう")]),
+    ("県南", [("花巻市", "はなまきし"), ("北上市", "きたかみし"), ("遠野市", "とおのし"),
+             ("一関市", "いちのせきし"), ("奥州市", "おうしゅうし"), ("西和賀町", "にしわがまち"),
+             ("金ケ崎町", "かねがさきちょう"), ("平泉町", "ひらいずみちょう")]),
+    ("沿岸", [("宮古市", "みやこし"), ("大船渡市", "おおふなとし"), ("陸前高田市", "りくぜんたかたし"),
+             ("釜石市", "かまいしし"), ("住田町", "すみたちょう"), ("大槌町", "おおつちちょう"),
+             ("山田町", "やまだまち"), ("岩泉町", "いわいずみちょう"), ("田野畑村", "たのはたむら")]),
+    ("県北", [("久慈市", "くじし"), ("二戸市", "にのへし"), ("普代村", "ふだいむら"),
+             ("軽米町", "かるまいまち"), ("野田村", "のだむら"), ("九戸村", "くのへむら"),
+             ("洋野町", "ひろのちょう"), ("一戸町", "いちのへまち")]),
+]
+OTHER_REGION = "その他"
+MUNI_INFO = {name: (region, order, kana)
+             for order, (region, name, kana) in enumerate(
+                 (r, n, k) for r, ms in REGIONS for n, k in ms)}
+
+
+def muni_info(name: str) -> tuple[str, int, str]:
+    """(地域, 地域順の順位, 読み)。区分にない自治体は「その他」として最後に並べる。"""
+    return MUNI_INFO.get(name, (OTHER_REGION, len(MUNI_INFO), name))
 
 
 def esc(s: str) -> str:
@@ -424,10 +478,30 @@ def is_latest(item: dict, day: dict) -> bool:
     return bool(day.get("last_fetched")) and item.get("fetched_at") == day["last_fetched"]
 
 
+def card_attrs(name: str, count: int) -> str:
+    region, order, kana = muni_info(name)
+    return (f'data-muni="{esc(name)}" data-region="{esc(region)}" data-order="{order}" '
+            f'data-kana="{esc(kana)}" data-count="{count}"')
+
+
+def render_mlist(cards: list[str], empty_msg: bool = True) -> str:
+    """並び替え・絞り込みの対象になるカードのまとまり。絞り込みで全部隠れたときの案内を添える。"""
+    if not cards:
+        return ""
+    out = '<div class="mlist">' + "\n".join(cards) + "</div>"
+    if empty_msg:
+        out += '<p class="msg fmsg" hidden>選択中の自治体の記事はありません</p>'
+    return out
+
+
+def by_region(munis: list[dict]) -> list[dict]:
+    return sorted(munis, key=lambda m: muni_info(m["name"])[1])
+
+
 def render_muni_cards(munis: list[dict]) -> list[str]:
-    return [f'<section class="card"><h3>{esc(m["name"])}'
+    return [f'<section class="card" {card_attrs(m["name"], len(m["new"]))}><h3>{esc(m["name"])}'
             f'<span class="count">{len(m["new"])}件</span></h3>'
-            f'{render_items(m["new"])}</section>' for m in munis if m["new"]]
+            f'{render_items(m["new"])}</section>' for m in by_region(munis) if m["new"]]
 
 
 def render_latest(day: dict) -> str:
@@ -436,9 +510,9 @@ def render_latest(day: dict) -> str:
     count = sum(len(m["new"]) for m in munis)
     parts = ['<div class="latest">',
              f'<h2>最新の取得で増えた記事<span class="meta">{esc(day.get("last_fetched", ""))} 取得 ・ '
-             f'{count}件</span></h2>']
+             f'{count}件<span class="shown"></span></span></h2>']
     if count:
-        parts += render_muni_cards(munis)
+        parts.append(render_mlist(render_muni_cards(munis)))
     else:
         parts.append('<p class="msg">前回から新しい記事はありません</p>')
     parts.append("</div>")
@@ -464,19 +538,21 @@ def render_day(day: dict, split_latest: bool = False) -> str:
         return [i for i in m["new"] if not is_latest(i, day)] if split_latest else m["new"]
 
     # 取得エラーは目立つように先頭へ
-    for m in errors:
-        parts = [f'<section class="card err"><h3>⚠ {esc(m["name"])} — 取得エラー</h3>']
+    err_cards = []
+    for m in by_region(errors):
+        parts = [f'<section class="card err" {card_attrs(m["name"], len(rest(m)))}><h3>⚠ {esc(m["name"])} — 取得エラー</h3>']
         parts.append('<p class="msg">最新の取得で、一部または全部の取得元から取得できませんでした。</p>')
         parts.append('<ul class="errlist">' + "".join(f"<li>{esc(e)}</li>" for e in m["errors"]) + "</ul>")
         if rest(m):
             parts.append(render_items(rest(m)))
         parts.append("</section>")
-        body.append("".join(parts))
+        err_cards.append("".join(parts))
+    body.append(render_mlist(err_cards, empty_msg=False))
 
     others = render_muni_cards([{**m, "new": rest(m)} for m in with_new])
     if split_latest and others:
         body.append("<h2>今日のそのほかの記事</h2>")
-    body += others
+    body.append(render_mlist(others))
 
     for label, group in (("初回のため記録のみ", record_only), ("更新なし", no_update),
                          ("取得元未設定", unconfigured)):
@@ -484,6 +560,122 @@ def render_day(day: dict, split_latest: bool = False) -> str:
             body.append(f"<h4>{label}</h4>")
             body.append(f'<p class="names">{esc("、".join(m["name"] for m in group))}</p>')
     return "\n".join(body)
+
+
+def render_panel(day: dict) -> str:
+    """自治体の並び替え・絞り込みパネル。JavaScript が使えるときだけ表示する。"""
+    groups = [(r, [n for n, _ in ms]) for r, ms in REGIONS]
+    extra = sorted({m["name"] for m in day["municipalities"]} - set(MUNI_INFO))
+    if extra:
+        groups.append((OTHER_REGION, extra))
+    sorts = (("region", "地域順"), ("count", "新着件数順"), ("kana", "五十音順"))
+    parts = ['<aside class="panel" id="panel" aria-label="並び替え・絞り込み" hidden>',
+             '<div class="phead"><h2>並び替え・絞り込み</h2>'
+             '<button type="button" class="pclose" id="panel-close">閉じる</button></div>',
+             '<fieldset class="psort"><legend>並び替え</legend>']
+    parts += [f'<label><input type="radio" name="sort" value="{v}"{" checked" if v == "region" else ""}> {t}</label>'
+              for v, t in sorts]
+    parts.append('</fieldset><div class="pfilter"><p class="plabel">絞り込み</p>')
+    for region, names in groups:
+        parts.append(f'<fieldset class="pregion" data-region="{esc(region)}"><legend>{esc(region)}</legend>'
+                     '<div class="pbtns"><button type="button" data-act="on">すべて選択</button>'
+                     '<button type="button" data-act="off">すべて解除</button></div>')
+        parts += [f'<label><input type="checkbox" name="muni" value="{esc(n)}" checked> {esc(n)}</label>'
+                  for n in names]
+        parts.append("</fieldset>")
+    parts.append('</div></aside><div class="backdrop" id="panel-backdrop" hidden></div>')
+    return "".join(parts)
+
+
+# 並び替え・絞り込み。設定は localStorage に保存（使えない環境では保存せずに動く）
+PANEL_JS = """
+(function () {
+  var KEY = "iwate-news-panel";
+  var panel = document.getElementById("panel");
+  var toggle = document.getElementById("panel-toggle");
+  var backdrop = document.getElementById("panel-backdrop");
+  if (!panel || !toggle) return;
+  var boxes = Array.prototype.slice.call(panel.querySelectorAll('input[name="muni"]'));
+  var radios = Array.prototype.slice.call(panel.querySelectorAll('input[name="sort"]'));
+  var state = {sort: "region", off: []};
+  try {
+    var saved = JSON.parse(window.localStorage.getItem(KEY) || "null");
+    if (saved && typeof saved === "object") {
+      if (["region", "count", "kana"].indexOf(saved.sort) >= 0) state.sort = saved.sort;
+      if (Array.isArray(saved.off)) state.off = saved.off.filter(function (x) { return typeof x === "string"; });
+    }
+  } catch (e) {}
+
+  function save() {
+    try { window.localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+  }
+  function cmp(a, b) {
+    var d = 0;
+    if (state.sort === "count") d = Number(b.dataset.count) - Number(a.dataset.count);
+    else if (state.sort === "kana") d = a.dataset.kana.localeCompare(b.dataset.kana, "ja");
+    return d || Number(a.dataset.order) - Number(b.dataset.order);
+  }
+  function apply() {
+    radios.forEach(function (r) { r.checked = r.value === state.sort; });
+    boxes.forEach(function (b) { b.checked = state.off.indexOf(b.value) < 0; });
+    Array.prototype.forEach.call(document.querySelectorAll(".mlist"), function (list) {
+      var cards = Array.prototype.slice.call(list.querySelectorAll(".card"));
+      var shown = 0, items = 0;
+      cards.sort(cmp).forEach(function (c) {
+        var on = state.off.indexOf(c.dataset.muni) < 0;
+        c.hidden = !on;
+        if (on) { shown++; items += Number(c.dataset.count); }
+        list.appendChild(c);
+      });
+      var msg = list.nextElementSibling;
+      if (msg && msg.classList.contains("fmsg")) msg.hidden = shown > 0;
+      var meta = list.parentNode.querySelector(".shown");
+      if (meta) meta.textContent = state.off.length ? "（表示中 " + items + "件）" : "";
+    });
+    var total = boxes.length, on = boxes.filter(function (b) { return b.checked; }).length;
+    toggle.textContent = "並び替え・絞り込み" + (on < total ? "（" + on + "/" + total + "）" : "");
+  }
+  function setOpen(open) {
+    document.body.classList.toggle("panel-open", open);
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    backdrop.hidden = !open;
+    if (open) panel.focus();
+  }
+
+  radios.forEach(function (r) {
+    r.addEventListener("change", function () { state.sort = r.value; save(); apply(); });
+  });
+  boxes.forEach(function (b) {
+    b.addEventListener("change", function () {
+      state.off = state.off.filter(function (x) { return x !== b.value; });
+      if (!b.checked) state.off.push(b.value);
+      save(); apply();
+    });
+  });
+  Array.prototype.forEach.call(panel.querySelectorAll(".pregion"), function (fs) {
+    Array.prototype.forEach.call(fs.querySelectorAll("button"), function (btn) {
+      btn.addEventListener("click", function () {
+        var names = Array.prototype.map.call(fs.querySelectorAll('input[name="muni"]'), function (b) { return b.value; });
+        state.off = state.off.filter(function (x) { return names.indexOf(x) < 0; });
+        if (btn.dataset.act === "off") state.off = state.off.concat(names);
+        save(); apply();
+      });
+    });
+  });
+  toggle.addEventListener("click", function () { setOpen(!document.body.classList.contains("panel-open")); });
+  document.getElementById("panel-close").addEventListener("click", function () { setOpen(false); toggle.focus(); });
+  backdrop.addEventListener("click", function () { setOpen(false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && document.body.classList.contains("panel-open")) { setOpen(false); toggle.focus(); }
+  });
+
+  panel.tabIndex = -1;
+  panel.hidden = false;
+  toggle.hidden = false;
+  document.body.classList.add("has-panel");
+  apply();
+})();
+"""
 
 
 # 更新ボタン。docs/config.json の trigger_url（中継サーバーのURL）が空ならボタンも状態も出さない
@@ -597,6 +789,8 @@ def render_page(day: dict, archive_dates: list[str], prefix: str, is_index: bool
     body.append(render_daynav(day["date"], archive_dates, prefix))
     if is_index:
         body.append(render_bar())
+    body.append('<button type="button" class="ptoggle" id="panel-toggle" aria-controls="panel" '
+                'aria-expanded="false" hidden>並び替え・絞り込み</button>')
     body.append(render_day(day, split_latest=is_index))
 
     body.append('<h3 class="foot">過去30日のアーカイブ</h3>')
@@ -614,9 +808,12 @@ def render_page(day: dict, archive_dates: list[str], prefix: str, is_index: bool
         "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
         "<meta name=\"color-scheme\" content=\"light dark\">"
         f"<title>{esc(title)} | 岩手 市町村新着情報</title>"
-        f"<style>{CSS}</style></head><body><main>\n"
+        f"<style>{CSS}</style></head><body><div class=\"layout\">"
+        + render_panel(day)
+        + "<main>\n"
         + "\n".join(body)
-        + "\n</main>"
+        + "\n</main></div>"
+        + f"<script>{PANEL_JS}</script>"
         + (f"<script>{REFRESH_JS}</script>" if is_index else "")
         + "</body></html>\n"
     )
