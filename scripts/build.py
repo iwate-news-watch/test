@@ -6,6 +6,7 @@
 - sources.yaml の取得元を巡回し、記事URLを state/seen.json と照合して新着を判定
 - その日の結果を state/daily/YYYY-MM-DD.json に保存（同日の再実行は追記マージ）
 - docs/index.html と docs/archive/YYYY-MM-DD.html（直近30日分）を生成
+- 過去30日分の記事タイトル検索用データ docs/search.json を生成
 """
 
 from __future__ import annotations
@@ -32,6 +33,7 @@ SEEN_FILE = STATE_DIR / "seen.json"
 DAILY_DIR = STATE_DIR / "daily"
 DOCS_DIR = ROOT / "docs"
 ARCHIVE_DIR = DOCS_DIR / "archive"
+SEARCH_FILE = DOCS_DIR / "search.json"
 
 JST = timezone(timedelta(hours=9))
 USER_AGENT = (
@@ -417,10 +419,27 @@ border:1px solid var(--line);background:var(--bg);color:var(--fg);cursor:pointer
 .panel legend,.plabel{font-size:.82rem;font-weight:600;color:var(--muted);padding:0;margin:0 0 4px}
 .psort{border-bottom:1px solid var(--line)!important;padding-bottom:10px!important}
 .panel label{display:flex;align-items:center;gap:6px;font-size:.9rem;padding:3px 0;cursor:pointer}
-.panel input{margin:0;accent-color:var(--accent);width:1.05em;height:1.05em}
+.panel input[type=checkbox],.panel input[type=radio]{margin:0;accent-color:var(--accent);width:1.05em;height:1.05em}
 .pregion legend{color:var(--fg)}
 .pbtns{display:flex;gap:6px;margin:0 0 4px}
 .fmsg{margin:0 4px 12px}
+.psearch{margin:0 0 12px;padding:0 0 10px;border-bottom:1px solid var(--line)}
+.qbox{position:relative}
+.qbox input{width:100%;font:inherit;font-size:1rem;padding:7px 34px 7px 10px;border:1px solid var(--line);
+border-radius:8px;background:var(--bg);color:var(--fg)}
+.qbox input:focus{outline:2px solid var(--accent);outline-offset:-1px}
+.qbox input::-webkit-search-cancel-button{display:none}
+#q-clear{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:28px;height:28px;border:0;
+border-radius:50%;background:transparent;color:var(--muted);font-size:1.1rem;line-height:1;cursor:pointer}
+#q-clear:hover{background:var(--line)}
+.panel label.qall{font-size:.85rem;margin-top:6px}
+.qcount{margin:4px 0 0;font-size:.85rem;font-weight:600;color:var(--accent)}
+.qcount:empty{display:none}
+mark{background:#ffe58a;color:inherit;border-radius:2px;padding:0 1px}
+@media (prefers-color-scheme:dark){mark{background:#7a5d00}}
+ul.items li.first{border-top:0;padding-top:0}
+.sresults{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0 0 16px}
+.sresults .date a{color:inherit}
 @media (min-width:1000px){
 .has-panel .layout{max-width:1060px;display:grid;grid-template-columns:240px minmax(0,1fr);gap:8px;align-items:start}
 .has-panel .panel{position:sticky;top:0;bottom:auto;width:auto;max-height:100vh;transform:none;visibility:visible;
@@ -562,16 +581,23 @@ def render_day(day: dict, split_latest: bool = False) -> str:
     return "\n".join(body)
 
 
-def render_panel(day: dict) -> str:
-    """自治体の並び替え・絞り込みパネル。JavaScript が使えるときだけ表示する。"""
+def render_panel(day: dict, prefix: str) -> str:
+    """記事検索と自治体の並び替え・絞り込みのパネル。JavaScript が使えるときだけ表示する。"""
     groups = [(r, [n for n, _ in ms]) for r, ms in REGIONS]
     extra = sorted({m["name"] for m in day["municipalities"]} - set(MUNI_INFO))
     if extra:
         groups.append((OTHER_REGION, extra))
     sorts = (("region", "地域順"), ("count", "新着件数順"), ("kana", "五十音順"))
-    parts = ['<aside class="panel" id="panel" aria-label="並び替え・絞り込み" hidden>',
-             '<div class="phead"><h2>並び替え・絞り込み</h2>'
+    parts = [f'<aside class="panel" id="panel" aria-label="検索・並び替え・絞り込み" data-base="{esc(prefix)}" hidden>',
+             '<div class="phead"><h2>検索・並び替え・絞り込み</h2>'
              '<button type="button" class="pclose" id="panel-close">閉じる</button></div>',
+             '<div class="psearch" role="search">'
+             '<label class="plabel" for="q">記事タイトルを検索</label>'
+             '<div class="qbox"><input type="search" id="q" autocomplete="off" enterkeyhint="search" '
+             'placeholder="例：入札 募集">'
+             '<button type="button" id="q-clear" aria-label="検索語を消す" hidden>×</button></div>'
+             '<label class="qall"><input type="checkbox" id="q-all"> 過去30日分も検索</label>'
+             '<p class="qcount" id="q-count" role="status" aria-live="polite"></p></div>',
              '<fieldset class="psort"><legend>並び替え</legend>']
     parts += [f'<label><input type="radio" name="sort" value="{v}"{" checked" if v == "region" else ""}> {t}</label>'
               for v, t in sorts]
@@ -580,23 +606,38 @@ def render_panel(day: dict) -> str:
         parts.append(f'<fieldset class="pregion" data-region="{esc(region)}"><legend>{esc(region)}</legend>'
                      '<div class="pbtns"><button type="button" data-act="on">すべて選択</button>'
                      '<button type="button" data-act="off">すべて解除</button></div>')
-        parts += [f'<label><input type="checkbox" name="muni" value="{esc(n)}" checked> {esc(n)}</label>'
-                  for n in names]
+        for n in names:
+            _, order, kana = muni_info(n)
+            parts.append(f'<label><input type="checkbox" name="muni" value="{esc(n)}" '
+                         f'data-order="{order}" data-kana="{esc(kana)}" checked> {esc(n)}</label>')
         parts.append("</fieldset>")
     parts.append('</div></aside><div class="backdrop" id="panel-backdrop" hidden></div>')
     return "".join(parts)
 
 
-# 並び替え・絞り込み。設定は localStorage に保存（使えない環境では保存せずに動く）
+# 記事検索と並び替え・絞り込み。並び替え・絞り込みの設定は localStorage に保存（使えない環境では保存せずに動く）
 PANEL_JS = """
 (function () {
   var KEY = "iwate-news-panel";
+  var LIMIT = 200;
   var panel = document.getElementById("panel");
   var toggle = document.getElementById("panel-toggle");
   var backdrop = document.getElementById("panel-backdrop");
   if (!panel || !toggle) return;
+  var q = document.getElementById("q");
+  var qClear = document.getElementById("q-clear");
+  var qAll = document.getElementById("q-all");
+  var qCount = document.getElementById("q-count");
+  var dayView = document.getElementById("day-view");
+  var results = document.getElementById("search-results");
+  var base = panel.getAttribute("data-base") || "";
+  var each = function (list, fn) { Array.prototype.forEach.call(list, fn); };
   var boxes = Array.prototype.slice.call(panel.querySelectorAll('input[name="muni"]'));
   var radios = Array.prototype.slice.call(panel.querySelectorAll('input[name="sort"]'));
+  var muniMeta = {};
+  boxes.forEach(function (b) { muniMeta[b.value] = {order: Number(b.dataset.order), kana: b.dataset.kana}; });
+
+  // 保存するのは並び替えと自治体の絞り込みだけ（検索語は保存しない）
   var state = {sort: "region", off: []};
   try {
     var saved = JSON.parse(window.localStorage.getItem(KEY) || "null");
@@ -605,35 +646,208 @@ PANEL_JS = """
       if (Array.isArray(saved.off)) state.off = saved.off.filter(function (x) { return typeof x === "string"; });
     }
   } catch (e) {}
-
   function save() {
     try { window.localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
   }
-  function cmp(a, b) {
+
+  // 全角半角・大文字小文字を同一視する。元の文字位置への対応表も作り、ハイライトに使う
+  function norm(s) {
+    var text = "", map = [];
+    for (var i = 0; i < s.length; i++) {
+      var c = s.charAt(i);
+      var code = s.charCodeAt(i);
+      if (code >= 0xD800 && code <= 0xDBFF && i + 1 < s.length) c += s.charAt(i + 1);
+      var n = c.normalize("NFKC").toLowerCase();
+      if (/^[\\u3099\\u309a]/.test(n) && map.length) {  // 半角の濁点・半濁点は前の文字と合成
+        var last = text.charAt(text.length - 1), merged = (last + n).normalize("NFC");
+        if (merged.length === 1) {
+          text = text.slice(0, -1) + merged;
+          map[map.length - 1][1] = i + c.length;
+          i += c.length - 1;
+          continue;
+        }
+      }
+      for (var k = 0; k < n.length; k++) map.push([i, i + c.length]);
+      text += n;
+      i += c.length - 1;
+    }
+    return {text: text, map: map};
+  }
+  function terms() {
+    return norm(q.value).text.split(/\\s+/).filter(Boolean);
+  }
+  // すべての語を含めば一致。一致した元の文字範囲を返す（不一致は null）
+  function match(n, ts) {
+    var ranges = [];
+    for (var j = 0; j < ts.length; j++) {
+      var t = ts[j], at = n.text.indexOf(t);
+      if (at < 0) return null;
+      while (at >= 0) {
+        ranges.push([n.map[at][0], n.map[at + t.length - 1][1]]);
+        at = n.text.indexOf(t, at + t.length);
+      }
+    }
+    ranges.sort(function (a, b) { return a[0] - b[0]; });
+    var out = [];
+    ranges.forEach(function (r) {
+      var prev = out[out.length - 1];
+      if (prev && r[0] <= prev[1]) prev[1] = Math.max(prev[1], r[1]);
+      else out.push([r[0], r[1]]);
+    });
+    return out;
+  }
+  function highlight(el, title, ranges) {
+    el.textContent = "";
+    var pos = 0;
+    ranges.forEach(function (r) {
+      if (r[0] > pos) el.appendChild(document.createTextNode(title.slice(pos, r[0])));
+      var m = document.createElement("mark");
+      m.textContent = title.slice(r[0], r[1]);
+      el.appendChild(m);
+      pos = r[1];
+    });
+    if (pos < title.length) el.appendChild(document.createTextNode(title.slice(pos)));
+  }
+
+  // このページの記事
+  var cards = [];
+  each(document.querySelectorAll(".mlist .card"), function (card) {
+    var items = [];
+    each(card.querySelectorAll("ul.items li"), function (li) {
+      var a = li.querySelector("a");
+      if (a) items.push({li: li, a: a, title: a.textContent, n: norm(a.textContent), marked: false});
+    });
+    cards.push({el: card, items: items, badge: card.querySelector(".count")});
+  });
+
+  // 過去30日分（search.json）は必要になったときに1回だけ読み込む
+  var arch = null, archState = "idle";
+  function loadArchive() {
+    if (archState !== "idle") return;
+    archState = "loading";
+    fetch(base + "search.json", {cache: "no-cache"}).then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      return r.json();
+    }).then(function (data) {
+      arch = (data.items || []).map(function (e) { return {d: e.d, m: e.m, t: e.t, u: e.u, n: norm(e.t)}; });
+      archState = "ok";
+      apply();
+    }).catch(function () { archState = "error"; apply(); });
+  }
+
+  function muniCmp(a, b) {
+    var x = muniMeta[a] || {order: 9999, kana: a}, y = muniMeta[b] || {order: 9999, kana: b};
+    if (state.sort === "kana") return x.kana.localeCompare(y.kana, "ja") || x.order - y.order;
+    return x.order - y.order;
+  }
+  function cardCmp(a, b) {
     var d = 0;
     if (state.sort === "count") d = Number(b.dataset.count) - Number(a.dataset.count);
     else if (state.sort === "kana") d = a.dataset.kana.localeCompare(b.dataset.kana, "ja");
     return d || Number(a.dataset.order) - Number(b.dataset.order);
   }
+  function mdText(iso) {
+    var p = iso.split("-");
+    return Number(p[1]) + "月" + Number(p[2]) + "日";
+  }
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  function applyDay(ts) {
+    var hits = 0;
+    each(document.querySelectorAll(".mlist"), function (list) {
+      var listCards = cards.filter(function (c) { return c.el.parentNode === list; });
+      var shown = 0, count = 0;
+      listCards.sort(function (a, b) { return cardCmp(a.el, b.el); }).forEach(function (c) {
+        var on = state.off.indexOf(c.el.dataset.muni) < 0, matched = 0, first = true;
+        c.items.forEach(function (it) {
+          var r = ts.length ? match(it.n, ts) : [];
+          it.li.hidden = !r;
+          if (r && (r.length || it.marked)) { highlight(it.a, it.title, r); it.marked = r.length > 0; }
+          it.li.classList.toggle("first", !!r && first);
+          if (r) { matched++; first = false; }
+        });
+        c.el.hidden = !on || (ts.length > 0 && matched === 0);
+        if (c.badge) c.badge.textContent = ts.length ? matched + "/" + c.items.length + "件" : c.items.length + "件";
+        if (!c.el.hidden) { shown++; count += matched; }
+        list.appendChild(c.el);
+      });
+      hits += count;
+      var msg = list.nextElementSibling;
+      if (msg && msg.classList.contains("fmsg")) {
+        msg.hidden = shown > 0;
+        msg.textContent = ts.length ? "検索語に一致する記事はありません" : "選択中の自治体の記事はありません";
+      }
+      var meta = list.parentNode.querySelector(".shown");
+      if (meta) meta.textContent = state.off.length || ts.length ? "（表示中 " + count + "件）" : "";
+    });
+    return hits;
+  }
+
+  function applyArchive(ts) {
+    results.textContent = "";
+    if (archState !== "ok") {
+      results.appendChild(el("p", "msg", archState === "error"
+        ? "過去30日分のデータを読み込めませんでした。時間をおいてもう一度お試しください"
+        : "過去30日分のデータを読み込んでいます…"));
+      return null;
+    }
+    var found = [];
+    arch.forEach(function (e) {
+      if (state.off.indexOf(e.m) >= 0) return;
+      var r = match(e.n, ts);
+      if (r) found.push({e: e, r: r});
+    });
+    found.sort(function (a, b) {
+      return a.e.d < b.e.d ? 1 : a.e.d > b.e.d ? -1 : muniCmp(a.e.m, b.e.m);
+    });
+    var head = el("h2", null, "過去30日分の検索結果");
+    head.appendChild(el("span", "meta", found.length + "件" +
+      (found.length > LIMIT ? "（新しい順に" + LIMIT + "件を表示）" : "")));
+    results.appendChild(head);
+    if (!found.length) {
+      results.appendChild(el("p", "msg", "検索語に一致する記事はありません"));
+      return 0;
+    }
+    var ul = el("ul", "items");
+    found.slice(0, LIMIT).forEach(function (f) {
+      var li = el("li"), meta = el("span", "date"), day = el("a", null, mdText(f.e.d));
+      day.href = base + "archive/" + f.e.d + ".html";
+      meta.appendChild(day);
+      meta.appendChild(document.createTextNode(" ・ " + f.e.m));
+      var a = el("a");
+      a.href = f.e.u;
+      a.target = "_blank";
+      a.rel = "noopener";
+      highlight(a, f.e.t, f.r);
+      li.appendChild(meta);
+      li.appendChild(a);
+      ul.appendChild(li);
+    });
+    results.appendChild(ul);
+    return found.length;
+  }
+
   function apply() {
     radios.forEach(function (r) { r.checked = r.value === state.sort; });
     boxes.forEach(function (b) { b.checked = state.off.indexOf(b.value) < 0; });
-    Array.prototype.forEach.call(document.querySelectorAll(".mlist"), function (list) {
-      var cards = Array.prototype.slice.call(list.querySelectorAll(".card"));
-      var shown = 0, items = 0;
-      cards.sort(cmp).forEach(function (c) {
-        var on = state.off.indexOf(c.dataset.muni) < 0;
-        c.hidden = !on;
-        if (on) { shown++; items += Number(c.dataset.count); }
-        list.appendChild(c);
-      });
-      var msg = list.nextElementSibling;
-      if (msg && msg.classList.contains("fmsg")) msg.hidden = shown > 0;
-      var meta = list.parentNode.querySelector(".shown");
-      if (meta) meta.textContent = state.off.length ? "（表示中 " + items + "件）" : "";
-    });
+    var ts = terms();
+    var dayHits = applyDay(ts);
+    var archive = qAll.checked && ts.length > 0;
+    if (archive) loadArchive();
+    var hits = archive ? applyArchive(ts) : dayHits;
+    results.hidden = !archive;
+    dayView.hidden = archive;
+    qClear.hidden = !q.value;
+    qCount.textContent = !ts.length ? "" : hits == null ? "検索中…"
+      : (archive ? "過去30日分の検索結果 " : "検索結果 ") + hits + "件";
     var total = boxes.length, on = boxes.filter(function (b) { return b.checked; }).length;
-    toggle.textContent = "並び替え・絞り込み" + (on < total ? "（" + on + "/" + total + "）" : "");
+    toggle.textContent = "検索・並び替え・絞り込み" +
+      (on < total ? "（" + on + "/" + total + "）" : "") + (ts.length ? "（検索中）" : "");
   }
   function setOpen(open) {
     document.body.classList.toggle("panel-open", open);
@@ -642,6 +856,12 @@ PANEL_JS = """
     if (open) panel.focus();
   }
 
+  q.addEventListener("input", apply);
+  q.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") q.blur();  // スマホでキーボードを閉じる
+  });
+  qClear.addEventListener("click", function () { q.value = ""; apply(); q.focus(); });
+  qAll.addEventListener("change", apply);
   radios.forEach(function (r) {
     r.addEventListener("change", function () { state.sort = r.value; save(); apply(); });
   });
@@ -652,8 +872,8 @@ PANEL_JS = """
       save(); apply();
     });
   });
-  Array.prototype.forEach.call(panel.querySelectorAll(".pregion"), function (fs) {
-    Array.prototype.forEach.call(fs.querySelectorAll("button"), function (btn) {
+  each(panel.querySelectorAll(".pregion"), function (fs) {
+    each(fs.querySelectorAll("button"), function (btn) {
       btn.addEventListener("click", function () {
         var names = Array.prototype.map.call(fs.querySelectorAll('input[name="muni"]'), function (b) { return b.value; });
         state.off = state.off.filter(function (x) { return names.indexOf(x) < 0; });
@@ -669,6 +889,9 @@ PANEL_JS = """
     if (e.key === "Escape" && document.body.classList.contains("panel-open")) { setOpen(false); toggle.focus(); }
   });
 
+  // 戻る操作などでブラウザが入力欄を復元しても、検索語は引き継がない
+  q.value = "";
+  qAll.checked = false;
   panel.tabIndex = -1;
   panel.hidden = false;
   toggle.hidden = false;
@@ -790,8 +1013,9 @@ def render_page(day: dict, archive_dates: list[str], prefix: str, is_index: bool
     if is_index:
         body.append(render_bar())
     body.append('<button type="button" class="ptoggle" id="panel-toggle" aria-controls="panel" '
-                'aria-expanded="false" hidden>並び替え・絞り込み</button>')
-    body.append(render_day(day, split_latest=is_index))
+                'aria-expanded="false" hidden>検索・並び替え・絞り込み</button>')
+    body.append('<section class="sresults" id="search-results" aria-live="polite" hidden></section>')
+    body.append(f'<div id="day-view">{render_day(day, split_latest=is_index)}</div>')
 
     body.append('<h3 class="foot">過去30日のアーカイブ</h3>')
     if not is_index:
@@ -809,7 +1033,7 @@ def render_page(day: dict, archive_dates: list[str], prefix: str, is_index: bool
         "<meta name=\"color-scheme\" content=\"light dark\">"
         f"<title>{esc(title)} | 岩手 市町村新着情報</title>"
         f"<style>{CSS}</style></head><body><div class=\"layout\">"
-        + render_panel(day)
+        + render_panel(day, prefix)
         + "<main>\n"
         + "\n".join(body)
         + "\n</main></div>"
@@ -817,6 +1041,17 @@ def render_page(day: dict, archive_dates: list[str], prefix: str, is_index: bool
         + (f"<script>{REFRESH_JS}</script>" if is_index else "")
         + "</body></html>\n"
     )
+
+
+def write_search_index(days: list[str]) -> None:
+    """過去30日分の記事タイトル検索用データを1ファイルにまとめる（新しい日から順）。"""
+    items = []
+    for d in days:
+        for m in load_daily(DAILY_DIR / f"{d}.json", d)["municipalities"]:
+            items += [{"d": d, "m": m["name"], "t": i["title"], "u": i["url"]} for i in m["new"]]
+    with SEARCH_FILE.open("w", encoding="utf-8") as f:
+        json.dump({"days": days, "items": items}, f, ensure_ascii=False, separators=(",", ":"))
+        f.write("\n")
 
 
 def write_pages(today: date) -> None:
@@ -836,6 +1071,7 @@ def write_pages(today: date) -> None:
         data = load_daily(DAILY_DIR / f"{d}.json", d)
         (ARCHIVE_DIR / f"{d}.html").write_text(
             render_page(data, days, "../", is_index=False), encoding="utf-8")
+    write_search_index(days)
     latest = load_daily(DAILY_DIR / f"{days[0]}.json", days[0])
     (DOCS_DIR / "index.html").write_text(render_page(latest, days, "", is_index=True), encoding="utf-8")
     (DOCS_DIR / ".nojekyll").touch()
