@@ -1,7 +1,7 @@
 {
  "date": "2026-10-17",
  "first_run": false,
- "last_fetched": "09:09",
+ "last_fetched": "12:57",
  "municipalities": [
   {
    "errors": [],
@@ -144,11 +144,13 @@
    "status": "ok"
   },
   {
-   "errors": [],
+   "errors": [
+    "https://www.town.nishiwaga.lg.jp/cgi-bin/feed.php?siteNew=1: ConnectionError: HTTPSConnectionPool(host='www.town.nishiwaga.lg.jp', port=443): Max retries exceeded with url: /cgi-bin/feed.php?siteNew=1 (Caused by NameResolutionError(\"HTTPSConnection(host='www.town.nishiwaga.lg.jp', port=443): Failed "
+   ],
    "name": "西和賀町",
    "new": [],
    "record_only": false,
-   "status": "ok"
+   "status": "error"
   },
   {
    "errors": [],
