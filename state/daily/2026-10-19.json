@@ -1,0 +1,324 @@
+{
+ "date": "2026-10-19",
+ "first_run": false,
+ "last_fetched": "08:30",
+ "municipalities": [
+  {
+   "errors": [],
+   "name": "盛岡市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "宮古市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "大船渡市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "花巻市",
+   "new": [
+    {
+     "date": "2026-10-19",
+     "fetched_at": "08:30",
+     "title": "第3次健康はなまき21プラン中間見直し（案）に関するパブリックコメントを実施します",
+     "url": "https://www.city.hanamaki.iwate.jp/shisei/iken/public_comment/1026067.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "北上市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "久慈市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "遠野市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "一関市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "陸前高田市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "釜石市",
+   "new": [
+    {
+     "date": "2026-10-19",
+     "fetched_at": "08:30",
+     "title": "市長公務日程",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2026101400011/"
+    },
+    {
+     "date": "2026-10-01",
+     "fetched_at": "08:30",
+     "title": "【起業に興味のある方向け】あなたの『やってみたい』を形にする一番はじめのワークショップを開催します",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2026091600026/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "二戸市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "八幡平市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "奥州市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "滝沢市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "雫石町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "葛巻町",
+   "new": [
+    {
+     "date": "2026-09-30",
+     "fetched_at": "08:30",
+     "title": "求職者等へのハラスメントの防止等に関する基本方針について",
+     "url": "https://www.town.kuzumaki.lg.jp/docs/2026101600015/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "岩手町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "紫波町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "矢巾町",
+   "new": [
+    {
+     "date": "2026-09-25",
+     "fetched_at": "08:30",
+     "title": "やはラヂ!(矢巾町情報番組)",
+     "url": "https://www.town.yahaba.iwate.jp/soshiki/kikaku/kurashi/2018061100025/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "西和賀町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "金ケ崎町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "平泉町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "住田町",
+   "new": [
+    {
+     "date": "2026-10-19",
+     "fetched_at": "08:30",
+     "title": "令和９年度保育園等の入園申込みについて",
+     "url": "http://www.town.sumita.iwate.jp/docs/2026092500028/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "大槌町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "山田町",
+   "new": [
+    {
+     "date": "2026-06-16",
+     "fetched_at": "08:30",
+     "title": "山田町結婚新生活サポート事業",
+     "url": "https://www.town.yamada.iwate.jp/docs/341.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "岩泉町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "軽米町",
+   "new": [
+    {
+     "date": "2026-10-19",
+     "fetched_at": "08:30",
+     "title": "町道谷地渡線側溝補修工事(閲覧期間10月19日~10月23日)",
+     "url": "https://www.town.karumai.iwate.jp/article/jigyosha/nyusatsu/etsuran/entry-basename-62.html"
+    },
+    {
+     "date": "2026-10-19",
+     "fetched_at": "08:30",
+     "title": "花のまち軽米こども園園児用手洗い他園内設備改修工事(閲覧期間10月19日~10月23日)",
+     "url": "https://www.town.karumai.iwate.jp/article/jigyosha/nyusatsu/etsuran/entry-basename-61.html"
+    },
+    {
+     "date": "2026-10-19",
+     "fetched_at": "08:30",
+     "title": "町道岩崎外川目舗装補修工事(閲覧期間10月19日~10月23日)",
+     "url": "https://www.town.karumai.iwate.jp/article/jigyosha/nyusatsu/etsuran/entry-basename-60.html"
+    },
+    {
+     "date": "2026-10-19",
+     "fetched_at": "08:30",
+     "title": "町道外川目晴山線舗装補修工事(閲覧期間10月19日~10月23日)",
+     "url": "https://www.town.karumai.iwate.jp/article/jigyosha/nyusatsu/etsuran/entry-basename-59.html"
+    },
+    {
+     "date": "2026-10-19",
+     "fetched_at": "08:30",
+     "title": "町道板橋米田岡堀線舗装補修工事(閲覧期間10月19日~10月23日)",
+     "url": "https://www.town.karumai.iwate.jp/article/jigyosha/nyusatsu/etsuran/entry-basename-58.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "洋野町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "一戸町",
+   "new": [
+    {
+     "date": "2026-09-11",
+     "fetched_at": "08:30",
+     "title": "秋の狂犬病予防巡回注射",
+     "url": "https://www.town.ichinohe.iwate.jp/soshikikarasagasu/chominka/seikatsukankyokakari/2/6487.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "田野畑村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "普代村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "九戸村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "野田村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  }
+ ]
+}
