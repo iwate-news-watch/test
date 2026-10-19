@@ -1,7 +1,7 @@
 {
  "date": "2026-10-19",
  "first_run": false,
- "last_fetched": "08:30",
+ "last_fetched": "11:18",
  "municipalities": [
   {
    "errors": [],
@@ -28,6 +28,18 @@
    "errors": [],
    "name": "花巻市",
    "new": [
+    {
+     "date": "2026-10-19",
+     "fetched_at": "11:18",
+     "title": "茨城県かすみがうら市の養豚農場で豚熱が確認されました(令和8年10月19日掲載)",
+     "url": "https://www.city.hanamaki.iwate.jp/business/norinchikusan/1000242/1000161/1026164.html"
+    },
+    {
+     "date": "2026-10-19",
+     "fetched_at": "11:18",
+     "title": "骨髄ドナー登録説明員養成研修会",
+     "url": "https://www.city.hanamaki.iwate.jp/kenko_iryo_fukushi/oshirase/1019880/1026128.html"
+    },
     {
      "date": "2026-10-19",
      "fetched_at": "08:30",
@@ -62,7 +74,62 @@
   {
    "errors": [],
    "name": "一関市",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-10-19",
+     "fetched_at": "11:18",
+     "title": "【12／５開催】医介連 研修会（磐井病院 市民講演会）を開催します",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261009144814"
+    },
+    {
+     "date": "2026-10-19",
+     "fetched_at": "11:18",
+     "title": "いきいき・かみかみ百歳体操",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261016165102"
+    },
+    {
+     "date": "2026-10-19",
+     "fetched_at": "11:18",
+     "title": "室根子育てひろば（予約制）",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261016170228"
+    },
+    {
+     "date": "2026-10-19",
+     "fetched_at": "11:18",
+     "title": "室根図書館おはなし会",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261016170429"
+    },
+    {
+     "date": "2026-10-19",
+     "fetched_at": "11:18",
+     "title": "秋の室根バイパスクリーン作戦",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261016170903"
+    },
+    {
+     "date": "2026-10-19",
+     "fetched_at": "11:18",
+     "title": "第22回一関市むろね産業文化祭",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261016171640"
+    },
+    {
+     "date": "2026-10-19",
+     "fetched_at": "11:18",
+     "title": "男の料理教室",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261016173032"
+    },
+    {
+     "date": "2026-10-19",
+     "fetched_at": "11:18",
+     "title": "第44回むろね音楽祭",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261016173614"
+    },
+    {
+     "date": "2026-10-19",
+     "fetched_at": "11:18",
+     "title": "卓上ゲームカフェ交流会",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261016173928"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -96,7 +163,14 @@
   {
    "errors": [],
    "name": "二戸市",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-10-16",
+     "fetched_at": "11:18",
+     "title": "条件付一般競争入札を実施します",
+     "url": "http://www.city.ninohe.lg.jp/info/4705"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -110,21 +184,48 @@
   {
    "errors": [],
    "name": "奥州市",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-10-19",
+     "fetched_at": "11:18",
+     "title": "車載式草刈機に係る一般競争入札を行います",
+     "url": "https://www.city.oshu.iwate.jp/soshiki/3/1007/4/4/18401.html"
+    },
+    {
+     "date": "2026-10-19",
+     "fetched_at": "11:18",
+     "title": "管理栄養士おすすめ！からだ 活き活きレシピ",
+     "url": "https://www.city.oshu.iwate.jp/soshiki/9/1065/2/2/264.html"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
   {
    "errors": [],
    "name": "滝沢市",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-10-16",
+     "fetched_at": "11:18",
+     "title": "令和８年度会計年度任用職員を募集します",
+     "url": "https://www.city.takizawa.iwate.jp/about-takizawa/soshiki-gaiyo/saiyou/contents-14511"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
   {
    "errors": [],
    "name": "雫石町",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-10-19",
+     "fetched_at": "11:18",
+     "title": "つどいの広場で「ベビースキンケア講座」を開催します",
+     "url": "https://www.town.shizukuishi.iwate.jp/docs/2026101300014/"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -152,7 +253,14 @@
   {
    "errors": [],
    "name": "紫波町",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-10-19",
+     "fetched_at": "11:18",
+     "title": "NEW! センサリーバックを作ろう!/子育て応援センターしわっせ",
+     "url": "https://www.town.shiwa.iwate.jp/shiwasse/event1/event2/17766484442676739/"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -160,6 +268,12 @@
    "errors": [],
    "name": "矢巾町",
    "new": [
+    {
+     "date": "2026-10-19",
+     "fetched_at": "11:18",
+     "title": "NEW! 第34回矢ぁコンを開催します!",
+     "url": "https://www.town.yahaba.iwate.jp/soshiki/kikaku/kurashi/171826878029050/"
+    },
     {
      "date": "2026-09-25",
      "fetched_at": "08:30",
@@ -180,7 +294,14 @@
   {
    "errors": [],
    "name": "金ケ崎町",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-10-19",
+     "fetched_at": "11:18",
+     "title": "～仕事をお探しの方へ～ 週間求人情報（ハローワーク水沢）掲載！",
+     "url": "https://www.town.kanegasaki.iwate.jp/articles/2019052900013/"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -195,6 +316,12 @@
    "errors": [],
    "name": "住田町",
    "new": [
+    {
+     "date": "2026-10-19",
+     "fetched_at": "11:18",
+     "title": "あなたもわたしも すみた推し！「すみた自分ごと化会議」の紹介",
+     "url": "http://www.town.sumita.iwate.jp/docs/2026080600020/"
+    },
     {
      "date": "2026-10-19",
      "fetched_at": "08:30",
@@ -274,7 +401,14 @@
   {
    "errors": [],
    "name": "洋野町",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-10-19",
+     "fetched_at": "11:18",
+     "title": "第19回洋野町長杯高校野球交流大会（本選）の開催について",
+     "url": "https://www.town.hirono.iwate.jp/doc/2026101500025/"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -295,7 +429,14 @@
   {
    "errors": [],
    "name": "田野畑村",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-10-19",
+     "fetched_at": "11:18",
+     "title": "令和8年度田野畑村職員採用試験(社会人募集・年度途中採用)を行います(11/2締切)",
+     "url": "http://www.vill.tanohata.iwate.jp/docs/2026071300021/"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
