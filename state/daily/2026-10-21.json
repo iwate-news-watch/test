@@ -1,7 +1,7 @@
 {
  "date": "2026-10-21",
  "first_run": false,
- "last_fetched": "12:35",
+ "last_fetched": "13:31",
  "municipalities": [
   {
    "errors": [],
@@ -34,7 +34,14 @@
   {
    "errors": [],
    "name": "花巻市",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-10-21",
+     "fetched_at": "13:31",
+     "title": "花巻北中学校",
+     "url": "https://www.city.hanamaki.iwate.jp/kosodate_kyoiku/kyoiku/sho_chugakko/website/1007131/index.html"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -352,6 +359,12 @@
    "errors": [],
    "name": "一戸町",
    "new": [
+    {
+     "date": "2026-10-21",
+     "fetched_at": "13:31",
+     "title": "学校給食用食缶コンテナ・食缶購入に係る条件付き一般競争入札の公告について",
+     "url": "https://www.town.ichinohe.iwate.jp/soshikikarasagasu/somuka/kanzaikakari/nyusatsu_ichiran/7278.html"
+    },
     {
      "date": "2026-10-21",
      "fetched_at": "12:35",
