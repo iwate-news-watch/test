@@ -1,7 +1,7 @@
 {
  "date": "2026-10-21",
  "first_run": false,
- "last_fetched": "13:31",
+ "last_fetched": "17:02",
  "municipalities": [
   {
    "errors": [],
@@ -21,6 +21,12 @@
    "errors": [],
    "name": "大船渡市",
    "new": [
+    {
+     "date": "2026-10-15",
+     "fetched_at": "17:02",
+     "title": "「大船渡市民俗芸能継承フェスティバルpart４」開催",
+     "url": "https://www.city.ofunato.iwate.jp/archive/p20251107152813"
+    },
     {
      "date": "2026-10-21",
      "fetched_at": "12:35",
@@ -48,7 +54,20 @@
   {
    "errors": [],
    "name": "北上市",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-10-21",
+     "fetched_at": "17:02",
+     "title": "不正アクセスによる「ふるさとチョイス」の個人情報の流出に関して",
+     "url": "https://www.city.kitakami.iwate.jp/life/soshikikarasagasu/sangyokoyoshienka/sangyorenkeikakari/1/30227.html"
+    },
+    {
+     "date": "2026-10-21",
+     "fetched_at": "17:02",
+     "title": "定例記者会見・令和8年10月",
+     "url": "https://www.city.kitakami.iwate.jp/life/soshikikarasagasu/toshipromotionka/kohocommunicationgakari/1/7/r8/30230.html"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -70,6 +89,24 @@
    "errors": [],
    "name": "一関市",
    "new": [
+    {
+     "date": "2026-10-21",
+     "fetched_at": "17:02",
+     "title": "いちのせきの秋を楽しむ～バルーン・もち・栗駒山～",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261019104411"
+    },
+    {
+     "date": "2026-10-21",
+     "fetched_at": "17:02",
+     "title": "ふるさと納税ポータルサイト「ふるさとチョイス」における個人情報漏洩について",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261021155806"
+    },
+    {
+     "date": "2026-10-21",
+     "fetched_at": "17:02",
+     "title": "栗駒焼石ほっとライン冬期通行止および祭畤見学通路冬期閉鎖について",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/contents-111749"
+    },
     {
      "date": "2026-10-21",
      "fetched_at": "12:35",
@@ -121,7 +158,14 @@
   {
    "errors": [],
    "name": "二戸市",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-10-21",
+     "fetched_at": "17:02",
+     "title": "森林環境譲与税の使途について",
+     "url": "http://www.city.ninohe.lg.jp/info/2592"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -129,6 +173,12 @@
    "errors": [],
    "name": "八幡平市",
    "new": [
+    {
+     "date": "2026-10-19",
+     "fetched_at": "17:02",
+     "title": "八幡平市移住定住センターのご案内",
+     "url": "https://www.city.hachimantai.lg.jp/site/ijyu-3/32708.html"
+    },
     {
      "date": "2026-10-21",
      "fetched_at": "12:35",
@@ -220,7 +270,14 @@
   {
    "errors": [],
    "name": "葛巻町",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-10-20",
+     "fetched_at": "17:02",
+     "title": "くずまき暮らし体験ツアー",
+     "url": "https://www.town.kuzumaki.lg.jp/docs/2018082200018/"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -274,7 +331,14 @@
   {
    "errors": [],
    "name": "西和賀町",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-10-21",
+     "fetched_at": "17:02",
+     "title": "ふるさと納税ポータルサイト「ふるさとチョイス」における個人情報漏洩に係る注意喚起",
+     "url": "https://www.town.nishiwaga.lg.jp/soshikikarasagasu/kikakuzaisei/2/1/1_1/4376.html"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -295,7 +359,14 @@
   {
    "errors": [],
    "name": "平泉町",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-10-21",
+     "fetched_at": "17:02",
+     "title": "ふるさと納税ポータルサイト「ふるさとチョイス」への不正アクセスについて",
+     "url": "https://www.town.hiraizumi.iwate.jp/%e3%81%b5%e3%82%8b%e3%81%95%e3%81%a8%e7%b4%8d%e7%a8%8e%e3%83%9d%e3%83%bc%e3%82%bf%e3%83%ab%e3%82%b5%e3%82%a4%e3%83%88%e3%80%8c%e3%81%b5%e3%82%8b%e3%81%95%e3%81%a8%e3%83%81%e3%83%a7%e3%82%a4%e3%82%b9-41105/"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -359,6 +430,12 @@
    "errors": [],
    "name": "一戸町",
    "new": [
+    {
+     "date": "2026-10-21",
+     "fetched_at": "17:02",
+     "title": "令和8年度",
+     "url": "http://www.town.ichinohe.iwate.jp/soshikikarasagasu/norinka/norinseibigakari/certification_tamenteki_kekaku/7283.html"
+    },
     {
      "date": "2026-10-21",
      "fetched_at": "13:31",
