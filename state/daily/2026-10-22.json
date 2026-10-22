@@ -1,0 +1,347 @@
+{
+ "date": "2026-10-22",
+ "first_run": false,
+ "last_fetched": "10:29",
+ "municipalities": [
+  {
+   "errors": [],
+   "name": "盛岡市",
+   "new": [
+    {
+     "date": "2026-10-22",
+     "fetched_at": "10:29",
+     "title": "実践！正しいラジオ体操",
+     "url": "https://www.city.morioka.iwate.jp/kenko_fukushi/kenko_iryo/kenko_zukuri/1058490/1022919.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [
+    "https://www.city.miyako.iwate.jp/cgi-bin/feed.php?siteNew=1: HTTPError: 502 Server Error: Bad Gateway for url: https://www.city.miyako.iwate.jp/cgi-bin/feed.php?siteNew=1"
+   ],
+   "name": "宮古市",
+   "new": [],
+   "record_only": false,
+   "status": "error"
+  },
+  {
+   "errors": [],
+   "name": "大船渡市",
+   "new": [
+    {
+     "date": "2026-10-22",
+     "fetched_at": "10:29",
+     "title": "岩手県最低賃金を確認しましょう",
+     "url": "https://www.city.ofunato.iwate.jp/archive/contents-35203"
+    },
+    {
+     "date": "2026-10-22",
+     "fetched_at": "10:29",
+     "title": "市ホームページの一時停止と復旧について",
+     "url": "https://www.city.ofunato.iwate.jp/archive/p20261022084203"
+    },
+    {
+     "date": "2026-10-22",
+     "fetched_at": "10:29",
+     "title": "ふるさと納税ポータルサイト「ふるさとチョイス」における不正アクセス検知に伴うサービス停止及び注意喚起について",
+     "url": "https://www.city.ofunato.iwate.jp/archive/p20261021171409"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "花巻市",
+   "new": [
+    {
+     "date": "2026-10-22",
+     "fetched_at": "10:29",
+     "title": "献血日程",
+     "url": "https://www.city.hanamaki.iwate.jp/kenko_iryo_fukushi/kenketsu/1001812.html"
+    },
+    {
+     "date": "2026-10-21",
+     "fetched_at": "10:29",
+     "title": "花巻市災害警戒本部を廃止しました（令和8年10月21日)",
+     "url": "https://www.city.hanamaki.iwate.jp/kurashi/anshin_anzen/bousai_saigai/1026185.html"
+    },
+    {
+     "date": "2026-10-21",
+     "fetched_at": "10:29",
+     "title": "ふるさと納税ポータルサイト「ふるさとチョイス」における不正アクセスによる個人情報の漏えいについて",
+     "url": "https://www.city.hanamaki.iwate.jp/shisei/hurusatonozei/1019906/1026179.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [
+    "https://www.city.kitakami.iwate.jp/cgi-bin/feed.php?siteNew=1: HTTPError: 502 Server Error: Bad Gateway for url: https://www.city.kitakami.iwate.jp/cgi-bin/feed.php?siteNew=1"
+   ],
+   "name": "北上市",
+   "new": [],
+   "record_only": false,
+   "status": "error"
+  },
+  {
+   "errors": [
+    "https://www.city.kuji.lg.jp/cgi-bin/feed.php?siteNew=1: HTTPError: 502 Server Error: Bad Gateway for url: https://www.city.kuji.lg.jp/cgi-bin/feed.php?siteNew=1"
+   ],
+   "name": "久慈市",
+   "new": [],
+   "record_only": false,
+   "status": "error"
+  },
+  {
+   "errors": [],
+   "name": "遠野市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "一関市",
+   "new": [
+    {
+     "date": "2026-10-22",
+     "fetched_at": "10:29",
+     "title": "【岩手県事業】農業資材価格高騰緊急対策費補助金について",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261008093713"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [
+    "https://www.city.rikuzentakata.iwate.jp/cgi-bin/feed.php?siteNew=1: HTTPError: 502 Server Error: Bad Gateway for url: https://www.city.rikuzentakata.iwate.jp/cgi-bin/feed.php?siteNew=1"
+   ],
+   "name": "陸前高田市",
+   "new": [],
+   "record_only": false,
+   "status": "error"
+  },
+  {
+   "errors": [],
+   "name": "釜石市",
+   "new": [
+    {
+     "date": "2026-10-22",
+     "fetched_at": "10:29",
+     "title": "【緊急メンテナンスのお知らせ】「かまいしライフ」と「おさんぽ釜石」のサービスを一時停止しています",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2026102200016/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "二戸市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "八幡平市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [
+    "https://www.city.oshu.iwate.jp/cgi-bin/feed.php?siteNew=1: HTTPError: 502 Server Error: Bad Gateway for url: https://www.city.oshu.iwate.jp/cgi-bin/feed.php?siteNew=1"
+   ],
+   "name": "奥州市",
+   "new": [],
+   "record_only": false,
+   "status": "error"
+  },
+  {
+   "errors": [],
+   "name": "滝沢市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "雫石町",
+   "new": [
+    {
+     "date": "2026-10-22",
+     "fetched_at": "10:29",
+     "title": "しずくいし議会だより 第139号（10／22発行）を掲載しました",
+     "url": "https://www.town.shizukuishi.iwate.jp/docs/2026072400041/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "葛巻町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "岩手町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [
+    "https://www.town.shiwa.iwate.jp/news/: HTTPError: 403 Client Error: Forbidden for url: https://www.town.shiwa.iwate.jp/news/"
+   ],
+   "name": "紫波町",
+   "new": [],
+   "record_only": false,
+   "status": "error"
+  },
+  {
+   "errors": [
+    "https://www.town.yahaba.iwate.jp/news/: HTTPError: 403 Client Error: Forbidden for url: https://www.town.yahaba.iwate.jp/news/"
+   ],
+   "name": "矢巾町",
+   "new": [],
+   "record_only": false,
+   "status": "error"
+  },
+  {
+   "errors": [
+    "https://www.town.nishiwaga.lg.jp/cgi-bin/feed.php?siteNew=1: HTTPError: 502 Server Error: Bad Gateway for url: https://www.town.nishiwaga.lg.jp/cgi-bin/feed.php?siteNew=1"
+   ],
+   "name": "西和賀町",
+   "new": [],
+   "record_only": false,
+   "status": "error"
+  },
+  {
+   "errors": [],
+   "name": "金ケ崎町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [
+    "https://www.town.hiraizumi.iwate.jp/feed/: HTTPError: 503 Server Error: Service Unavailable for url: https://www.town.hiraizumi.iwate.jp/feed/"
+   ],
+   "name": "平泉町",
+   "new": [],
+   "record_only": false,
+   "status": "error"
+  },
+  {
+   "errors": [],
+   "name": "住田町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "大槌町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "山田町",
+   "new": [
+    {
+     "date": "2026-10-22",
+     "fetched_at": "10:29",
+     "title": "「ふるさとチョイス」不正アクセスによる個人情報の流出及び注意喚起について",
+     "url": "https://www.town.yamada.iwate.jp/docs/10673.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "岩泉町",
+   "new": [
+    {
+     "date": "2026-10-22",
+     "fetched_at": "10:29",
+     "title": "ハローワーク週間求人情報(令和８年10月22日発行)",
+     "url": "https://www.town.iwaizumi.lg.jp/docs/2026102100040/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "軽米町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "洋野町",
+   "new": [
+    {
+     "date": "2026-10-20",
+     "fetched_at": "10:29",
+     "title": "ひろの駅スタンプデザインコンテストに係る応募情報の漏えいのおそれに関するお詫びとお知らせ",
+     "url": "https://www.town.hirono.iwate.jp/doc/2026102000012/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [
+    "https://www.town.ichinohe.iwate.jp/cgi-bin/feed.php?siteNew=1: HTTPError: 502 Server Error: Bad Gateway for url: https://www.town.ichinohe.iwate.jp/cgi-bin/feed.php?siteNew=1"
+   ],
+   "name": "一戸町",
+   "new": [],
+   "record_only": false,
+   "status": "error"
+  },
+  {
+   "errors": [],
+   "name": "田野畑村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "普代村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "九戸村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [
+    "https://www.vill.noda.iwate.jp/cgi-bin/feed.php?siteNew=1: HTTPError: 502 Server Error: Bad Gateway for url: https://www.vill.noda.iwate.jp/cgi-bin/feed.php?siteNew=1"
+   ],
+   "name": "野田村",
+   "new": [],
+   "record_only": false,
+   "status": "error"
+  }
+ ]
+}
