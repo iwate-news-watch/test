@@ -1,12 +1,19 @@
 {
  "date": "2026-10-26",
  "first_run": false,
- "last_fetched": "14:34",
+ "last_fetched": "20:45",
  "municipalities": [
   {
    "errors": [],
    "name": "盛岡市",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-10-26",
+     "fetched_at": "20:45",
+     "title": "催告状を発送します",
+     "url": "https://www.city.morioka.iwate.jp/kurashi/zeikin/oshirase/1028950.html"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -90,6 +97,96 @@
    "new": [
     {
      "date": "2026-10-26",
+     "fetched_at": "20:45",
+     "title": "中里地区民文化祭展示部門",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261026110015"
+    },
+    {
+     "date": "2026-10-26",
+     "fetched_at": "20:45",
+     "title": "うまいもん市",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261026110447"
+    },
+    {
+     "date": "2026-10-26",
+     "fetched_at": "20:45",
+     "title": "中里地区民文化祭 舞台部門",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261026111159"
+    },
+    {
+     "date": "2026-10-26",
+     "fetched_at": "20:45",
+     "title": "霜紅大学文化祭 展示発表",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261026104203"
+    },
+    {
+     "date": "2026-10-26",
+     "fetched_at": "20:45",
+     "title": "一関学習交流館まつり",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261026105146"
+    },
+    {
+     "date": "2026-10-26",
+     "fetched_at": "20:45",
+     "title": "やまのめスポーツフェスティバル",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261026105617"
+    },
+    {
+     "date": "2026-10-26",
+     "fetched_at": "20:45",
+     "title": "令和8年生活のしづらさなどに関する調査（全国在宅障害児・者等実態調査）",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261026095956"
+    },
+    {
+     "date": "2026-10-25",
+     "fetched_at": "20:45",
+     "title": "令和８年度高齢者及び障がい者にやさしい住まいづくり推進事業費補助金の募集について（再募集）",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20260612092256"
+    },
+    {
+     "date": "2026-10-22",
+     "fetched_at": "20:45",
+     "title": "厳美地区民文化祭ステージ部門",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261022101320"
+    },
+    {
+     "date": "2026-10-22",
+     "fetched_at": "20:45",
+     "title": "第45回 萩荘まつり",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261022102029"
+    },
+    {
+     "date": "2026-10-22",
+     "fetched_at": "20:45",
+     "title": "第28回一関地方伝承芸能継承交流会",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261022103403"
+    },
+    {
+     "date": "2026-10-22",
+     "fetched_at": "20:45",
+     "title": "舞川地区文化祭おまつり広場",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261022104004"
+    },
+    {
+     "date": "2026-10-21",
+     "fetched_at": "20:45",
+     "title": "滝ちゃんにぎわい祭り",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261021151145"
+    },
+    {
+     "date": "2026-10-21",
+     "fetched_at": "20:45",
+     "title": "厳美地区民文化祭展示部門",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261021154112"
+    },
+    {
+     "date": "2026-10-20",
+     "fetched_at": "20:45",
+     "title": "舞川地区文化祭 展示部門・舞台部門",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261022102620"
+    },
+    {
+     "date": "2026-10-26",
      "fetched_at": "14:34",
      "title": "公用車を売却します",
      "url": "https://www.city.ichinoseki.iwate.jp/archive/p20260914170453"
@@ -151,6 +248,12 @@
    "errors": [],
    "name": "釜石市",
    "new": [
+    {
+     "date": "2025-11-14",
+     "fetched_at": "20:45",
+     "title": "”海と希望の学園祭in Kamaishi”を開催します！",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2025110500033/"
+    },
     {
      "date": "2026-10-26",
      "fetched_at": "14:34",
@@ -226,7 +329,14 @@
   {
    "errors": [],
    "name": "雫石町",
-   "new": [],
+   "new": [
+    {
+     "date": "2025-10-15",
+     "fetched_at": "20:45",
+     "title": "【雫石 紅葉情報 2026】 10/26 葛根田渓谷の紅葉は終盤",
+     "url": "https://www.town.shizukuishi.iwate.jp/docs/2025101500028/"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -415,7 +525,14 @@
   {
    "errors": [],
    "name": "洋野町",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-10-26",
+     "fetched_at": "20:45",
+     "title": "第19回洋野町長杯高校野球交流大会（本選）の結果について",
+     "url": "https://www.town.hirono.iwate.jp/doc/2026102600014/"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
