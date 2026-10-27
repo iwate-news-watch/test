@@ -1,0 +1,277 @@
+{
+ "date": "2026-10-27",
+ "first_run": false,
+ "last_fetched": "09:11",
+ "municipalities": [
+  {
+   "errors": [],
+   "name": "盛岡市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "宮古市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "大船渡市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "花巻市",
+   "new": [
+    {
+     "date": "2026-10-26",
+     "fetched_at": "09:11",
+     "title": "花巻市UIJターン者就業等支援金のご紹介",
+     "url": "https://www.city.hanamaki.iwate.jp/kurashi/ijyu_teijyu/syugyoshien/1026015.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "北上市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "久慈市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "遠野市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "一関市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "陸前高田市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "釜石市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "二戸市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "八幡平市",
+   "new": [
+    {
+     "date": "2026-10-27",
+     "fetched_at": "09:11",
+     "title": "行政手続きのオンライン申請",
+     "url": "https://www.city.hachimantai.lg.jp/soshiki/somuka/18681.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [
+    "https://www.city.oshu.iwate.jp/cgi-bin/feed.php?siteNew=1: HTTPError: 502 Server Error: Bad Gateway for url: https://www.city.oshu.iwate.jp/cgi-bin/feed.php?siteNew=1"
+   ],
+   "name": "奥州市",
+   "new": [],
+   "record_only": false,
+   "status": "error"
+  },
+  {
+   "errors": [],
+   "name": "滝沢市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "雫石町",
+   "new": [
+    {
+     "date": "2026-10-27",
+     "fetched_at": "09:11",
+     "title": "11月23日（月・祝）・第69回雫石町無形文化財芸能祭開催！",
+     "url": "https://www.town.shizukuishi.iwate.jp/docs/2026102200030/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "葛巻町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "岩手町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "紫波町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "矢巾町",
+   "new": [
+    {
+     "date": "2026-10-27",
+     "fetched_at": "09:11",
+     "title": "NEW! 令和8年11月10日入札の設計図書について",
+     "url": "https://www.town.yahaba.iwate.jp/soshiki/soumu/chousei/1792977735415220/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "西和賀町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "金ケ崎町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "平泉町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "住田町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "大槌町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "山田町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "岩泉町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "軽米町",
+   "new": [
+    {
+     "date": "2026-10-27",
+     "fetched_at": "09:11",
+     "title": "「令和8年度 第2回家族介護者教室」開催について",
+     "url": "https://www.town.karumai.iwate.jp/article/mokuteki/koreisha/koreishashien/entry-basename-11.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "洋野町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "一戸町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "田野畑村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "普代村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "九戸村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [
+    "https://www.vill.noda.iwate.jp/cgi-bin/feed.php?siteNew=1: HTTPError: 502 Server Error: Bad Gateway for url: https://www.vill.noda.iwate.jp/cgi-bin/feed.php?siteNew=1"
+   ],
+   "name": "野田村",
+   "new": [],
+   "record_only": false,
+   "status": "error"
+  }
+ ]
+}
