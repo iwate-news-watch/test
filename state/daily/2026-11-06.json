@@ -1,7 +1,7 @@
 {
  "date": "2026-11-06",
  "first_run": false,
- "last_fetched": "11:58",
+ "last_fetched": "18:42",
  "municipalities": [
   {
    "errors": [],
@@ -54,6 +54,12 @@
    "errors": [],
    "name": "花巻市",
    "new": [
+    {
+     "date": "2026-11-06",
+     "fetched_at": "18:42",
+     "title": "わかりやすく解説 花巻市の財政状況（令和7年度決算について掲載しました）",
+     "url": "https://www.city.hanamaki.iwate.jp/shisei/shisei/yosan_kessan/1015304/index.html"
+    },
     {
      "date": "2026-11-06",
      "fetched_at": "11:58",
@@ -129,6 +135,18 @@
    "name": "北上市",
    "new": [
     {
+     "date": "2026-11-06",
+     "fetched_at": "18:42",
+     "title": "バスの乗り方教室を実施しました！",
+     "url": "https://www.city.kitakami.iwate.jp/life/soshikikarasagasu/toshisaiseisuishin/koutsuuseisaku/1_1/30278.html"
+    },
+    {
+     "date": "2026-11-06",
+     "fetched_at": "18:42",
+     "title": "差し押さえ不動産の公売を行います",
+     "url": "https://www.city.kitakami.iwate.jp/life/soshikikarasagasu/shunoka/shunogakari/30227.html"
+    },
+    {
      "date": "2026-11-05",
      "fetched_at": "11:58",
      "title": "外部メール送信サービスへの不正アクセスに伴う影響について",
@@ -170,6 +188,72 @@
    "new": [
     {
      "date": "2026-11-06",
+     "fetched_at": "18:42",
+     "title": "一関市ポスタープロジェクトの３作品が完成しました！",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261104172856"
+    },
+    {
+     "date": "2026-10-30",
+     "fetched_at": "18:42",
+     "title": "わくわくセミナー「太極拳コース」",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261106142917"
+    },
+    {
+     "date": "2026-10-30",
+     "fetched_at": "18:42",
+     "title": "わくわくセミナー「韓国語（初級・中級）コース」",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261106143635"
+    },
+    {
+     "date": "2026-10-30",
+     "fetched_at": "18:42",
+     "title": "わくわくセミナー「水引きコース」",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261106143910"
+    },
+    {
+     "date": "2026-10-30",
+     "fetched_at": "18:42",
+     "title": "わくわくセミナー「コーラスコース」",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261106144023"
+    },
+    {
+     "date": "2026-10-30",
+     "fetched_at": "18:42",
+     "title": "わくわくセミナー「英会話（初級・中級）コース」",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261106144208"
+    },
+    {
+     "date": "2026-10-30",
+     "fetched_at": "18:42",
+     "title": "わくわくセミナー「水墨画コース」",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261106144336"
+    },
+    {
+     "date": "2026-10-30",
+     "fetched_at": "18:42",
+     "title": "わくわくセミナー「プログラミングコース」",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261106151356"
+    },
+    {
+     "date": "2026-10-30",
+     "fetched_at": "18:42",
+     "title": "わくわくセミナー「粘土多肉の寄せ植えコース」",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261106151643"
+    },
+    {
+     "date": "2026-10-30",
+     "fetched_at": "18:42",
+     "title": "わくわくセミナー「茶道（裏千家）コース」",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261106151923"
+    },
+    {
+     "date": "2026-10-30",
+     "fetched_at": "18:42",
+     "title": "秋アクアウォーキング",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261106152204"
+    },
+    {
+     "date": "2026-11-06",
      "fetched_at": "11:58",
      "title": "順天堂大学教授 谷本道哉さんトークショー",
      "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261104130625"
@@ -208,6 +292,18 @@
    "errors": [],
    "name": "釜石市",
    "new": [
+    {
+     "date": "2026-10-23",
+     "fetched_at": "18:42",
+     "title": "献血日程",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2026101600015/"
+    },
+    {
+     "date": "2026-04-23",
+     "fetched_at": "18:42",
+     "title": "いわて産業人材奨学金返還支援制度の対象者を追加募集します",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2026042300029/"
+    },
     {
      "date": "2026-11-05",
      "fetched_at": "11:58",
@@ -274,6 +370,18 @@
    "new": [
     {
      "date": "2026-11-06",
+     "fetched_at": "18:42",
+     "title": "市長日程（11月9日から11月15日まで）",
+     "url": "https://www.city.hachimantai.lg.jp/site/shicho/32875.html"
+    },
+    {
+     "date": "2026-11-05",
+     "fetched_at": "18:42",
+     "title": "令和8年11月5日行政連絡員配布文書等",
+     "url": "https://www.city.hachimantai.lg.jp/soshiki/machi/32874.html"
+    },
+    {
+     "date": "2026-11-06",
      "fetched_at": "11:58",
      "title": "門松づくり参加者募集",
      "url": "https://www.city.hachimantai.lg.jp/site/hachimantaisihakubutsukan/28888.html"
@@ -306,6 +414,42 @@
    "new": [
     {
      "date": "2026-11-06",
+     "fetched_at": "18:42",
+     "title": "【11月14日】江刺健康まつり＆なんだりかんだり祭を開催します！",
+     "url": "https://www.city.oshu.iwate.jp/soshiki/9/1065/2/2/fureiru/19469.html"
+    },
+    {
+     "date": "2026-11-06",
+     "fetched_at": "18:42",
+     "title": "【胆沢図書館】本間希樹所長 紫綬褒章受章お祝い企画棚 開催について",
+     "url": "https://www.city.oshu.iwate.jp/library/oshirase/5/19052.html"
+    },
+    {
+     "date": "2026-11-06",
+     "fetched_at": "18:42",
+     "title": "アテルイの里障がい者芸術祭を開催します",
+     "url": "https://www.city.oshu.iwate.jp/soshiki/8/1060/1/17035.html"
+    },
+    {
+     "date": "2026-11-06",
+     "fetched_at": "18:42",
+     "title": "企画展解説会のご案内",
+     "url": "https://www.city.oshu.iwate.jp/samurai/event/1/15016.html"
+    },
+    {
+     "date": "2026-11-06",
+     "fetched_at": "18:42",
+     "title": "通常より待ち時間の短いスムーズな検診",
+     "url": "https://www.city.oshu.iwate.jp/soshiki/9/1065/2/2/kenkousinsaganhoken/17846.html"
+    },
+    {
+     "date": "2026-11-06",
+     "fetched_at": "18:42",
+     "title": "12月19日（土曜日）にパナソニックの「クリスマスツリーランタンを作ろう！」を開催します！",
+     "url": "https://www.city.oshu.iwate.jp/soshiki/5/1051/4/16830.html"
+    },
+    {
+     "date": "2026-11-06",
      "fetched_at": "11:58",
      "title": "前沢診療所の栄養教室はいかがですか？",
      "url": "https://www.city.oshu.iwate.jp/iryokyoku/byoin_shinryojo/1/18459.html"
@@ -325,6 +469,18 @@
    "errors": [],
    "name": "雫石町",
    "new": [
+    {
+     "date": "2026-11-06",
+     "fetched_at": "18:42",
+     "title": "大判サイズの「小岩井バタークッキー」が町に無償提供されました",
+     "url": "https://www.town.shizukuishi.iwate.jp/docs/2026110600013/"
+    },
+    {
+     "date": "2025-09-04",
+     "fetched_at": "18:42",
+     "title": "コンビニ交付サービスに関するアンケートへご協力ください",
+     "url": "https://www.town.shizukuishi.iwate.jp/docs/2025090400019/"
+    },
     {
      "date": "2026-11-05",
      "fetched_at": "11:58",
@@ -350,7 +506,14 @@
   {
    "errors": [],
    "name": "葛巻町",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-11-06",
+     "fetched_at": "18:42",
+     "title": "「おでかけｉ-サポin葛巻」の開催について",
+     "url": "https://www.town.kuzumaki.lg.jp/docs/2026110600013/"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -365,6 +528,12 @@
    "errors": [],
    "name": "紫波町",
    "new": [
+    {
+     "date": "2026-11-06",
+     "fetched_at": "18:42",
+     "title": "NEW! 次期「紫波町鳥獣被害防止計画(令和9~11年度)」改定に向けた意見交換会の開催について",
+     "url": "https://www.town.shiwa.iwate.jp/soshiki/2_1/2_8/17937867731658839/"
+    },
     {
      "date": "2026-11-06",
      "fetched_at": "11:58",
@@ -420,6 +589,24 @@
    "new": [
     {
      "date": "2026-11-06",
+     "fetched_at": "18:42",
+     "title": "11月「キッズくらぶ」金ケ崎小学校 当選発表",
+     "url": "https://www.town.kanegasaki.iwate.jp/articles/2026110600020/"
+    },
+    {
+     "date": "2026-11-06",
+     "fetched_at": "18:42",
+     "title": "１１月「キッズくらぶ」in 三ケ尻小・西小 当選発表",
+     "url": "https://www.town.kanegasaki.iwate.jp/articles/2026110600037/"
+    },
+    {
+     "date": "2026-11-06",
+     "fetched_at": "18:42",
+     "title": "南いわて移住者交流コミュ「ゆるつな2026」開催します！",
+     "url": "https://www.town.kanegasaki.iwate.jp/articles/2025091800023/"
+    },
+    {
+     "date": "2026-11-06",
      "fetched_at": "11:58",
      "title": "金ケ崎町職員採用第２次試験合格者（令和８年１０月実施分）",
      "url": "https://www.town.kanegasaki.iwate.jp/articles/2026110500016/"
@@ -443,7 +630,14 @@
   {
    "errors": [],
    "name": "平泉町",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-11-06",
+     "fetched_at": "18:42",
+     "title": "コンビニ交付サービス停止のお知らせ",
+     "url": "https://www.town.hiraizumi.iwate.jp/%e3%82%b3%e3%83%b3%e3%83%93%e3%83%8b%e4%ba%a4%e4%bb%98%e3%82%b5%e3%83%bc%e3%83%93%e3%82%b9%e5%81%9c%e6%ad%a2%e3%81%ae%e3%81%8a%e7%9f%a5%e3%82%89%e3%81%9b-2-27275/"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -451,6 +645,18 @@
    "errors": [],
    "name": "住田町",
    "new": [
+    {
+     "date": "2026-11-02",
+     "fetched_at": "18:42",
+     "title": "令和８年度森林整備事業（ツリーシェルター設置）業務委託に係る一般競争入札について",
+     "url": "http://www.town.sumita.iwate.jp/docs/2026110200015/"
+    },
+    {
+     "date": "2026-11-02",
+     "fetched_at": "18:42",
+     "title": "令和８年度森林整備事業（忌避剤散布）業務委託に係る一般競争入札について",
+     "url": "http://www.town.sumita.iwate.jp/docs/2026103000011/"
+    },
     {
      "date": "2026-11-05",
      "fetched_at": "11:58",
@@ -508,7 +714,14 @@
   {
    "errors": [],
    "name": "山田町",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-11-06",
+     "fetched_at": "18:42",
+     "title": "学校給食の写真紹介（山田町立学校給食センター）令和8年度10月後半分",
+     "url": "https://www.town.yamada.iwate.jp/docs/10716.html"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -516,6 +729,12 @@
    "errors": [],
    "name": "岩泉町",
    "new": [
+    {
+     "date": "2026-11-06",
+     "fetched_at": "18:42",
+     "title": "スマートフォン(iPhone・Android)のマイナンバーカードは本人確認書類として現在利用できません",
+     "url": "https://www.town.iwaizumi.lg.jp/docs/2026102100026/"
+    },
     {
      "date": "2026-11-06",
      "fetched_at": "11:58",
@@ -626,6 +845,12 @@
    "new": [
     {
      "date": "2026-11-06",
+     "fetched_at": "18:42",
+     "title": "カシオペアYouthConnect2026",
+     "url": "https://www.town.ichinohe.iwate.jp/soshikikarasagasu/shokokankoka/7302.html"
+    },
+    {
+     "date": "2026-11-06",
      "fetched_at": "11:58",
      "title": "いちのへフリーWi-Fiの停止に関するお知らせ",
      "url": "https://www.town.ichinohe.iwate.jp/soshikikarasagasu/seisakukikakuka/machi_oshirase/3153.html"
@@ -656,6 +881,12 @@
    "errors": [],
    "name": "田野畑村",
    "new": [
+    {
+     "date": "2026-11-06",
+     "fetched_at": "18:42",
+     "title": "企業版ふるさと納税寄附金をいただきました（宮城建設株式会社 様）",
+     "url": "http://www.vill.tanohata.iwate.jp/docs/2026110600020/"
+    },
     {
      "date": "2026-11-06",
      "fetched_at": "11:58",
