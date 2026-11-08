@@ -48,6 +48,10 @@ SEEN_RETENTION_DAYS = 90
 ARCHIVE_DAYS = 30
 SITE_NAME = "NAMBU 岩手県市町村新着情報"
 LOGO_FILE = "nambu-logo.svg"  # docs/ に置くロゴ
+# 兄弟サイトのナビ。一覧は同じドメインの /sites.json（id, name, url, logo, color）から読む。
+# このサイトの id（この id のボタンを、そのサイトの color で強調する）
+SITE_ID = "nambu"
+SITES_JSON_URL = "/sites.json"
 
 
 # ---------------------------------------------------------------------------
@@ -457,9 +461,27 @@ ul.items li.first{border-top:0;padding-top:0}
 @media (min-width:1400px){
 .logo-sm{display:none}
 .logo-side{--gutter:calc((100vw - 1060px) / 2);--w:min(180px,calc(var(--gutter) - 48px));
-display:block;position:fixed;top:24px;right:calc((var(--gutter) - var(--w)) / 2);
-width:var(--w);height:auto;max-height:calc(100vh - 48px);object-fit:contain}
+display:block;position:fixed;top:64px;right:calc((var(--gutter) - var(--w)) / 2);
+width:var(--w);height:auto;max-height:calc(100vh - 88px);object-fit:contain}
 }
+.sitenav{display:flex;align-items:center;gap:10px;min-height:36px;padding:4px 16px;
+background:var(--card);border-bottom:1px solid var(--line);font-size:.78rem;line-height:1.2}
+.sitenav .home{flex:none;color:var(--fg);font-weight:600;white-space:nowrap;text-decoration:none}
+.sitenav .home b{letter-spacing:.04em}
+.sitenav .home:hover{text-decoration:underline}
+.sitenav ul{flex:1 1 auto;min-width:0;display:flex;gap:6px;margin:0;padding:2px 0;
+list-style:none;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.sitenav ul.scrolls{-webkit-mask-image:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 14px),transparent);
+mask-image:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 14px),transparent)}
+.sitenav ul::-webkit-scrollbar{display:none}
+.sitenav li{flex:none}
+.sitenav li:first-child{margin-left:auto}
+.sitenav ul a{display:flex;align-items:center;gap:5px;height:26px;padding:0 9px;border:1px solid var(--line);
+border-radius:999px;color:var(--fg);background:var(--bg);white-space:nowrap;text-decoration:none}
+.sitenav ul a:hover{border-color:var(--muted)}
+.sitenav ul img{display:block;height:16px;width:auto;max-width:40px;object-fit:contain}
+.sitenav ul a[aria-current]{background:var(--site-color);border-color:var(--site-color);color:var(--site-fg);font-weight:600}
+@media (max-width:420px){.sitenav{gap:8px;padding:4px 10px}.sitenav .home b{display:none}}
 @media (min-width:1000px){
 .has-panel .layout{max-width:1060px;display:grid;grid-template-columns:240px minmax(0,1fr);gap:8px;align-items:start}
 .has-panel .panel{position:sticky;top:0;bottom:auto;width:auto;max-height:100vh;transform:none;visibility:visible;
@@ -955,6 +977,78 @@ PANEL_JS = """
 
 
 # 更新ボタン。docs/config.json の trigger_url（中継サーバーのURL）が空ならボタンも状態も出さない
+# 兄弟サイトのボタン。sites.json を読めなければ何もしない（「トップへ」だけが残る）
+SITENAV_JS = """
+(function () {
+  var list = document.getElementById("sitenav-list");
+  if (!list || !window.fetch) return;
+  var base = new URL(list.getAttribute("data-src"), location.href);
+  var current = list.getAttribute("data-current");
+
+  function textColor(c) {
+    var m = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(c);
+    if (!m) return "#fff";
+    var h = m[1].length === 3 ? m[1].replace(/./g, "$&$&") : m[1];
+    var r = parseInt(h.slice(0, 2), 16), g = parseInt(h.slice(2, 4), 16), b = parseInt(h.slice(4, 6), 16);
+    return (r * 299 + g * 587 + b * 114) / 1000 > 150 ? "#1d1d1f" : "#fff";
+  }
+  function safeUrl(u) {
+    try {
+      var x = new URL(String(u), base);
+      return x.protocol === "https:" || x.protocol === "http:" ? x.href : null;
+    } catch (e) { return null; }
+  }
+
+  fetch(base.href, {cache: "no-cache"}).then(function (r) {
+    if (!r.ok) throw new Error(r.status);
+    return r.json();
+  }).then(function (data) {
+    var sites = Array.isArray(data) ? data : (data && data.sites) || [];
+    sites.forEach(function (site) {
+      var href = site && safeUrl(site.url);
+      if (!href || !site.name) return;
+      var a = document.createElement("a");
+      a.href = href;
+      if (site.logo) {
+        var src = safeUrl(site.logo);
+        if (src) {
+          var img = document.createElement("img");
+          img.src = src; img.alt = ""; img.loading = "lazy";
+          img.onerror = function () { img.remove(); };
+          a.appendChild(img);
+        }
+      }
+      a.appendChild(document.createTextNode(String(site.name)));
+      if (String(site.id) === current) {
+        a.setAttribute("aria-current", "page");
+        var c = String(site.color || "");
+        if (!(window.CSS && CSS.supports("color", c))) c = "var(--accent)";
+        a.style.setProperty("--site-color", c);
+        a.style.setProperty("--site-fg", textColor(c));
+      }
+      var li = document.createElement("li");
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+    if (list.scrollWidth > list.clientWidth) {
+      list.classList.add("scrolls");
+      var cur = list.querySelector("[aria-current]");
+      if (cur) list.scrollLeft = cur.offsetLeft - (list.clientWidth - cur.offsetWidth) / 2;
+    }
+  }).catch(function () {});
+})();
+"""
+
+
+def render_sitenav() -> str:
+    return (
+        '<nav class="sitenav" aria-label="IWATE NEWS WATCH のサイト">'
+        '<a class="home" href="/"><b>IWATE NEWS WATCH</b> トップへ</a>'
+        f'<ul id="sitenav-list" data-src="{esc(SITES_JSON_URL)}" data-current="{esc(SITE_ID)}"></ul>'
+        "</nav>"
+    )
+
+
 REFRESH_JS = """
 (function () {
   var stateEl = document.getElementById("run-state");
@@ -1090,12 +1184,15 @@ def render_page(day: dict, archive_dates: list[str], prefix: str, is_index: bool
         "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
         "<meta name=\"color-scheme\" content=\"light dark\">"
         f"<title>{esc(title)} | {esc(SITE_NAME)}</title>"
-        f"<style>{CSS}</style></head><body><div class=\"layout\">"
+        f"<style>{CSS}</style></head><body>"
+        + render_sitenav()
+        + "<div class=\"layout\">"
         + render_panel(day, prefix)
         + "<main>\n"
         + "\n".join(body)
         + "\n</main></div>"
         + f'<img class="logo-side" src="{esc(logo)}" alt="" aria-hidden="true" onerror="this.hidden=true">'
+        + f"<script>{SITENAV_JS}</script>"
         + f"<script>{PANEL_JS}</script>"
         + (f"<script>{REFRESH_JS}</script>" if is_index else "")
         + "</body></html>\n"
