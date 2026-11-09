@@ -1,7 +1,7 @@
 {
  "date": "2026-11-09",
  "first_run": false,
- "last_fetched": "14:38",
+ "last_fetched": "15:42",
  "municipalities": [
   {
    "errors": [],
@@ -49,6 +49,12 @@
    "errors": [],
    "name": "北上市",
    "new": [
+    {
+     "date": "2026-11-09",
+     "fetched_at": "15:42",
+     "title": "「いわて働き方改革AWARD2026」の授賞式の開催",
+     "url": "https://www.city.kitakami.iwate.jp/life/soshikikarasagasu/sangyokoyoshienka/koyotaisakugakari/1/eventseminar/13889.html"
+    },
     {
      "date": "2026-11-09",
      "fetched_at": "14:38",
@@ -207,7 +213,14 @@
   {
    "errors": [],
    "name": "雫石町",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-11-09",
+     "fetched_at": "15:42",
+     "title": "ふるさと納税ポータルサイト「ふるさとチョイス」における寄附受付の再開について",
+     "url": "https://www.town.shizukuishi.iwate.jp/docs/2026110900014/"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -291,7 +304,20 @@
   {
    "errors": [],
    "name": "岩泉町",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-11-09",
+     "fetched_at": "15:42",
+     "title": "令和８年度シカ解体等スキルアップ研修会の開催",
+     "url": "https://www.town.iwaizumi.lg.jp/docs/2026110600013/"
+    },
+    {
+     "date": "2026-11-09",
+     "fetched_at": "15:42",
+     "title": "令和８年度農作業安全表彰の実施について",
+     "url": "https://www.town.iwaizumi.lg.jp/docs/2026110600020/"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -340,7 +366,14 @@
   {
    "errors": [],
    "name": "普代村",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-11-09",
+     "fetched_at": "15:42",
+     "title": "11月15日(日)秋季清掃運動の実施について",
+     "url": "https://www.vill.fudai.iwate.jp/docs/1110.html"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
