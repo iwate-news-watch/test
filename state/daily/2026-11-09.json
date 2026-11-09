@@ -1,7 +1,7 @@
 {
  "date": "2026-11-09",
  "first_run": false,
- "last_fetched": "09:42",
+ "last_fetched": "12:15",
  "municipalities": [
   {
    "errors": [],
@@ -92,6 +92,12 @@
    "name": "釜石市",
    "new": [
     {
+     "date": "2025-07-29",
+     "fetched_at": "12:15",
+     "title": "釜石市議会 議員全員協議会の開催について",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2025072900063/"
+    },
+    {
      "date": "2026-11-09",
      "fetched_at": "09:42",
      "title": "令和8年12月のマイナンバーカード休日窓口開庁日をお知らせします",
@@ -179,7 +185,14 @@
   {
    "errors": [],
    "name": "矢巾町",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-11-09",
+     "fetched_at": "12:15",
+     "title": "NEW! 令和8年度 男性のための料理教室を開催します!",
+     "url": "https://www.town.yahaba.iwate.jp/soshiki/kenkou/kenkoufukushi/17551343168735/"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -263,7 +276,14 @@
   {
    "errors": [],
    "name": "田野畑村",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-11-09",
+     "fetched_at": "12:15",
+     "title": "「たのはた くらしがたり（2026年秋号）」の発行について",
+     "url": "http://www.vill.tanohata.iwate.jp/docs/2026110900014/"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
