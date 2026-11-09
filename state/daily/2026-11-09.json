@@ -1,0 +1,292 @@
+{
+ "date": "2026-11-09",
+ "first_run": false,
+ "last_fetched": "09:42",
+ "municipalities": [
+  {
+   "errors": [],
+   "name": "盛岡市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "宮古市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "大船渡市",
+   "new": [
+    {
+     "date": "2026-11-09",
+     "fetched_at": "09:42",
+     "title": "12月4日～10日は「人権週間」です",
+     "url": "https://www.city.ofunato.iwate.jp/archive/p20251030113927"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "花巻市",
+   "new": [
+    {
+     "date": "2026-11-09",
+     "fetched_at": "09:42",
+     "title": "新婚生活のスタートアップ費用を支援します",
+     "url": "https://www.city.hanamaki.iwate.jp/shisei/chiiki/1008206/1014403.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "北上市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "久慈市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "遠野市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "一関市",
+   "new": [
+    {
+     "date": "2026-11-09",
+     "fetched_at": "09:42",
+     "title": "要配慮者利用施設が確認できます",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/contents-161634"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "陸前高田市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "釜石市",
+   "new": [
+    {
+     "date": "2026-11-09",
+     "fetched_at": "09:42",
+     "title": "令和8年12月のマイナンバーカード休日窓口開庁日をお知らせします",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2026100800010/"
+    },
+    {
+     "date": "2026-11-09",
+     "fetched_at": "09:42",
+     "title": "市長公務日程",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2026110200039/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "二戸市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "八幡平市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "奥州市",
+   "new": [
+    {
+     "date": "2026-11-09",
+     "fetched_at": "09:42",
+     "title": "奥州市ジェンダー平等推進プラン（第3次奥州市男女共同参画計画）（案）に対する意見を募集します（パブリックコメント）",
+     "url": "https://www.city.oshu.iwate.jp/soshiki/4/1012/2/19465.html"
+    },
+    {
+     "date": "2026-11-06",
+     "fetched_at": "09:42",
+     "title": "地域企業×岩手大学×奥州連携フォーラム2026を開催します",
+     "url": "https://www.city.oshu.iwate.jp/kigyoshien/event_seminar/19473.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "滝沢市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "雫石町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "葛巻町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "岩手町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "紫波町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "矢巾町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "西和賀町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "金ケ崎町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "平泉町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "住田町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "大槌町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "山田町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "岩泉町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "軽米町",
+   "new": [
+    {
+     "date": "2026-11-09",
+     "fetched_at": "09:42",
+     "title": "令和8年度職員採用試験(追加募集)のご案内",
+     "url": "https://www.town.karumai.iwate.jp/article/gyosei/jinjisaiyou/bosyu/saiyoushiken/entry-basename-47.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "洋野町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "一戸町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "田野畑村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "普代村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "九戸村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "野田村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  }
+ ]
+}
