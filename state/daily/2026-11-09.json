@@ -1,7 +1,7 @@
 {
  "date": "2026-11-09",
  "first_run": false,
- "last_fetched": "12:15",
+ "last_fetched": "14:38",
  "municipalities": [
   {
    "errors": [],
@@ -48,7 +48,20 @@
   {
    "errors": [],
    "name": "北上市",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-11-09",
+     "fetched_at": "14:38",
+     "title": "工事及び建設関連業務における情報共有システム（ASP）の活用について",
+     "url": "https://www.city.kitakami.iwate.jp/life/soshikikarasagasu/zaiseika/keiyakukensa/3_1/5/25932.html"
+    },
+    {
+     "date": "2026-11-09",
+     "fetched_at": "14:38",
+     "title": "北上市下水道事業に係る水の官民連携（ウォーターPPP） 地元事業者向け説明会のご案内",
+     "url": "https://www.city.kitakami.iwate.jp/life/soshikikarasagasu/gesuidoka/ijifukyugakari/30267.html"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -92,6 +105,12 @@
    "name": "釜石市",
    "new": [
     {
+     "date": "2026-11-09",
+     "fetched_at": "14:38",
+     "title": "令和8年11月9日 条件付一般競争入札公告",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2026110600013/"
+    },
+    {
      "date": "2025-07-29",
      "fetched_at": "12:15",
      "title": "釜石市議会 議員全員協議会の開催について",
@@ -123,7 +142,14 @@
   {
    "errors": [],
    "name": "八幡平市",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-11-04",
+     "fetched_at": "14:38",
+     "title": "農山漁村再生可能エネルギー法に基づく基本計画",
+     "url": "https://www.city.hachimantai.lg.jp/soshiki/machi/32882.html"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -131,6 +157,30 @@
    "errors": [],
    "name": "奥州市",
    "new": [
+    {
+     "date": "2026-11-09",
+     "fetched_at": "14:38",
+     "title": "断水・濁水情報 令和8年11月19日（木曜日）江刺",
+     "url": "https://www.city.oshu.iwate.jp/suido/riyousha/dansui_dakusui/19463.html"
+    },
+    {
+     "date": "2026-11-09",
+     "fetched_at": "14:38",
+     "title": "断水・濁水情報 令和8年11月15日（日曜日）江刺",
+     "url": "https://www.city.oshu.iwate.jp/suido/riyousha/dansui_dakusui/19462.html"
+    },
+    {
+     "date": "2026-11-09",
+     "fetched_at": "14:38",
+     "title": "【地球温暖化対策】2025（令和7）年度の温室効果ガス排出量実績公表",
+     "url": "https://www.city.oshu.iwate.jp/soshiki/5/1181/19464.html"
+    },
+    {
+     "date": "2026-11-06",
+     "fetched_at": "14:38",
+     "title": "第36回みちのく奥州イブニングサロンを開催します",
+     "url": "https://www.city.oshu.iwate.jp/kigyoshien/event_seminar/3/19474.html"
+    },
     {
      "date": "2026-11-09",
      "fetched_at": "09:42",
