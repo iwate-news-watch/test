@@ -1,0 +1,409 @@
+{
+ "date": "2026-11-10",
+ "first_run": false,
+ "last_fetched": "10:35",
+ "municipalities": [
+  {
+   "errors": [],
+   "name": "盛岡市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "宮古市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "大船渡市",
+   "new": [
+    {
+     "date": "2026-11-10",
+     "fetched_at": "10:35",
+     "title": "大船渡市認定地域クラブのご紹介",
+     "url": "https://www.city.ofunato.iwate.jp/archive/p20260828131201"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "花巻市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "北上市",
+   "new": [
+    {
+     "date": "2026-11-10",
+     "fetched_at": "10:35",
+     "title": "【お知らせ】コンビニ交付サービスの一部サービスを一時停止しています（11月10日8時40分～）",
+     "url": "https://www.city.kitakami.iwate.jp/life/soshikikarasagasu/toshipromotionka/jouhouseisakusuishinshitsu/1_1/conbinikouhu/28589.html"
+    },
+    {
+     "date": "2026-11-10",
+     "fetched_at": "10:35",
+     "title": "【展示図録】",
+     "url": "https://www.city.kitakami.iwate.jp/life/soshikikarasagasu/hakubutsu/catalog/5334.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "久慈市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "遠野市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "一関市",
+   "new": [
+    {
+     "date": "2026-11-10",
+     "fetched_at": "10:35",
+     "title": "令和８年度制限付一般競争入札情報（11月分）",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261109093155"
+    },
+    {
+     "date": "2026-11-09",
+     "fetched_at": "10:35",
+     "title": "児童虐待について",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261109112102"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "陸前高田市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "釜石市",
+   "new": [
+    {
+     "date": "2026-08-04",
+     "fetched_at": "10:35",
+     "title": "大島高任生誕200年!! 関連事業のお知らせ",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2026073000011/"
+    },
+    {
+     "date": "2026-04-14",
+     "fetched_at": "10:35",
+     "title": "令和8年度 給食センターだより",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2026041400027/"
+    },
+    {
+     "date": "2026-04-06",
+     "fetched_at": "10:35",
+     "title": "令和8年度 学校給食献立予定表・給食画像集",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2026040300052/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "二戸市",
+   "new": [
+    {
+     "date": "2026-11-09",
+     "fetched_at": "10:35",
+     "title": "献血のお知らせ",
+     "url": "http://www.city.ninohe.lg.jp/info/3544"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "八幡平市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "奥州市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "滝沢市",
+   "new": [
+    {
+     "date": "2026-11-10",
+     "fetched_at": "10:35",
+     "title": "令和９年度に市内中学校へ入学する生徒の制服について",
+     "url": "https://www.city.takizawa.iwate.jp/kurashi/ikuji-kyoiku/shochugakko/p20261106155824"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "雫石町",
+   "new": [
+    {
+     "date": "2026-11-10",
+     "fetched_at": "10:35",
+     "title": "11月11日（水）に J-ALERT（ジェイアラート）による全国一斉情報伝達試験を実施します",
+     "url": "https://www.town.shizukuishi.iwate.jp/docs/2026111000010/"
+    },
+    {
+     "date": "2026-11-10",
+     "fetched_at": "10:35",
+     "title": "地域計画（地域農業経営基盤強化促進計画）",
+     "url": "https://www.town.shizukuishi.iwate.jp/docs/2026102300020/"
+    },
+    {
+     "date": "2026-10-27",
+     "fetched_at": "10:35",
+     "title": "令和８年度 第３回アーチェリー体験会を開催します！【参加者募集】",
+     "url": "https://www.town.shizukuishi.iwate.jp/docs/2026102000050/"
+    },
+    {
+     "date": "2025-11-28",
+     "fetched_at": "10:35",
+     "title": "【小岩井農場まきば園】 今年も開催！『KOIWAI Winter Lights － 銀河農場の夜』",
+     "url": "https://www.town.shizukuishi.iwate.jp/docs/2025112800018/"
+    },
+    {
+     "date": "2023-08-07",
+     "fetched_at": "10:35",
+     "title": "議員名簿を更新しました",
+     "url": "https://www.town.shizukuishi.iwate.jp/docs/2023080700019/"
+    },
+    {
+     "date": "2018-11-12",
+     "fetched_at": "10:35",
+     "title": "町長プロフィール",
+     "url": "https://www.town.shizukuishi.iwate.jp/docs/2014120100104/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "葛巻町",
+   "new": [
+    {
+     "date": "2026-11-09",
+     "fetched_at": "10:35",
+     "title": "AIデマンド交通等の新交通サービス導入実施計画策定及び検討準備支援業務公募型プロポーザルの実施について",
+     "url": "https://www.town.kuzumaki.lg.jp/docs/2026090800014/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "岩手町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "紫波町",
+   "new": [
+    {
+     "date": "2026-11-10",
+     "fetched_at": "10:35",
+     "title": "NEW! 紫波中央駅東口整備事業の進捗状況について",
+     "url": "https://www.town.shiwa.iwate.jp/soshiki/3_1/2_2/17939560241963050/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "矢巾町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "西和賀町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "金ケ崎町",
+   "new": [
+    {
+     "date": "2026-11-10",
+     "fetched_at": "10:35",
+     "title": "第３次金ケ崎町男女共同参画基本計画【後期計画】（令和８年度～令和１２年度）（素案）に関するパブリックコメントについて",
+     "url": "https://www.town.kanegasaki.iwate.jp/articles/2026110900014/"
+    },
+    {
+     "date": "2026-11-10",
+     "fetched_at": "10:35",
+     "title": "金ケ崎診療所地域医療講座について（１１月２６日開催）",
+     "url": "https://www.town.kanegasaki.iwate.jp/articles/2026110900021/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "平泉町",
+   "new": [
+    {
+     "date": "2026-11-10",
+     "fetched_at": "10:35",
+     "title": "令和8年度第1回平泉町総合計画審議会を開催しました",
+     "url": "https://www.town.hiraizumi.iwate.jp/%e4%bb%a4%e5%92%8c8%e5%b9%b4%e5%ba%a6%e7%ac%ac1%e5%9b%9e%e5%b9%b3%e6%b3%89%e7%94%ba%e7%b7%8f%e5%90%88%e8%a8%88%e7%94%bb%e5%af%a9%e8%ad%b0%e4%bc%9a%e3%82%92%e9%96%8b%e5%82%ac%e3%81%97%e3%81%be%e3%81%97-41410/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "住田町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "大槌町",
+   "new": [
+    {
+     "date": "2026-11-11",
+     "fetched_at": "10:35",
+     "title": "大槌町会計年度任用職員の募集について（令和９年３月１日採用予定）",
+     "url": "https://www.town.otsuchi.iwate.jp/gyosei/docs/463878.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "山田町",
+   "new": [
+    {
+     "date": "2026-11-10",
+     "fetched_at": "10:35",
+     "title": "令和8年11月10日更新 条件付一般競争入札公告【11月26日開札分】",
+     "url": "https://www.town.yamada.iwate.jp/docs/10717.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "岩泉町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "軽米町",
+   "new": [
+    {
+     "date": "2026-11-09",
+     "fetched_at": "10:35",
+     "title": "入札結果[]",
+     "url": "https://www.town.karumai.iwate.jp/article/jigyosha/nyusatsu/nyusatu_kekka/r08/entry-basename-7.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "洋野町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "一戸町",
+   "new": [
+    {
+     "date": "2026-11-10",
+     "fetched_at": "10:35",
+     "title": "町内小中学校の消火栓ホース購入に係る条件付き一般競争入札の公告について",
+     "url": "https://www.town.ichinohe.iwate.jp/soshikikarasagasu/somuka/kanzaikakari/nyusatsu_ichiran/7304.html"
+    },
+    {
+     "date": "2026-11-10",
+     "fetched_at": "10:35",
+     "title": "県からのお知らせ：県道葛巻日影線 冬期通行止め (奥中山西田子)",
+     "url": "https://www.town.ichinohe.iwate.jp/soshikikarasagasu/chiikiseibika/kanrigakari/1/7300.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "田野畑村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "普代村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "九戸村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "野田村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  }
+ ]
+}
