@@ -1,0 +1,358 @@
+{
+ "date": "2026-11-13",
+ "first_run": false,
+ "last_fetched": "09:55",
+ "municipalities": [
+  {
+   "errors": [],
+   "name": "盛岡市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "宮古市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "大船渡市",
+   "new": [
+    {
+     "date": "2026-11-11",
+     "fetched_at": "09:55",
+     "title": "ヒロフーズ株式会社との包括連携協定",
+     "url": "https://www.city.ofunato.iwate.jp/archive/contents-25961"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "花巻市",
+   "new": [
+    {
+     "date": "2026-11-13",
+     "fetched_at": "09:55",
+     "title": "花まき いいモノ・いいコト（市内企業の商品・サービスを紹介）",
+     "url": "https://www.city.hanamaki.iwate.jp/business/sangyoshien/1012738/index.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "北上市",
+   "new": [
+    {
+     "date": "2026-11-11",
+     "fetched_at": "09:55",
+     "title": "議会全員協議会（議長要請）の開催予定について",
+     "url": "https://www.city.kitakami.iwate.jp/life/soshikikarasagasu/gikaijimukyoku_gijika/gijichosagakari/6/28124.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "久慈市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "遠野市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "一関市",
+   "new": [
+    {
+     "date": "2026-11-13",
+     "fetched_at": "09:55",
+     "title": "令和９年度一関市『医師』修学資金貸付修学生を募集します",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/contents-161775"
+    },
+    {
+     "date": "2026-11-13",
+     "fetched_at": "09:55",
+     "title": "※受付は終了しました。令和8年度一関市『医師』修学資金貸付修学生を募集します【随時募集】",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20260428083951"
+    },
+    {
+     "date": "2026-11-13",
+     "fetched_at": "09:55",
+     "title": "令和8年度排水設備工事責任技術者の資格登録について",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261112114938"
+    },
+    {
+     "date": "2026-11-12",
+     "fetched_at": "09:55",
+     "title": "冬の学びの土曜塾",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261112110631"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "陸前高田市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "釜石市",
+   "new": [
+    {
+     "date": "2025-11-11",
+     "fetched_at": "09:55",
+     "title": "【釜石東ロータリーカップ2026】第8回釜石市小学校対抗タグラグビー大会【11/15(日)】",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2025101600063/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "二戸市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "八幡平市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "奥州市",
+   "new": [
+    {
+     "date": "2026-11-12",
+     "fetched_at": "09:55",
+     "title": "いわて銀河プラザ（東京都）で「おうしゅうの味、ホームラン級！～食べて知る奥州～」を開催します。",
+     "url": "https://www.city.oshu.iwate.jp/soshiki/7/1057/3/19369.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "滝沢市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "雫石町",
+   "new": [
+    {
+     "date": "2026-11-12",
+     "fetched_at": "09:55",
+     "title": "11/27～11/29いわて銀河プラザ（東京都）で「雫石町の物産と観光展」を開催します",
+     "url": "https://www.town.shizukuishi.iwate.jp/docs/2026111100017/"
+    },
+    {
+     "date": "2026-05-18",
+     "fetched_at": "09:55",
+     "title": "家族相談員によるこころの家族相談のお知らせ",
+     "url": "https://www.town.shizukuishi.iwate.jp/docs/2024043000030/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "葛巻町",
+   "new": [
+    {
+     "date": "2026-11-12",
+     "fetched_at": "09:55",
+     "title": "岩手県オリジナル水稲品種「白銀のひかり」作付経営体の募集について",
+     "url": "https://www.town.kuzumaki.lg.jp/docs/2025110600016/"
+    },
+    {
+     "date": "2026-11-12",
+     "fetched_at": "09:55",
+     "title": "「盛岡広域中小企業・IT人材マッチング支援事業」について",
+     "url": "https://www.town.kuzumaki.lg.jp/docs/2026111200014/"
+    },
+    {
+     "date": "2026-11-12",
+     "fetched_at": "09:55",
+     "title": "「ふるさと納税月間」について",
+     "url": "https://www.town.kuzumaki.lg.jp/docs/2026072800018/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "岩手町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "紫波町",
+   "new": [
+    {
+     "date": "2026-11-12",
+     "fetched_at": "09:55",
+     "title": "NEW! 令和8年度「犯罪被害者支援 県民のつどい」のお知らせ",
+     "url": "https://www.town.shiwa.iwate.jp/soshiki/4_5/shoubou_17/17944684111863926/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "矢巾町",
+   "new": [
+    {
+     "date": "2026-11-12",
+     "fetched_at": "09:55",
+     "title": "NEW! 【町長だより】令和8年11月定例記者会見",
+     "url": "https://www.town.yahaba.iwate.jp/chousei/mayor/mayor/17944499732139100/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "西和賀町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "金ケ崎町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "平泉町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "住田町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "大槌町",
+   "new": [
+    {
+     "date": "2026-11-12",
+     "fetched_at": "09:55",
+     "title": "ちりめん干支飾り講座 開催のお知らせ",
+     "url": "https://www.town.otsuchi.iwate.jp/gyosei/docs/464642.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "山田町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "岩泉町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "軽米町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "洋野町",
+   "new": [
+    {
+     "date": "2026-03-13",
+     "fetched_at": "09:55",
+     "title": "令和８年洋野町議会会議録",
+     "url": "https://www.town.hirono.iwate.jp/doc/2026031300016/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "一戸町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "田野畑村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "普代村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "九戸村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "野田村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  }
+ ]
+}
