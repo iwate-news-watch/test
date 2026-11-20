@@ -1,0 +1,1054 @@
+{
+ "date": "2026-11-20",
+ "first_run": false,
+ "last_fetched": "10:16",
+ "municipalities": [
+  {
+   "errors": [],
+   "name": "盛岡市",
+   "new": [
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "盛岡市先人記念館 第3回 ワークショップ「まゆ人形を作ろう」",
+     "url": "https://www.city.morioka.iwate.jp/kanko_sports_bunka/geijutsu/events/1036899/1053200.html"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "盛岡市先人記念館 第20回 盛岡の古町名展「呉服町かいわい その2」展示解説",
+     "url": "https://www.city.morioka.iwate.jp/kanko_sports_bunka/geijutsu/events/1036899/1023452.html"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "もりおか歴史文化館 睦月のお箏演奏会",
+     "url": "https://www.city.morioka.iwate.jp/kanko_sports_bunka/geijutsu/events/1036895/1021502.html"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "盛岡市先人記念館 第20回 盛岡の古町名展「呉服町かいわい その2」",
+     "url": "https://www.city.morioka.iwate.jp/kanko_sports_bunka/geijutsu/events/1036899/1021353.html"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "盛岡てがみ館 特別展「干支にちなんだ資料展 ―ひつじ―」",
+     "url": "https://www.city.morioka.iwate.jp/kanko_sports_bunka/geijutsu/events/1036898/1019673.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [
+    "https://www.city.miyako.iwate.jp/cgi-bin/feed.php?siteNew=1: HTTPError: 502 Server Error: Bad Gateway for url: https://www.city.miyako.iwate.jp/cgi-bin/feed.php?siteNew=1"
+   ],
+   "name": "宮古市",
+   "new": [],
+   "record_only": false,
+   "status": "error"
+  },
+  {
+   "errors": [],
+   "name": "大船渡市",
+   "new": [
+    {
+     "date": "2026-11-20",
+     "fetched_at": "10:16",
+     "title": "2027年「吉浜のスネカ」開催情報を更新",
+     "url": "https://www.city.ofunato.iwate.jp/archive/contents-33007"
+    },
+    {
+     "date": "2026-11-20",
+     "fetched_at": "10:16",
+     "title": "シカ防護網の申し込み受付を開始します",
+     "url": "https://www.city.ofunato.iwate.jp/archive/p20250210210011"
+    },
+    {
+     "date": "2026-11-20",
+     "fetched_at": "10:16",
+     "title": "「吉浜のスネカ」出発式参加者（親子）募集しています",
+     "url": "https://www.city.ofunato.iwate.jp/archive/p20251113154218"
+    },
+    {
+     "date": "2026-11-20",
+     "fetched_at": "10:16",
+     "title": "広報おおふなと令和8年11月号を掲載しました（特集：三陸育ちの至高の味～大船渡で挑むキャビアづくり～）",
+     "url": "https://www.city.ofunato.iwate.jp/archive/p20261117130308"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "気仙がんを学ぶ市民公開講座「気仙地域の医療を知る」を開催します",
+     "url": "https://www.city.ofunato.iwate.jp/archive/p20261111194152"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "花巻市",
+   "new": [
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "農業集落排水使用料の賦課漏れについて議員説明会を開催しました",
+     "url": "https://www.city.hanamaki.iwate.jp/shisei/shisei/shingikai_iinkai/1002996/1025014/1026252.html"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "小山田保育園の閉園について議員説明会を開催しました",
+     "url": "https://www.city.hanamaki.iwate.jp/shisei/shisei/shingikai_iinkai/1002996/1025014/1026251.html"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "新花巻図書館整備実施設計について議員説明会を開催しました",
+     "url": "https://www.city.hanamaki.iwate.jp/shisei/shisei/shingikai_iinkai/1002996/1025014/1026250.html"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "使用料・手数料の見直し（案）について議員説明会を開催しました",
+     "url": "https://www.city.hanamaki.iwate.jp/shisei/shisei/shingikai_iinkai/1002996/1025014/1026249.html"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "【東北経済産業局】飲食料品にかかる消費税率の臨時的な引下げに関する制度概要及びレジシステムの改修等に関する支援制度の説明会のご案内",
+     "url": "https://www.city.hanamaki.iwate.jp/business/sangyoshien/bosyu_oshirase/1026285.html"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "花巻市総合文化財センター 令和8年度 ワークショップ 第2回「組紐ストラップ作り」を開催します（令和8年12月19日開催）",
+     "url": "https://www.city.hanamaki.iwate.jp/bunkasports/bunka/1019887/sogobunkazai/1008003/1026135.html"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "倉沢人形歌舞伎調査委員会",
+     "url": "https://www.city.hanamaki.iwate.jp/shisei/shisei/shingikai_iinkai/1003039/1022505/index.html"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "おおはさま映画会《愛妻物語》を開催します（12月13日）",
+     "url": "https://www.city.hanamaki.iwate.jp/bunkasports/bunka/1019887/tosyokan/1008409/1026244.html"
+    },
+    {
+     "date": "2026-11-17",
+     "fetched_at": "10:16",
+     "title": "令和9年度採用 花巻市職員採用試験（一般採用試験）第3次試験合格者の発表",
+     "url": "https://www.city.hanamaki.iwate.jp/shisei/jinji_saiyo/syokuinsaiyo/1026248.html"
+    },
+    {
+     "date": "2026-11-17",
+     "fetched_at": "10:16",
+     "title": "【12月5日チケット発売】特選ぎんどろ寄席を開催します",
+     "url": "https://www.city.hanamaki.iwate.jp/bunkasports/bunka/1019888/1026259.html"
+    },
+    {
+     "date": "2026-11-17",
+     "fetched_at": "10:16",
+     "title": "【チケット発売中】Xmas Jazz Night in HANAMAKIを開催します",
+     "url": "https://www.city.hanamaki.iwate.jp/bunkasports/bunka/1019888/1026257.html"
+    },
+    {
+     "date": "2026-11-17",
+     "fetched_at": "10:16",
+     "title": "補助金等の交付実績に関する情報を公表します",
+     "url": "https://www.city.hanamaki.iwate.jp/shisei/shisei/yosan_kessan/1003070.html"
+    },
+    {
+     "date": "2026-11-16",
+     "fetched_at": "10:16",
+     "title": "花巻二地域居住推進コンソーシアムによる二地域居住・お試し移住を支援する取り組みを行います",
+     "url": "https://www.city.hanamaki.iwate.jp/kurashi/ijyu_teijyu/event_kensyu/1026269.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [
+    "https://www.city.kitakami.iwate.jp/cgi-bin/feed.php?siteNew=1: HTTPError: 502 Server Error: Bad Gateway for url: https://www.city.kitakami.iwate.jp/cgi-bin/feed.php?siteNew=1"
+   ],
+   "name": "北上市",
+   "new": [],
+   "record_only": false,
+   "status": "error"
+  },
+  {
+   "errors": [
+    "https://www.city.kuji.lg.jp/cgi-bin/feed.php?siteNew=1: HTTPError: 502 Server Error: Bad Gateway for url: https://www.city.kuji.lg.jp/cgi-bin/feed.php?siteNew=1"
+   ],
+   "name": "久慈市",
+   "new": [],
+   "record_only": false,
+   "status": "error"
+  },
+  {
+   "errors": [],
+   "name": "遠野市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "一関市",
+   "new": [
+    {
+     "date": "2026-11-20",
+     "fetched_at": "10:16",
+     "title": "特設人権相談",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20260825124204"
+    },
+    {
+     "date": "2026-11-20",
+     "fetched_at": "10:16",
+     "title": "室根子育てひろば（予約制）",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261119131812"
+    },
+    {
+     "date": "2026-11-20",
+     "fetched_at": "10:16",
+     "title": "いきいき・かみかみ百歳体操",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261119132028"
+    },
+    {
+     "date": "2026-11-20",
+     "fetched_at": "10:16",
+     "title": "室根図書館おはなし会",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261119132332"
+    },
+    {
+     "date": "2026-11-20",
+     "fetched_at": "10:16",
+     "title": "ミニ門松づくり教室",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261119143725"
+    },
+    {
+     "date": "2026-11-20",
+     "fetched_at": "10:16",
+     "title": "健康教室",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261119144729"
+    },
+    {
+     "date": "2026-11-20",
+     "fetched_at": "10:16",
+     "title": "室根図書館「図書館活用相談会」",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261119145648"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "議員全員協議会等提出資料",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/contents-143758"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "しめ縄作り教室",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261118171359"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "興田地区バウンドテニス交流大会",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261118171850"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "ヘルスアップ教室",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261118160120"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "猿沢地区振興会ワークショップ",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261118160428"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "マーブルアート教室",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261118161424"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "「大原水かけ祭り」加勢人装束制作体験",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261118163203"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "クリスマスイベント",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261118150214"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "しめ縄づくり教室",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261118150802"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "第２回渋民ふるさと勉強会",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261118151323"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "第１回渋民地区軽スポーツ交流大会",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261118151944"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "しめ縄作り講座",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261118152341"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "Go！Go！しぶさた",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261118152838"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "第３回高齢者学級「歌って健康『歌声サロン』」",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261118153327"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "シニア世代交流の場づくり事業「カラオケ」",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261118140340"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "オカザリ伝承会",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261118141145"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "ＤＡＭオンラインコンサート",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261118143629"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "音楽喫茶「結」",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261118144739"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "成人講座 リンパ体操教室",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261118135023"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "曽慶地区卓球大会",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261118135733"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "第４回摺沢いきいき学園「健康講座」・摺沢福祉協議会「福祉講演会」",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261118112415"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "駅の映画会",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261118113318"
+    },
+    {
+     "date": "2026-11-17",
+     "fetched_at": "10:16",
+     "title": "NECプラットフォームズ株式会社一関事業所跡地に関する検討状況について",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/contents-149191"
+    },
+    {
+     "date": "2026-11-17",
+     "fetched_at": "10:16",
+     "title": "図書館おはなし会",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261117110640"
+    },
+    {
+     "date": "2026-11-17",
+     "fetched_at": "10:16",
+     "title": "賢治のおはなし",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261117111023"
+    },
+    {
+     "date": "2026-11-17",
+     "fetched_at": "10:16",
+     "title": "令和８年11月の指名競争入札予定・結果のお知らせ(本庁)",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261111093405"
+    },
+    {
+     "date": "2026-11-17",
+     "fetched_at": "10:16",
+     "title": "第4次いちのせき男女共同参画プランの取組状況及びいちのせきジェンダー平等推進プランの事業計画",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/contents-159403"
+    },
+    {
+     "date": "2026-11-02",
+     "fetched_at": "10:16",
+     "title": "公民連携の取組について",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/contents-137808"
+    },
+    {
+     "date": "2026-11-02",
+     "fetched_at": "10:16",
+     "title": "令和8年度一関市職員採用試験（後期試験（追加募集））の実施について",
+     "url": "https://public-connect.jp/employer/21812/news/4590"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [
+    "https://www.city.rikuzentakata.iwate.jp/cgi-bin/feed.php?siteNew=1: HTTPError: 502 Server Error: Bad Gateway for url: https://www.city.rikuzentakata.iwate.jp/cgi-bin/feed.php?siteNew=1"
+   ],
+   "name": "陸前高田市",
+   "new": [],
+   "record_only": false,
+   "status": "error"
+  },
+  {
+   "errors": [],
+   "name": "釜石市",
+   "new": [
+    {
+     "date": "2026-11-20",
+     "fetched_at": "10:16",
+     "title": "【学校教育課】かまいし絆会議",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2026102900077/"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "【かまいしラグビーNEWS】日本製鉄釜石シーウェイブスが市長を表敬訪問しました！",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2026111700071/"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "【図書館】《図書展》「クリスマス図書展」を開催します。",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2026111900013/"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "令和8年11月入札結果",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2026111300066/"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "【学校教育課】子どもたちの成長を支える家庭と学校のより良い関係づくりに向けて",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2026110900014/"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "インフルエンザ・新型コロナウイルス感染拡大！ ひきつづき感染症対策をお願いします",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2026111700064/"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "【図書館】「あたらしく入った本（令和８年10月）」のお知らせ",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2026111800016/"
+    },
+    {
+     "date": "2026-11-17",
+     "fetched_at": "10:16",
+     "title": "11月は秋のこどもまんなか月間です",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2026111200038/"
+    },
+    {
+     "date": "2015-03-07",
+     "fetched_at": "10:16",
+     "title": "成人けんしん（健診・検診）",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2020030300046/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "二戸市",
+   "new": [
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "令和8年11月分二戸市入札・見積・プロポーザル執行状況",
+     "url": "http://www.city.ninohe.lg.jp/info/4724"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "【事業発展補助金】令和８年度二戸市事業発展・事業継続支援補助金について（第２弾）",
+     "url": "http://www.city.ninohe.lg.jp/info/3463"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "企業版ふるさと納税（地方創生応援税制）のご案内 ～ 二戸市への応援をお願いします ～",
+     "url": "http://www.city.ninohe.lg.jp/info/2948"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "社会教育委員会議の開催について",
+     "url": "http://www.city.ninohe.lg.jp/info/4367"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "令和6年12月2日からコンビニ交付サービスが始まっています！",
+     "url": "http://www.city.ninohe.lg.jp/info/3831"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "八幡平市",
+   "new": [
+    {
+     "date": "2026-11-20",
+     "fetched_at": "10:16",
+     "title": "「八幡平市地域福祉計画策定委員会」の委員を募集します",
+     "url": "https://www.city.hachimantai.lg.jp/soshiki/chifukuka/13172.html"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "2027年1月採用「八幡平市移住コーディネーター」を募集します",
+     "url": "https://www.city.hachimantai.lg.jp/soshiki/machi/25263.html"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "【岩手ビッグブルズ】ホームゲームに無料ご招待します！",
+     "url": "https://www.city.hachimantai.lg.jp/soshiki/bunkasports/28641.html"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "【受付終了】木造住宅の新築、増改築の工事費用に助成します",
+     "url": "https://www.city.hachimantai.lg.jp/soshiki/kensetsuka/32977.html"
+    },
+    {
+     "date": "2026-11-16",
+     "fetched_at": "10:16",
+     "title": "スポーツ振興くじ助成金を活用し施設整備を行いました",
+     "url": "https://www.city.hachimantai.lg.jp/soshiki/bunkasports/32972.html"
+    },
+    {
+     "date": "2026-11-16",
+     "fetched_at": "10:16",
+     "title": "陸上自衛隊岩手山演習場等における11月後半の訓練予定を更新しました",
+     "url": "https://www.city.hachimantai.lg.jp/soshiki/bouan/32981.html"
+    },
+    {
+     "date": "2026-11-16",
+     "fetched_at": "10:16",
+     "title": "令和8年度八幡平市スキー大会実行委員会主管大会一覧",
+     "url": "https://www.city.hachimantai.lg.jp/soshiki/bunkasports/32969.html"
+    },
+    {
+     "date": "2026-11-13",
+     "fetched_at": "10:16",
+     "title": "公の施設の指定管理候補者の選定結果を公表します（令和8年度選定）",
+     "url": "https://www.city.hachimantai.lg.jp/soshiki/somuka/12966.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [
+    "https://www.city.oshu.iwate.jp/cgi-bin/feed.php?siteNew=1: HTTPError: 502 Server Error: Bad Gateway for url: https://www.city.oshu.iwate.jp/cgi-bin/feed.php?siteNew=1"
+   ],
+   "name": "奥州市",
+   "new": [],
+   "record_only": false,
+   "status": "error"
+  },
+  {
+   "errors": [],
+   "name": "滝沢市",
+   "new": [
+    {
+     "date": "2026-11-20",
+     "fetched_at": "10:16",
+     "title": "二十歳のつどいの参加申し込みについて",
+     "url": "https://www.city.takizawa.iwate.jp/kurashi/manabu-atsumaru/shogaigakushu-shakaikyoiku/hatachinotsudoi/contents-13535"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "「滝沢小岩井線」冬季臨時便の運行を開始します",
+     "url": "https://www.city.takizawa.iwate.jp/kurashi/kokyo-koutsu/rosenbus"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "雫石町",
+   "new": [
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "町内小学校児童を対象に「いのちの授業」が開催されました",
+     "url": "https://www.town.shizukuishi.iwate.jp/docs/2026111800016/"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "ボランティア除雪活動の募集・申請等について",
+     "url": "https://www.town.shizukuishi.iwate.jp/docs/2015091000035/"
+    },
+    {
+     "date": "2026-10-02",
+     "fetched_at": "10:16",
+     "title": "「令和８年８月千葉豪雨災害義援金」のご報告",
+     "url": "https://www.town.shizukuishi.iwate.jp/docs/2026100100059/"
+    },
+    {
+     "date": "2026-08-19",
+     "fetched_at": "10:16",
+     "title": "【網張ビジターセンター】 12月のミニ企画 *** あったかい室内でクラフト体験！",
+     "url": "https://www.town.shizukuishi.iwate.jp/docs/2026081900020/"
+    },
+    {
+     "date": "2026-08-07",
+     "fetched_at": "10:16",
+     "title": "「令和８年熊本地震災害義援金」のご報告",
+     "url": "https://www.town.shizukuishi.iwate.jp/docs/2026080500030/"
+    },
+    {
+     "date": "2025-12-02",
+     "fetched_at": "10:16",
+     "title": "【休暇村岩手網張温泉】 メンテナンス休館のお知らせ",
+     "url": "https://www.town.shizukuishi.iwate.jp/docs/2025120200015/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "葛巻町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "岩手町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "紫波町",
+   "new": [
+    {
+     "date": "2026-11-20",
+     "fetched_at": "10:16",
+     "title": "NEW! 11月13日に「あかちゃんぱーく」を開催しました!",
+     "url": "https://www.town.shiwa.iwate.jp/shiwasse/diary/reiwa8/17948973403544858/"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "NEW! 休日部活動地域展開モデルクラブ事業について",
+     "url": "https://www.town.shiwa.iwate.jp/soshiki/5_3/bukatsu/17950513153543049/"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "NEW! 制作『クリスマスカード作り』/子育て応援センターしわっせ",
+     "url": "https://www.town.shiwa.iwate.jp/shiwasse/event1/event2/17585077639782/"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "NEW! 紫波町スクールヘルパー[医療的ケア児対応含む](会計年度任用職員)採用試験の実施について",
+     "url": "https://www.town.shiwa.iwate.jp/boshu/ninyoboshu1/ninyoboshu2/171394520261119/"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "NEW! 11月12日に「にこにこひろば」へ行ってきました!",
+     "url": "https://www.town.shiwa.iwate.jp/shiwasse/diary/reiwa8/17946184351962959/"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "NEW! 🏀岩手ビッグブルズのホームゲームを観戦しませんか?",
+     "url": "https://www.town.shiwa.iwate.jp/kanko/sports1/sports2/17948910733542864/"
+    },
+    {
+     "date": "2026-11-17",
+     "fetched_at": "10:16",
+     "title": "NEW! 紫波町職員採用候補者選考試験(令和9年1月採用 任期付職員)結果",
+     "url": "https://www.town.shiwa.iwate.jp/soshiki/4/1_12_2/16885338362/"
+    },
+    {
+     "date": "2026-11-17",
+     "fetched_at": "10:16",
+     "title": "NEW! 紫波中央駅前地区緑地の除草剤散布について",
+     "url": "https://www.town.shiwa.iwate.jp/soshiki/3_1/2_3/172534036712902/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "矢巾町",
+   "new": [
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "NEW! 【結果発表】「令和8年度矢巾町俳句大会~故小原啄葉氏生誕の地~」を開催!",
+     "url": "https://www.town.yahaba.iwate.jp/soshiki/kyouiku/manabi/178098902418361/"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "NEW! 地域計画について",
+     "url": "https://www.town.yahaba.iwate.jp/soshiki/sangyou/noushin/177699456611823/"
+    },
+    {
+     "date": "2026-11-17",
+     "fetched_at": "10:16",
+     "title": "NEW! 矢巾町指定ごみ袋以外でのごみ出しに関する臨時措置について",
+     "url": "https://www.town.yahaba.iwate.jp/soshiki/jyumin/kurashi/17944508622138823/"
+    },
+    {
+     "date": "2026-11-17",
+     "fetched_at": "10:16",
+     "title": "NEW! 矢巾町女性会第45回歳末助け合い演芸会を開催します",
+     "url": "https://www.town.yahaba.iwate.jp/soshiki/kyouiku/kurashi/179021818131026/"
+    },
+    {
+     "date": "2026-11-17",
+     "fetched_at": "10:16",
+     "title": "NEW! 「ゲートキーパー養成講座~大切な人の『小さな変化』に気づくために~」のご案内",
+     "url": "https://www.town.yahaba.iwate.jp/soshiki/fukushi/kenkoufukushi/17937668231665044/"
+    },
+    {
+     "date": "2026-11-11",
+     "fetched_at": "10:16",
+     "title": "マタニティマークを配布します",
+     "url": "https://www.town.yahaba.iwate.jp/soshiki/kodomo/kenkoufukushi/17944471772139100/"
+    },
+    {
+     "date": "2026-11-01",
+     "fetched_at": "10:16",
+     "title": "矢巾町子育てガイドブック・孫育てガイドブックについて",
+     "url": "https://www.town.yahaba.iwate.jp/soshiki/kodomo/kenkoufukushi/2020032400010/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [
+    "https://www.town.nishiwaga.lg.jp/cgi-bin/feed.php?siteNew=1: HTTPError: 502 Server Error: Bad Gateway for url: https://www.town.nishiwaga.lg.jp/cgi-bin/feed.php?siteNew=1"
+   ],
+   "name": "西和賀町",
+   "new": [],
+   "record_only": false,
+   "status": "error"
+  },
+  {
+   "errors": [],
+   "name": "金ケ崎町",
+   "new": [
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "広報かねがさき 2026年11月号",
+     "url": "https://www.town.kanegasaki.iwate.jp/articles/2026111800016/"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "令和８年１１月１９日 行政区長配布一覧",
+     "url": "https://www.town.kanegasaki.iwate.jp/articles/2026111800023/"
+    },
+    {
+     "date": "2026-11-17",
+     "fetched_at": "10:16",
+     "title": "令和８年度金ケ崎町地域協働雪対策事業補助金の申請を募集します",
+     "url": "https://www.town.kanegasaki.iwate.jp/articles/2022122100022/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "平泉町",
+   "new": [
+    {
+     "date": "2026-11-17",
+     "fetched_at": "10:16",
+     "title": "平泉町健康福祉交流館（悠久の湯 平泉温泉）「年末年始・大感謝祭」のお知らせ",
+     "url": "https://www.town.hiraizumi.iwate.jp/%e5%b9%b3%e6%b3%89%e7%94%ba%e5%81%a5%e5%ba%b7%e7%a6%8f%e7%a5%89%e4%ba%a4%e6%b5%81%e9%a4%a8%ef%bc%88%e6%82%a0%e4%b9%85%e3%81%ae%e6%b9%af-%e5%b9%b3%e6%b3%89%e6%b8%a9%e6%b3%89%ef%bc%89%e3%80%8c%e5%b9%b4-41466/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "住田町",
+   "new": [
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "令和８年分 給与支払報告書の提出について",
+     "url": "http://www.town.sumita.iwate.jp/docs/2022120600036/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "大槌町",
+   "new": [
+    {
+     "date": "2026-11-16",
+     "fetched_at": "10:16",
+     "title": "令和９年度 給与支払報告書の提出について",
+     "url": "https://www.town.otsuchi.iwate.jp/gyosei/docs/451362.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "山田町",
+   "new": [
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "【11月20日（土）午前中】役場庁舎の電話工事に伴う電話の不通について",
+     "url": "https://www.town.yamada.iwate.jp/docs/10742.html"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "町内一斉ごみ拾い「ごみ0（ゼロ）作戦」のごみの量について",
+     "url": "https://www.town.yamada.iwate.jp/docs/10727.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "岩泉町",
+   "new": [
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "ハローワーク週間求人情報(令和８年11月19日発行)",
+     "url": "https://www.town.iwaizumi.lg.jp/docs/2026111800023/"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "いわて就職マッチングフェアの開催についてご案内",
+     "url": "https://www.town.iwaizumi.lg.jp/docs/2026111700019/"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "いわて産業人材奨学金返還支援制度のご案内",
+     "url": "https://www.town.iwaizumi.lg.jp/docs/2026111700026/"
+    },
+    {
+     "date": "2026-11-17",
+     "fetched_at": "10:16",
+     "title": "町有不要物品（車両）の売却に係る一般競争入札について",
+     "url": "https://www.town.iwaizumi.lg.jp/docs/2026111000010/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "軽米町",
+   "new": [
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "板橋米田岡堀線道路改良工事(閲覧期間11月19日~11月26日)",
+     "url": "https://www.town.karumai.iwate.jp/article/jigyosha/nyusatsu/etsuran/entry-basename-66.html"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "町道靄岳開拓線道路舗装工事(閲覧期間11月19日~11月26日)",
+     "url": "https://www.town.karumai.iwate.jp/article/jigyosha/nyusatsu/etsuran/entry-basename-65.html"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "町道筋内線道路舗装工事(閲覧期間11月19日~11月26日)",
+     "url": "https://www.town.karumai.iwate.jp/article/jigyosha/nyusatsu/etsuran/entry-basename-64.html"
+    },
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "町道蛇口蜂ヶ塚線道路改良工事(閲覧期間11月19日~11月26日)",
+     "url": "https://www.town.karumai.iwate.jp/article/jigyosha/nyusatsu/etsuran/entry-basename-63.html"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "クリスマスツリーランタン教室(親子で学ぶ環境教室)",
+     "url": "https://www.town.karumai.iwate.jp/article/cat778/entry-basename-74.html"
+    },
+    {
+     "date": "2026-11-17",
+     "fetched_at": "10:16",
+     "title": "競争入札参加資格審査申請手続きの方法が変わります",
+     "url": "https://www.town.karumai.iwate.jp/article/jigyosha/nyusatsu/nyusatsu_sanka/entry-basename-7.html"
+    },
+    {
+     "date": "2026-11-17",
+     "fetched_at": "10:16",
+     "title": "軽米児童クラブ 冬季休暇中の申し込みについて",
+     "url": "https://www.town.karumai.iwate.jp/article/gyosei/kakukaoshirase/oshirase-kenkoufukushi/entry-basename-24.html"
+    },
+    {
+     "date": "2026-11-16",
+     "fetched_at": "10:16",
+     "title": "「いわて観光・地域魅力発掘人材育成講座」特別企画開催のご案内",
+     "url": "https://www.town.karumai.iwate.jp/article/gyosei/kakukaoshirase/oshirase-sangyoshinkou/entry-basename-72.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "洋野町",
+   "new": [
+    {
+     "date": "2026-11-19",
+     "fetched_at": "10:16",
+     "title": "【お知らせ】洋野町立図書館だよりVol59の発行と12月の図書館カレンダーについて",
+     "url": "https://www.town.hirono.iwate.jp/doc/2026111600012/"
+    },
+    {
+     "date": "2026-11-18",
+     "fetched_at": "10:16",
+     "title": "洋野町議会基本条例（案）に対するパブリックコメントの結果について",
+     "url": "https://www.town.hirono.iwate.jp/doc/2026111800023/"
+    },
+    {
+     "date": "2026-11-17",
+     "fetched_at": "10:16",
+     "title": "【重要なおしらせ】冬季間の図書館の開館時間短縮について",
+     "url": "https://www.town.hirono.iwate.jp/doc/2026111600036/"
+    },
+    {
+     "date": "2026-09-02",
+     "fetched_at": "10:16",
+     "title": "洋野町議会基本条例（案）に対するパブリックコメントの実施について【終了しました】",
+     "url": "https://www.town.hirono.iwate.jp/doc/2026090200012/"
+    },
+    {
+     "date": "2022-05-23",
+     "fetched_at": "10:16",
+     "title": "洋野町快適住環境応援事業について【申請受付を終了しました】",
+     "url": "https://www.town.hirono.iwate.jp/doc/2022052300028/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [
+    "https://www.town.ichinohe.iwate.jp/cgi-bin/feed.php?siteNew=1: HTTPError: 502 Server Error: Bad Gateway for url: https://www.town.ichinohe.iwate.jp/cgi-bin/feed.php?siteNew=1"
+   ],
+   "name": "一戸町",
+   "new": [],
+   "record_only": false,
+   "status": "error"
+  },
+  {
+   "errors": [],
+   "name": "田野畑村",
+   "new": [
+    {
+     "date": "2026-11-01",
+     "fetched_at": "10:16",
+     "title": "家電４品目の処理方法について",
+     "url": "http://www.vill.tanohata.iwate.jp/docs/2026111900013/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "普代村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "九戸村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [
+    "https://www.vill.noda.iwate.jp/cgi-bin/feed.php?siteNew=1: HTTPError: 502 Server Error: Bad Gateway for url: https://www.vill.noda.iwate.jp/cgi-bin/feed.php?siteNew=1"
+   ],
+   "name": "野田村",
+   "new": [],
+   "record_only": false,
+   "status": "error"
+  }
+ ]
+}
