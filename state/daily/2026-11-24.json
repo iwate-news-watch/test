@@ -1,7 +1,7 @@
 {
  "date": "2026-11-24",
  "first_run": false,
- "last_fetched": "11:53",
+ "last_fetched": "15:19",
  "municipalities": [
   {
    "errors": [],
@@ -20,21 +20,42 @@
   {
    "errors": [],
    "name": "大船渡市",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-11-24",
+     "fetched_at": "15:19",
+     "title": "大船渡市農業委員及び農地利用最適化推進委員の名簿を更新しました。",
+     "url": "https://www.city.ofunato.iwate.jp/archive/contents-33030"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
   {
    "errors": [],
    "name": "花巻市",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-11-24",
+     "fetched_at": "15:19",
+     "title": "花巻市内で交通死亡事故が発生しました（11月21日発生）",
+     "url": "https://www.city.hanamaki.iwate.jp/kurashi/anshin_anzen/oshirase/1017680.html"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
   {
    "errors": [],
    "name": "北上市",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-11-24",
+     "fetched_at": "15:19",
+     "title": "交通安全のつどい2026を開催します",
+     "url": "https://www.city.kitakami.iwate.jp/life/soshikikarasagasu/chiikidukurika/seikatsuanzenkakari/koutuuanzen/25805.html"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -91,6 +112,12 @@
    "new": [
     {
      "date": "2026-11-24",
+     "fetched_at": "15:19",
+     "title": "令和8年11月24日 条件付一般競争入札公告",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2026111300011/"
+    },
+    {
+     "date": "2026-11-24",
      "fetched_at": "11:53",
      "title": "令和8年度企業交流プラザを開催します。",
      "url": "https://www.city.kamaishi.iwate.jp/docs/2026112000033/"
@@ -124,6 +151,12 @@
    "name": "八幡平市",
    "new": [
     {
+     "date": "2026-11-24",
+     "fetched_at": "15:19",
+     "title": "八幡平市職員採用試験（令和8年度追加募集）のご案内",
+     "url": "https://www.city.hachimantai.lg.jp/soshiki/somuka/33000.html"
+    },
+    {
      "date": "2026-11-20",
      "fetched_at": "11:53",
      "title": "第36回東日本バイアスロン選手権大会を開催します",
@@ -136,7 +169,20 @@
   {
    "errors": [],
    "name": "奥州市",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-11-24",
+     "fetched_at": "15:19",
+     "title": "【重要】奥州市指定ごみ袋（燃えるごみ）の臨時措置は令和8年12月末で終了します。",
+     "url": "https://www.city.oshu.iwate.jp/soshiki/5/1051/2/3/18352.html"
+    },
+    {
+     "date": "2026-11-20",
+     "fetched_at": "15:19",
+     "title": "こどもの権利（けんり）について考える授業（じゅぎょう）を行いました",
+     "url": "https://www.city.oshu.iwate.jp/soshiki/9/1063/1/17347.html"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -150,7 +196,20 @@
   {
    "errors": [],
    "name": "雫石町",
-   "new": [],
+   "new": [
+    {
+     "date": "2026-11-17",
+     "fetched_at": "15:19",
+     "title": "令和８年度 第４回・５回アーチェリー体験会を開催します！【参加者募集】",
+     "url": "https://www.town.shizukuishi.iwate.jp/docs/2026111300035/"
+    },
+    {
+     "date": "2025-11-17",
+     "fetched_at": "15:19",
+     "title": "町内施設・事業所作品展を開催します！",
+     "url": "https://www.town.shizukuishi.iwate.jp/docs/2025111700036/"
+    }
+   ],
    "record_only": false,
    "status": "ok"
   },
@@ -172,6 +231,12 @@
    "errors": [],
    "name": "紫波町",
    "new": [
+    {
+     "date": "2026-11-24",
+     "fetched_at": "15:19",
+     "title": "NEW! 社会貢献活動の支援に関する指針(改定素案)についての意見募集",
+     "url": "https://www.town.shiwa.iwate.jp/soshiki/4_2/2_15/17951604413975442/"
+    },
     {
      "date": "2026-11-19",
      "fetched_at": "11:53",
@@ -290,6 +355,24 @@
    "errors": [],
    "name": "洋野町",
    "new": [
+    {
+     "date": "2026-11-24",
+     "fetched_at": "15:19",
+     "title": "【参加者募集】スキルアップセミナー（Canvaセミナー）を開催します！",
+     "url": "https://www.town.hirono.iwate.jp/doc/2026112400031/"
+    },
+    {
+     "date": "2026-11-24",
+     "fetched_at": "15:19",
+     "title": "【参加者募集】デジタルよろず個別相談会を開催します！",
+     "url": "https://www.town.hirono.iwate.jp/doc/2026112400024/"
+    },
+    {
+     "date": "2026-11-24",
+     "fetched_at": "15:19",
+     "title": "ヒロノットの臨時休館と利用時間の変更について",
+     "url": "https://www.town.hirono.iwate.jp/doc/2026112400017/"
+    },
     {
      "date": "2026-11-24",
      "fetched_at": "11:53",
