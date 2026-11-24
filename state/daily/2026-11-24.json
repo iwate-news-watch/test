@@ -1,0 +1,339 @@
+{
+ "date": "2026-11-24",
+ "first_run": false,
+ "last_fetched": "11:53",
+ "municipalities": [
+  {
+   "errors": [],
+   "name": "盛岡市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "宮古市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "大船渡市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "花巻市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "北上市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "久慈市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "遠野市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "一関市",
+   "new": [
+    {
+     "date": "2026-11-24",
+     "fetched_at": "11:53",
+     "title": "「いちのせき健康づくり推進計画(仮称)案」への意見を募集します",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261118110001"
+    },
+    {
+     "date": "2026-11-24",
+     "fetched_at": "11:53",
+     "title": "避難場所等について",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20260728102901"
+    },
+    {
+     "date": "2026-11-20",
+     "fetched_at": "11:53",
+     "title": "一関市学校給食調理業務指名型プロポーザル審査結果について",
+     "url": "https://www.city.ichinoseki.iwate.jp/archive/p20261120114025"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "陸前高田市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "釜石市",
+   "new": [
+    {
+     "date": "2026-11-24",
+     "fetched_at": "11:53",
+     "title": "令和8年度企業交流プラザを開催します。",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2026112000033/"
+    },
+    {
+     "date": "2026-11-23",
+     "fetched_at": "11:53",
+     "title": "市長公務日程",
+     "url": "https://www.city.kamaishi.iwate.jp/docs/2026111700026/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "二戸市",
+   "new": [
+    {
+     "date": "2026-11-24",
+     "fetched_at": "11:53",
+     "title": "令和9年二戸市はたちのつどいの開催について",
+     "url": "http://www.city.ninohe.lg.jp/info/3969"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "八幡平市",
+   "new": [
+    {
+     "date": "2026-11-20",
+     "fetched_at": "11:53",
+     "title": "第36回東日本バイアスロン選手権大会を開催します",
+     "url": "https://www.city.hachimantai.lg.jp/soshiki/bunkasports/29193.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "奥州市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "滝沢市",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "雫石町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "葛巻町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "岩手町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "紫波町",
+   "new": [
+    {
+     "date": "2026-11-19",
+     "fetched_at": "11:53",
+     "title": "NEW! 町有財産活用事業(元紫波型エコハウスサポートセンター)について",
+     "url": "https://www.town.shiwa.iwate.jp/soshiki/4_2/shisankeiei_kouyuuzaisannkatsuyou/17949818343543788/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "矢巾町",
+   "new": [
+    {
+     "date": "2026-11-24",
+     "fetched_at": "11:53",
+     "title": "NEW! 学校給食献立のお知らせ(令和8年12月分)",
+     "url": "https://www.town.yahaba.iwate.jp/soshiki/kyushoku/manabi/1795476873225914/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "西和賀町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "金ケ崎町",
+   "new": [
+    {
+     "date": "2026-11-24",
+     "fetched_at": "11:53",
+     "title": "かもんカレーがさき2026スタンプラリー＆マーケット開催",
+     "url": "https://www.town.kanegasaki.iwate.jp/articles/2026111900020/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "平泉町",
+   "new": [
+    {
+     "date": "2026-11-24",
+     "fetched_at": "11:53",
+     "title": "町税の納期限について",
+     "url": "https://www.town.hiraizumi.iwate.jp/%e7%94%ba%e7%a8%8e%e3%81%ae%e7%b4%8d%e6%9c%9f%e9%99%90%e3%81%ab%e3%81%a4%e3%81%84%e3%81%a6-5-41525/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "住田町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "大槌町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "山田町",
+   "new": [
+    {
+     "date": "2026-11-20",
+     "fetched_at": "11:53",
+     "title": "令和9年度（令和8年中支払分）給与支払報告書の提出について",
+     "url": "https://www.town.yamada.iwate.jp/docs/9391.html"
+    },
+    {
+     "date": "2026-11-17",
+     "fetched_at": "11:53",
+     "title": "学校給食の写真紹介（山田町立学校給食センター）令和8年度11月前半分",
+     "url": "https://www.town.yamada.iwate.jp/docs/10733.html"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "岩泉町",
+   "new": [
+    {
+     "date": "2026-11-24",
+     "fetched_at": "11:53",
+     "title": "岩泉町LINE公式アカウント運用開始！",
+     "url": "https://www.town.iwaizumi.lg.jp/docs/2024060600039/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "軽米町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "洋野町",
+   "new": [
+    {
+     "date": "2026-11-24",
+     "fetched_at": "11:53",
+     "title": "町民deちょー！！thank you☆キャンペーン開催！",
+     "url": "https://www.town.hirono.iwate.jp/doc/2026111600029/"
+    }
+   ],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "一戸町",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "田野畑村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "普代村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "九戸村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  },
+  {
+   "errors": [],
+   "name": "野田村",
+   "new": [],
+   "record_only": false,
+   "status": "ok"
+  }
+ ]
+}
